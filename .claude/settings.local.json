@@ -4,7 +4,11 @@
       "Bash(mkdir:*)",
       "Bash(cp:*)",
       "Bash(npm run lint)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git check-ignore:*)"
     ],
     "deny": [],
     "ask": []
