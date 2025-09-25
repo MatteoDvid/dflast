@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'nunito': ['var(--font-nunito-sans)', 'system-ui', 'sans-serif'],
-        'airbnb': ['var(--font-nunito-sans)', 'system-ui', 'sans-serif'], // Alias pour Airbnb Cereal
+        'sans': ['Airbnb Cereal App', 'system-ui', 'sans-serif'],
+        'nunito': ['Airbnb Cereal App', 'system-ui', 'sans-serif'],
+        'airbnb': ['Airbnb Cereal App', 'system-ui', 'sans-serif'],
       },
     },
   },

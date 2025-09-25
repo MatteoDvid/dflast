@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PROMPT_VERSION } from '@/lib/tags';
+import Header from '@/components/Header';
 
 type ProductItem = { label: string; asin: string; marketplace: string; explain: string[] };
 type ApiResult =
@@ -385,6 +386,9 @@ export default function WizardPage() {
 
   return (
     <main className="relative w-full text-white min-h-screen">
+      {/* Header */}
+      <Header />
+      
       {/* Background fixe qui ne bouge jamais */}
       <div 
         className="fixed inset-0 w-full h-screen -z-10"
@@ -401,19 +405,20 @@ export default function WizardPage() {
       {result.status === 'idle' && (
         <div className="relative flex min-h-screen flex-col items-center justify-start px-6">
           {/* Header */}
-          <div className="text-center mt-20 mb-8">
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 font-airbnb">
+          <div className="text-center mt-32 mb-10">
+            <h1 className="text-4xl md:text-5xl font-semibold mb-6 font-airbnb leading-relaxed">
               Voyagez l&apos;esprit léger<br />avec Don&apos;t Forget
             </h1>
-            <p className="text-lg md:text-xl opacity-90 font-airbnb">
+            <p className="text-base md:text-lg text-gray-300 font-airbnb leading-relaxed">
               Votre checklist sur mesure prête en 30s<br />sans stress ni oubli
             </p>
           </div>
 
-          {/* Hero Form Container */}
+          {/* Form Container optimisé */}
           <div className="hero-form">
-            {/* Grille des champs */}
-            <div className="hero-fields">
+            {/* Grille 3x2 compacte */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+
               {/* Destination */}
               <div>
                 <div className="hero-label">Où partez-vous ?</div>
@@ -459,54 +464,48 @@ export default function WizardPage() {
               {/* Voyageurs */}
               <div>
                 <div className="hero-label">Avec qui ?</div>
-                <div className="hero-input flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="text-center">
-                      <div className="text-xs opacity-70 mb-1">Adultes</div>
-                      <div className="flex items-center gap-2">
-                        <button 
-                          type="button"
-                          className="w-6 h-6 rounded bg-white/20 text-sm hover:bg-white/30 flex items-center justify-center" 
-                          onClick={() => setNumAdults((n) => Math.max(0, n - 1))}
-                        >
-                          −
-                        </button>
-                        <span className="min-w-[1ch] text-center text-sm">{numAdults}</span>
-                        <button 
-                          type="button"
-                          className="w-6 h-6 rounded bg-white/20 text-sm hover:bg-white/30 flex items-center justify-center" 
-                          onClick={() => setNumAdults((n) => Math.min(20, n + 1))}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-xs opacity-70 mb-1">Enfants</div>
-                      <div className="flex items-center gap-2">
-                        <button 
-                          type="button"
-                          className="w-6 h-6 rounded bg-white/20 text-sm hover:bg-white/30 flex items-center justify-center" 
-                          onClick={() => setNumChildren((n) => Math.max(0, n - 1))}
-                        >
-                          −
-                        </button>
-                        <span className="min-w-[1ch] text-center text-sm">{numChildren}</span>
-                        <button 
-                          type="button"
-                          className="w-6 h-6 rounded bg-white/20 text-sm hover:bg-white/30 flex items-center justify-center" 
-                          onClick={() => setNumChildren((n) => Math.min(20, n + 1))}
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-xs opacity-70">
-                    Total: {travelers}
-                  </div>
+                <button className="hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all">
+                  <span>Ajouter un voyageur</span>
+                  <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Activités */}
+              <div>
+                <div className="hero-label">Vos activités</div>
+                <input
+                  type="text"
+                  placeholder="Ex : tennis"
+                  className="hero-input w-full"
+                />
+              </div>
+
+              {/* Plus d'activités */}
+              <div>
+                <div className="hero-label">Plus d'idées ?</div>
+                <div className="date-row">
+                  <button className="py-2 px-4 rounded-full text-xs font-medium bg-white/20 hover:bg-white/30 transition-all border border-white/20 text-center">
+                    Oui
+                  </button>
+                  <button className="py-2 px-4 rounded-full text-xs font-medium bg-black/30 hover:bg-black/40 transition-all text-center border border-white/10">
+                    Non
+                  </button>
                 </div>
               </div>
+
+              {/* Budget */}
+              <div>
+                <div className="hero-label">Budget pour les activités ?</div>
+                <select className="hero-select w-full">
+                  <option value="">Sélectionner un budget</option>
+                  <option value="low">Petit budget (0-50€)</option>
+                  <option value="medium">Budget moyen (50-150€)</option>
+                  <option value="high">Budget élevé (150€+)</option>
+                </select>
+              </div>
+
             </div>
 
             {/* CTA Button */}
@@ -514,7 +513,7 @@ export default function WizardPage() {
               onClick={onSubmit}
               className="hero-cta"
             >
-              <span>Rechercher gratuitement</span>
+              <span>Débuter la recherche</span>
               <svg className="hero-cta-icon" width="19" height="21" viewBox="0 0 19 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5.17781 16.8556C3.73068 16.8556 2.50606 16.3543 1.50395 15.3517C0.50185 14.349 0.000531479 13.1244 4.21474e-07 11.6778C-0.000530636 10.2312 0.500787 9.00659 1.50395 8.00395C2.50712 7.00132 3.73174 6.5 5.17781 6.5C6.62388 6.5 7.84876 7.00132 8.85246 8.00395C9.85616 9.00659 10.3572 10.2312 10.3556 11.6778C10.3556 12.262 10.2627 12.8129 10.0768 13.3307C9.89094 13.8485 9.63869 14.3065 9.32006 14.7048L13.7809 19.1657C13.927 19.3118 14 19.4976 14 19.7233C14 19.949 13.927 20.1349 13.7809 20.2809C13.6349 20.427 13.449 20.5 13.2233 20.5C12.9976 20.5 12.8118 20.427 12.6657 20.2809L8.20484 15.8201C7.80654 16.1387 7.34851 16.3909 6.83073 16.5768C6.31294 16.7627 5.76197 16.8556 5.17781 16.8556ZM5.17781 15.2624C6.17354 15.2624 7.02005 14.9141 7.71733 14.2173C8.4146 13.5206 8.76298 12.6741 8.76245 11.6778C8.76192 10.6815 8.41354 9.83531 7.71733 9.13909C7.02111 8.44287 6.1746 8.09423 5.17781 8.09317C4.18102 8.09211 3.33478 8.44075 2.63909 9.13909C1.9434 9.83743 1.59477 10.6837 1.59317 11.6778C1.59158 12.6719 1.94022 13.5185 2.63909 14.2173C3.33796 14.9162 4.1842 15.2646 5.17781 15.2624Z" fill="currentColor"/>
                 <path d="M11.85 4.35L14.05 3.525L11.85 2.69917L11.025 0.5L10.1992 2.69917L8 3.525L10.1992 4.35L11.025 6.54999L11.85 4.35ZM16.25 8.75001L19 7.65L16.25 6.54999L15.15 3.8L14.05 6.54999L11.3 7.65L14.05 8.75001L15.15 11.5L16.25 8.75001Z" fill="currentColor"/>
