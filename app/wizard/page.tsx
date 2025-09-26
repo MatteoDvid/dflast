@@ -483,7 +483,7 @@ export default function WizardPage() {
 
               {/* Plus d'activités */}
               <div>
-                <div className="hero-label">Plus d'idées ?</div>
+                <div className="hero-label">Plus d&apos;idées ?</div>
                 <div className="date-row">
                   <button className="py-2 px-4 rounded-full text-xs font-medium bg-white/20 hover:bg-white/30 transition-all border border-white/20 text-center">
                     Oui

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 
 export default function Header() {
   return (
@@ -9,9 +10,11 @@ export default function Header() {
         {/* Logo à gauche */}
         <div className="flex-shrink-0">
           <div className="w-10 h-10 rounded-full bg-gray-200/80 border border-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-            <img
+            <Image
               src="/images/logodf.avif"
               alt="Don't Forget Logo"
+              width={32}
+              height={32}
               className="w-8 h-8 object-contain"
             />
           </div>
