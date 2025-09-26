@@ -6,10 +6,10 @@
     "mustHave": true,
     "priority": 1,
     "audience": "adult",
-    "countryCodes": ["FR", "ES", "IT"],
+    "countryCodes": [],
     "ageMin": 8,
     "ageMax": 65,
-    "tags": ["GEAR_BACKPACK_DAYPACK"]
+    "tags": ["GEAR_BACKPACK_DAYPACK", "randonnee", "voyage"]
   },
   {
     "label": "Adaptateur universel",
@@ -18,9 +18,57 @@
     "mustHave": false,
     "priority": 0,
     "audience": "all",
-    "countryCodes": ["US", "GB", "FR"],
+    "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["GEAR_UNIVERSAL_ADAPTER"]
+    "tags": ["GEAR_UNIVERSAL_ADAPTER", "electrique", "universel"]
+  },
+  {
+    "label": "Veste imperméable",
+    "asin": "B07Y54321",
+    "status": "active",
+    "mustHave": true,
+    "priority": 2,
+    "audience": "all",
+    "countryCodes": [],
+    "ageMin": 5,
+    "ageMax": 99,
+    "tags": ["CLOTHING_RAIN_JACKET", "impermeable", "pluie"]
+  },
+  {
+    "label": "Crème solaire SPF 50",
+    "asin": "B08C67890",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "countryCodes": [],
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": ["CARE_SUN_PROTECTION", "soleil", "protection"]
+  },
+  {
+    "label": "Trousse de premiers secours",
+    "asin": "B09D12354",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "countryCodes": [],
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": ["CARE_FIRST_AID", "sante", "urgence"]
+  },
+  {
+    "label": "Gourde isotherme",
+    "asin": "B08E98876",
+    "status": "active",
+    "mustHave": false,
+    "priority": 4,
+    "audience": "all",
+    "countryCodes": [],
+    "ageMin": 3,
+    "ageMax": 120,
+    "tags": ["GEAR_WATER_BOTTLE", "hydratation", "voyage"]
   }
 ]

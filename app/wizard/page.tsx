@@ -388,7 +388,7 @@ export default function WizardPage() {
     <main className="relative w-full text-white min-h-screen">
       {/* Header */}
       <Header />
-      
+
       {/* Background fixe qui ne bouge jamais */}
       <div 
         className="fixed inset-0 w-full h-screen -z-10"
@@ -418,7 +418,6 @@ export default function WizardPage() {
           <div className="hero-form">
             {/* Grille 3x2 compacte */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-
               {/* Destination */}
               <div>
                 <div className="hero-label">Où partez-vous ?</div>
@@ -505,7 +504,6 @@ export default function WizardPage() {
                   <option value="high">Budget élevé (150€+)</option>
                 </select>
               </div>
-
             </div>
 
             {/* CTA Button */}
