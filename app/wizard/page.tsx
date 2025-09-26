@@ -38,6 +38,8 @@ export default function WizardPage() {
   const [tmpEnd, setTmpEnd] = useState('');
   const [numAdults, setNumAdults] = useState(1);
   const [numChildren, setNumChildren] = useState(0);
+  const [numAnimals, setNumAnimals] = useState(0);
+  const [isTravelersPopupOpen, setIsTravelersPopupOpen] = useState(false);
   const [childDefaultAge, setChildDefaultAge] = useState(10);
 
   function extractPriority(explain: string[]): number {
@@ -463,8 +465,12 @@ export default function WizardPage() {
               {/* Voyageurs */}
               <div>
                 <div className="hero-label">Avec qui ?</div>
-                <button className="hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all">
-                  <span>Ajouter un voyageur</span>
+                <button
+                  type="button"
+                  className="hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all"
+                  onClick={() => setIsTravelersPopupOpen(true)}
+                >
+                  <span>{travelers} voyageur{travelers > 1 ? 's' : ''}</span>
                   <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
@@ -549,6 +555,110 @@ export default function WizardPage() {
               <button onClick={closeDatePopup} className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 hover:bg-white/30 backdrop-blur-sm transition-all">Annuler</button>
               <button onClick={confirmDatePopup} className="rounded-xl bg-white text-gray-900 px-5 py-2 hover:bg-white/90 font-medium shadow-lg transition-all">Valider</button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal popup voyageurs */}
+      {isTravelersPopupOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass-card-dark border border-white/15 rounded-3xl p-8 w-full max-w-md mx-auto shadow-2xl">
+            {/* Header avec bouton fermeture */}
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-semibold text-white">Voyageurs</h3>
+              <button
+                onClick={() => setIsTravelersPopupOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="space-y-6">
+              {/* Adultes */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-white font-medium">Nombres d&apos;adultes</div>
+                  <div className="text-white/60 text-sm">16 ans et plus</div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumAdults((n) => Math.max(1, n - 1))}
+                  >
+                    −
+                  </button>
+                  <span className="min-w-[2ch] text-center text-white font-medium">{numAdults}</span>
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumAdults((n) => Math.min(10, n + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Enfants */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-white font-medium">Enfants</div>
+                  <div className="text-white/60 text-sm">15 ans et moins</div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumChildren((n) => Math.max(0, n - 1))}
+                  >
+                    −
+                  </button>
+                  <span className="min-w-[2ch] text-center text-white font-medium">{numChildren}</span>
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumChildren((n) => Math.min(10, n + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Animaux */}
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-white font-medium">Animaux</div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumAnimals((n) => Math.max(0, n - 1))}
+                  >
+                    −
+                  </button>
+                  <span className="min-w-[2ch] text-center text-white font-medium">{numAnimals}</span>
+                  <button
+                    type="button"
+                    className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
+                    onClick={() => setNumAnimals((n) => Math.min(5, n + 1))}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Bouton confirmation */}
+            <button
+              onClick={() => setIsTravelersPopupOpen(false)}
+              className="w-full mt-8 bg-white hover:bg-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-semibold transition-all"
+            >
+              Confirmer les voyageurs
+            </button>
           </div>
         </div>
       )}
