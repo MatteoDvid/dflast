@@ -38,6 +38,8 @@ export default function ResultsPage() {
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [apiLoading, setApiLoading] = useState(false);
+  const [plannedProducts, setPlannedProducts] = useState<Set<string>>(new Set());
+  const [showCopyMessage, setShowCopyMessage] = useState(false);
 
   // Charger les données du voyage depuis sessionStorage
   useEffect(() => {
@@ -159,7 +161,7 @@ export default function ResultsPage() {
   function getDestinationName(countryCode: string): string {
     const countries: Record<string, string> = {
       'FR': 'France',
-      'IS': 'Islande', 
+      'IS': 'Islande',
       'TH': 'Thaïlande',
       'MA': 'Maroc',
       'BR': 'Brésil',
@@ -167,6 +169,49 @@ export default function ResultsPage() {
     };
     return countries[countryCode] || countryCode;
   }
+
+  // Basculer l'état "prévu" d'un produit
+  const toggleProductPlanned = (asin: string) => {
+    setPlannedProducts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(asin)) {
+        newSet.delete(asin);
+      } else {
+        newSet.add(asin);
+      }
+      return newSet;
+    });
+  };
+
+  // Télécharger la checklist (copie dans le presse-papier)
+  const downloadChecklist = async () => {
+    const checklist = `✈️ CHECKLIST VOYAGE - ${tripSummary.destination} (${tripSummary.startDate} - ${tripSummary.endDate})
+
+📋 Produits recommandés :
+${products.map(product => {
+  const isPlanned = plannedProducts.has(product.asin);
+  return `${isPlanned ? '✅' : '❌'} ${product.label} - ${isPlanned ? 'J\'ai déjà prévu' : 'Je n\'ai pas prévu'}`;
+}).join('\n')}
+
+🔗 Liens Amazon disponibles sur Don't Forget`;
+
+    try {
+      await navigator.clipboard.writeText(checklist);
+      setShowCopyMessage(true);
+      setTimeout(() => setShowCopyMessage(false), 2000);
+    } catch (err) {
+      console.error('Erreur lors de la copie:', err);
+      // Fallback pour les navigateurs plus anciens
+      const textArea = document.createElement('textarea');
+      textArea.value = checklist;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      setShowCopyMessage(true);
+      setTimeout(() => setShowCopyMessage(false), 2000);
+    }
+  };
 
   if (isLoading) {
     return (
@@ -196,13 +241,13 @@ export default function ResultsPage() {
 
               <div className="space-y-4 text-white">
                 <div>
-                  <div className="text-sm text-gray-300">Destination :</div>
-                  <div className="font-medium">{tripSummary.destination}</div>
+                  <span className="text-sm text-gray-300">Destination : </span>
+                  <span className="font-medium">{tripSummary.destination}</span>
                 </div>
 
                 <div>
-                  <div className="text-sm text-gray-300">Dates :</div>
-                  <div className="font-medium">{tripSummary.startDate} - {tripSummary.endDate}</div>
+                  <span className="text-sm text-gray-300">Dates : </span>
+                  <span className="font-medium">{tripSummary.startDate} - {tripSummary.endDate}</span>
                 </div>
 
                 <div>
@@ -216,14 +261,37 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              <div className="mt-8 space-y-3">
-                <a href="/wizard" className="w-full bg-white hover:bg-gray-100 text-gray-900 px-4 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 font-medium">
-                  <span>Modifier le voyage</span>
-                  <span>✏️</span>
+              <div className="mt-8 flex gap-2">
+                <a
+                  href="/wizard"
+                  className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium transition-colors flex items-center justify-center whitespace-nowrap"
+                  style={{
+                    height: '39.41px',
+                    borderRadius: '35.29px',
+                    border: '0.82px solid transparent',
+                    paddingTop: '8.21px',
+                    paddingBottom: '8.21px',
+                    paddingLeft: '18.88px',
+                    paddingRight: '20.52px'
+                  }}
+                >
+                  Modifier le voyage
                 </a>
-                <button className="w-full text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 hover:opacity-90" style={{backgroundColor: '#1a1a1a'}}>
-                  <span>Télécharger la checklist</span>
-                  <span>⬇️</span>
+                <button
+                  onClick={downloadChecklist}
+                  className="flex-1 text-white text-xs font-medium transition-colors flex items-center justify-center hover:opacity-90 whitespace-nowrap"
+                  style={{
+                    backgroundColor: '#1a1a1a',
+                    height: '39.41px',
+                    borderRadius: '35.29px',
+                    border: '0.82px solid transparent',
+                    paddingTop: '8.21px',
+                    paddingBottom: '8.21px',
+                    paddingLeft: '18.88px',
+                    paddingRight: '20.52px'
+                  }}
+                >
+                  Télécharger la checklist
                 </button>
               </div>
             </div>
@@ -231,15 +299,15 @@ export default function ResultsPage() {
 
           {/* Résultats */}
           <div className="lg:col-span-8">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Votre checklist personnalisé</h1>
+            <div className="mb-6 text-center">
+              <h1 className="text-2xl font-bold text-gray-900 mb-2">Votre checklist personnalisée</h1>
               <p className="text-gray-600">
-                Recommandations personnalisées pour votre voyage à {tripSummary.destination}. 
+                Recommandations personnalisées pour votre voyage à {tripSummary.destination}.
                 Ces produits ont été sélectionnés selon vos activités et votre destination.
               </p>
             </div>
 
-            <div className="mb-4 text-sm font-medium text-gray-700">
+            <div className="mb-4 text-lg font-bold text-gray-900">
               Produits conseillés :
             </div>
 
@@ -307,21 +375,15 @@ export default function ResultsPage() {
                             <span className="text-orange-400">a</span>
                           </a>
                           
-                          {product.inStock ? (
-                            <button 
-                              className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
-                              style={{backgroundColor: '#099142'}}
-                            >
-                              J&apos;ai déjà prévu ✓
-                            </button>
-                          ) : (
-                            <button 
-                              className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
-                              style={{backgroundColor: '#099142'}}
-                            >
-                              Je n&apos;ai pas prévu ✕
-                            </button>
-                          )}
+                          <button
+                            onClick={() => toggleProductPlanned(product.asin)}
+                            className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
+                            style={{
+                              backgroundColor: plannedProducts.has(product.asin) ? '#099142' : '#666666'
+                            }}
+                          >
+                            {plannedProducts.has(product.asin) ? 'J\'ai déjà prévu ✓' : 'Je n\'ai pas prévu'}
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -341,6 +403,14 @@ export default function ResultsPage() {
           </div>
         </div>
       </div>
+
+      {/* Message de confirmation copie */}
+      {showCopyMessage && (
+        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2">
+          <span>✅</span>
+          <span>Checklist copiée dans le presse-papier !</span>
+        </div>
+      )}
     </div>
   );
 }
