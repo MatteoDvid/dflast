@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PROMPT_VERSION } from '@/lib/tags';
 import Header from '@/components/Header';
+import NoSSRWrapper from '@/components/NoSSRWrapper';
 
 type ProductItem = { label: string; asin: string; marketplace: string; explain: string[] };
 type ApiResult =
@@ -40,7 +41,53 @@ export default function WizardPage() {
   const [numChildren, setNumChildren] = useState(0);
   const [numAnimals, setNumAnimals] = useState(0);
   const [isTravelersPopupOpen, setIsTravelersPopupOpen] = useState(false);
+  const [isActivitiesPopupOpen, setIsActivitiesPopupOpen] = useState(false);
+  const [selectedActivitiesList, setSelectedActivitiesList] = useState<string[]>([]);
   const [childDefaultAge, setChildDefaultAge] = useState(10);
+  const [wantsMoreIdeas, setWantsMoreIdeas] = useState(false);
+  const [selectedDestination, setSelectedDestination] = useState(false);
+  const [selectedDates, setSelectedDates] = useState(false);
+  const [selectedTravelers, setSelectedTravelers] = useState(false);
+  const [selectedActivitiesInput, setSelectedActivitiesInput] = useState(false);
+  const [selectedBudget, setSelectedBudget] = useState(false);
+  const [isBudgetPopupOpen, setIsBudgetPopupOpen] = useState(false);
+  const [selectedBudgetRange, setSelectedBudgetRange] = useState('');
+
+  // Options de budget
+  const budgetOptions = [
+    { value: '0-100', label: '0€ - 100€' },
+    { value: '100-300', label: '100€ - 300€' },
+    { value: '300+', label: '300€ et +' }
+  ];
+
+  // Liste des activités prédéfinies
+  const predefinedActivities = [
+    'Surf',
+    'Parc d&apos;attractions',
+    'Saut en parachute',
+    'Randonnée',
+    'Plongée sous-marine',
+    'Ski',
+    'Tennis',
+    'Golf',
+    'Via ferrata',
+    'Kayak',
+    'Équitation',
+    'Cyclisme',
+    'Escalade',
+    'Spéléologie',
+    'Canoë',
+    'Voile'
+  ];
+
+  // Fonctions pour gérer les activités
+  const toggleActivity = (activity: string) => {
+    setSelectedActivitiesList(prev =>
+      prev.includes(activity)
+        ? prev.filter(a => a !== activity)
+        : [...prev, activity]
+    );
+  };
 
   function extractPriority(explain: string[]): number {
     try {
@@ -387,6 +434,7 @@ export default function WizardPage() {
   }, [ages, destinationCountry, dateStart, dateEnd]);
 
   return (
+    <NoSSRWrapper>
     <main className="relative w-full text-white min-h-screen">
       {/* Header */}
       <Header />
@@ -409,7 +457,7 @@ export default function WizardPage() {
           {/* Header */}
           <div className="text-center mt-32 mb-10">
             <h1 className="text-4xl md:text-5xl font-semibold mb-6 font-airbnb leading-relaxed">
-              Voyagez l&apos;esprit léger<br />avec Don&apos;t Forget
+              Personnalisez votre checklist<br />avec Don&apos;t Forget
             </h1>
             <p className="text-base md:text-lg text-gray-300 font-airbnb leading-relaxed">
               Votre checklist sur mesure prête en 30s<br />sans stress ni oubli
@@ -424,9 +472,15 @@ export default function WizardPage() {
               <div>
                 <div className="hero-label">Où partez-vous ?</div>
                 <select
-                  className="hero-select w-full"
+                  className={`hero-select w-full ${selectedDestination ? 'border-white/13' : ''}`}
+                  style={selectedDestination ? {
+                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                  } : undefined}
                   value={destinationCountry}
-                  onChange={(e) => setDestinationCountry(e.target.value)}
+                  onChange={(e) => {
+                    setDestinationCountry(e.target.value);
+                    setSelectedDestination(true);
+                  }}
                 >
                   <option value="FR">France</option>
                   <option value="IS">Islande</option>
@@ -442,8 +496,14 @@ export default function WizardPage() {
                 <div className="hero-label">Quand partez-vous ?</div>
                 <div className="date-row">
                   <button
-                    onClick={openDatePopup}
-                    className="hero-input flex flex-col justify-center text-left"
+                    onClick={() => {
+                      openDatePopup();
+                      setSelectedDates(true);
+                    }}
+                    className={`hero-input flex flex-col justify-center text-left ${selectedDates ? 'border-white/13' : ''}`}
+                    style={selectedDates ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
                   >
                     <div className="text-xs opacity-70 mb-1">Départ</div>
                     <div className="text-sm">
@@ -451,8 +511,14 @@ export default function WizardPage() {
                     </div>
                   </button>
                   <button
-                    onClick={openDatePopup}
-                    className="hero-input flex flex-col justify-center text-left"
+                    onClick={() => {
+                      openDatePopup();
+                      setSelectedDates(true);
+                    }}
+                    className={`hero-input flex flex-col justify-center text-left ${selectedDates ? 'border-white/13' : ''}`}
+                    style={selectedDates ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
                   >
                     <div className="text-xs opacity-70 mb-1">Retour</div>
                     <div className="text-sm">
@@ -467,8 +533,14 @@ export default function WizardPage() {
                 <div className="hero-label">Avec qui ?</div>
                 <button
                   type="button"
-                  className="hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all"
-                  onClick={() => setIsTravelersPopupOpen(true)}
+                  className={`hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all ${selectedTravelers ? 'border-white/13' : ''}`}
+                  style={selectedTravelers ? {
+                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                  } : undefined}
+                  onClick={() => {
+                    setIsTravelersPopupOpen(true);
+                    setSelectedTravelers(true);
+                  }}
                 >
                   <span>{travelers} voyageur{travelers > 1 ? 's' : ''}</span>
                   <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -483,18 +555,45 @@ export default function WizardPage() {
                 <input
                   type="text"
                   placeholder="Ex : tennis"
-                  className="hero-input w-full"
+                  className={`hero-input w-full ${selectedActivitiesInput ? 'border-white/13' : ''}`}
+                  style={selectedActivitiesInput ? {
+                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                  } : undefined}
+                  onFocus={() => setSelectedActivitiesInput(true)}
                 />
               </div>
 
               {/* Plus d'activités */}
               <div>
-                <div className="hero-label">Plus d&apos;idées ?</div>
-                <div className="date-row">
-                  <button className="py-2 px-4 rounded-full text-xs font-medium bg-white/20 hover:bg-white/30 transition-all border border-white/20 text-center">
-                    Oui
+                <div className="hero-label">Plus d&apos;activités&nbsp;?</div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    onClick={() => {
+                      setWantsMoreIdeas(true);
+                      setIsActivitiesPopupOpen(true);
+                    }}
+                    className={`col-span-2 hero-input h-12 text-xs font-medium transition-all text-center border ${
+                      wantsMoreIdeas
+                        ? 'border-white/13'
+                        : 'bg-black/25 hover:bg-black/35 border-white/20'
+                    }`}
+                    style={wantsMoreIdeas ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
+                  >
+                    Je veux d&apos;autres idées
                   </button>
-                  <button className="py-2 px-4 rounded-full text-xs font-medium bg-black/30 hover:bg-black/40 transition-all text-center border border-white/10">
+                  <button
+                    onClick={() => setWantsMoreIdeas(false)}
+                    className={`hero-input h-12 text-xs font-medium transition-all text-center border ${
+                      !wantsMoreIdeas
+                        ? 'border-white/13'
+                        : 'bg-black/25 hover:bg-black/35 border-white/20'
+                    }`}
+                    style={!wantsMoreIdeas ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
+                  >
                     Non
                   </button>
                 </div>
@@ -503,12 +602,22 @@ export default function WizardPage() {
               {/* Budget */}
               <div>
                 <div className="hero-label">Budget pour les activités ?</div>
-                <select className="hero-select w-full">
-                  <option value="">Sélectionner un budget</option>
-                  <option value="low">Petit budget (0-50€)</option>
-                  <option value="medium">Budget moyen (50-150€)</option>
-                  <option value="high">Budget élevé (150€+)</option>
-                </select>
+                <button
+                  type="button"
+                  className={`hero-input w-full flex items-center justify-between text-left hover:bg-black/35 transition-all ${selectedBudget ? 'border-white/13' : ''}`}
+                  style={selectedBudget ? {
+                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                  } : undefined}
+                  onClick={() => {
+                    setIsBudgetPopupOpen(true);
+                    setSelectedBudget(true);
+                  }}
+                >
+                  <span>{selectedBudgetRange || 'Sélectionner un budget'}</span>
+                  <svg className="w-5 h-5 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                  </svg>
+                </button>
               </div>
             </div>
 
@@ -662,6 +771,124 @@ export default function WizardPage() {
           </div>
         </div>
       )}
+
+      {/* Modal popup budget */}
+      {isBudgetPopupOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass-card-dark border border-white/15 rounded-3xl p-8 w-full max-w-md mx-auto shadow-2xl">
+            {/* Header avec bouton fermeture */}
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-semibold text-white text-center flex-1">Budget total des activités</h3>
+              <button
+                onClick={() => setIsBudgetPopupOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all ml-4"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Liste des options de budget */}
+            <div className="space-y-4 mb-8">
+              {budgetOptions.map((budget) => {
+                const isSelected = selectedBudgetRange === budget.label;
+                return (
+                  <button
+                    key={budget.value}
+                    type="button"
+                    onClick={() => setSelectedBudgetRange(budget.label)}
+                    className={`w-full p-4 rounded-2xl transition-all border ${
+                      isSelected
+                        ? 'border-white/13'
+                        : 'bg-white/5 hover:bg-white/10 border-white/10'
+                    }`}
+                    style={isSelected ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
+                  >
+                    <span className="text-white font-medium text-center block">{budget.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Bouton confirmation */}
+            <button
+              onClick={() => setIsBudgetPopupOpen(false)}
+              className="w-full bg-white hover:bg-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-semibold transition-all"
+            >
+              Confirmer le budget
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Modal popup activités */}
+      {isActivitiesPopupOpen && (
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="glass-card-dark border border-white/15 rounded-3xl p-8 w-full max-w-lg mx-auto shadow-2xl max-h-[80vh] overflow-y-auto">
+            {/* Header avec bouton fermeture */}
+            <div className="flex items-center justify-between mb-8">
+              <h3 className="text-xl font-semibold text-white text-center flex-1">Suggestion d&apos;activités</h3>
+              <button
+                onClick={() => setIsActivitiesPopupOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all ml-4"
+              >
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Liste des activités */}
+            <div className="space-y-3 mb-8">
+              {predefinedActivities.map((activity) => {
+                const isSelected = selectedActivitiesList.includes(activity);
+                return (
+                  <button
+                    key={activity}
+                    type="button"
+                    onClick={() => toggleActivity(activity)}
+                    className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all border ${
+                      isSelected
+                        ? 'border-white/13'
+                        : 'bg-white/5 hover:bg-white/10 border-white/10'
+                    }`}
+                    style={isSelected ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
+                  >
+                    <span className="text-white font-medium">{activity}</span>
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
+                      isSelected ? 'bg-white text-gray-900' : 'bg-white/20'
+                    }`}>
+                      {isSelected ? (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Bouton confirmation */}
+            <button
+              onClick={() => setIsActivitiesPopupOpen(false)}
+              className="w-full bg-white hover:bg-gray-100 text-gray-900 px-6 py-3 rounded-2xl font-semibold transition-all"
+            >
+              Confirmer l&apos;activité
+            </button>
+          </div>
+        </div>
+      )}
     </main>
+    </NoSSRWrapper>
   );
 }
