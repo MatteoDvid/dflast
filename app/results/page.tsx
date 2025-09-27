@@ -127,7 +127,7 @@ export default function ResultsPage() {
           marketplace: product.marketplace || 'FR',
           price: undefined, // Sera géré par l'affichage (pas de prix dans l'API recommend)
           originalPrice: undefined,
-          description: `Recommandé pour votre voyage à ${tripSummary.destination}. ${product.explain?.filter((e: string) => e.startsWith('destination=') || e.startsWith('marketplace=')).join(' | ') || 'Sélectionné par IA selon votre destination'}`,
+          description: `Recommandé pour votre voyage.`,
           availability: "Voir sur Amazon",
           inStock: true // Disponible via Amazon
         }));
