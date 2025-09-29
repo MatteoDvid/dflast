@@ -42,13 +42,13 @@ export default function WizardPage() {
   const [numAnimals, setNumAnimals] = useState(0);
   const [isTravelersPopupOpen, setIsTravelersPopupOpen] = useState(false);
   const [isActivitiesPopupOpen, setIsActivitiesPopupOpen] = useState(false);
-  const [selectedActivitiesList, setSelectedActivitiesList] = useState<string[]>([]);
+  const [activitiesData, setActivitiesData] = useState<string[]>([]);
   const [childDefaultAge, setChildDefaultAge] = useState(10);
   const [wantsMoreIdeas, setWantsMoreIdeas] = useState(false);
   const [selectedDestination, setSelectedDestination] = useState(false);
   const [selectedDates, setSelectedDates] = useState(false);
   const [selectedTravelers, setSelectedTravelers] = useState(false);
-  const [selectedActivitiesInput, setSelectedActivitiesInput] = useState(false);
+  const [selectedActivities, setSelectedActivities] = useState(false);
   const [selectedBudget, setSelectedBudget] = useState(false);
   const [isBudgetPopupOpen, setIsBudgetPopupOpen] = useState(false);
   const [selectedBudgetRange, setSelectedBudgetRange] = useState('');
@@ -82,7 +82,7 @@ export default function WizardPage() {
 
   // Fonctions pour gérer les activités
   const toggleActivity = (activity: string) => {
-    setSelectedActivitiesList(prev =>
+    setActivitiesData(prev =>
       prev.includes(activity)
         ? prev.filter(a => a !== activity)
         : [...prev, activity]
@@ -276,8 +276,8 @@ export default function WizardPage() {
     }
   }
 
-  // DateRangePicker visuel (deux mois côte à côte)
-  function DateRangePicker(props: { start: string; end: string; onChange: (s: string, e: string) => void; }) {
+  // Nouveau DatePicker moderne avec liquid glass
+  function ModernDatePicker(props: { start: string; end: string; onChange: (s: string, e: string) => void; onClose: () => void; }) {
     const toKey = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     const parse = (s: string) => {
       if (!s) return null as Date | null;
@@ -285,12 +285,14 @@ export default function WizardPage() {
       if (!y || !m || !d) return null;
       return new Date(y, m - 1, d);
     };
+
     const [view, setView] = useState(() => {
       const base = parse(props.start) || new Date();
       return { year: base.getFullYear(), month: base.getMonth() + 1 };
     });
     const [selStart, setSelStart] = useState<string>(props.start || '');
     const [selEnd, setSelEnd] = useState<string>(props.end || '');
+    const [mode, setMode] = useState<'start' | 'end'>('start');
 
     function buildMonth(y: number, m: number) {
       const first = new Date(y, m - 1, 1);
@@ -310,54 +312,112 @@ export default function WizardPage() {
       if (!selStart || !selEnd) return false;
       return k >= selStart && k <= selEnd;
     }
+
     function onSelect(k: string) {
-      if (!selStart || (selStart && selEnd)) {
+      if (mode === 'start') {
         setSelStart(k);
-        setSelEnd('');
+        if (selEnd && k > selEnd) {
+          setSelEnd('');
+        }
+        setMode('end');
       } else {
-        if (k < selStart) {
-          setSelEnd(selStart);
-          setSelStart(k);
-        } else {
+        if (k >= selStart) {
           setSelEnd(k);
+        } else {
+          setSelStart(k);
+          setSelEnd('');
         }
       }
     }
-    function apply() {
-      props.onChange(selStart, selEnd || selStart);
-    }
+
     function shiftMonth(delta: number) {
       const m0 = view.month + delta;
       const y = view.year + Math.floor((m0 - 1) / 12);
       const m = ((m0 - 1) % 12 + 12) % 12 + 1;
       setView({ year: y, month: m });
     }
-    const view2 = { year: view.year + (view.month === 12 ? 1 : 0), month: view.month === 12 ? 1 : view.month + 1 };
+
     const todayKey = toKey(new Date());
-    function renderMonth(y: number, m: number) {
-      const days = buildMonth(y, m);
+    const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+                        'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+
+    function renderMonth() {
+      const days = buildMonth(view.year, view.month);
+
       return (
-        <div className="p-4 rounded-xl glass-field border border-white/20">
-          <div className="text-center font-medium mb-3 text-gray-900">{String(m).padStart(2, '0')}/{y}</div>
-          <div className="grid grid-cols-7 gap-1 text-center text-xs text-gray-500 mb-1">
-            <div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div>
+        <div className="glass-card-dark border border-white/15 rounded-2xl p-6 w-full max-w-md mx-auto shadow-2xl backdrop-blur-md">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="text-center flex-1">
+              <div className="text-xs font-medium text-white/60 uppercase tracking-wider mb-1">
+                {mode === 'start' ? 'Départ' : 'Retour'}
+              </div>
+              <h2 className="text-xl font-semibold text-white">
+                {monthNames[view.month - 1]} {view.year}
+              </h2>
+            </div>
+            <button
+              onClick={props.onClose}
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <div className="grid grid-cols-7 gap-1">
+
+          {/* Navigation */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => shiftMonth(-1)}
+              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div className="text-sm text-white/80">
+              {mode === 'start' ? 'Sélectionnez la date de départ' : 'Sélectionnez la date de retour'}
+            </div>
+            <button
+              onClick={() => shiftMonth(1)}
+              className="w-10 h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center transition-all"
+            >
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Days header */}
+          <div className="grid grid-cols-7 gap-1 mb-2">
+            {['L', 'M', 'M', 'J', 'V', 'S', 'D'].map((day) => (
+              <div key={day} className="h-8 flex items-center justify-center text-xs font-medium text-white/50">
+                {day}
+              </div>
+            ))}
+          </div>
+
+          {/* Calendar grid */}
+          <div className="grid grid-cols-7 gap-1 mb-6">
             {days.map((cell, idx) => (
               cell ? (
                 <button
                   key={cell.key}
                   onClick={() => onSelect(cell.key)}
                   disabled={cell.key < todayKey}
-                  className={`h-9 rounded-lg text-sm font-medium transition-all ${
+                  className={`h-10 w-10 rounded-xl text-sm font-medium transition-all ${
                     cell.key < todayKey
-                      ? 'bg-gray-100/50 text-gray-400 cursor-not-allowed backdrop-blur-sm'
+                      ? 'text-white/30 cursor-not-allowed'
                       : isInRange(cell.key)
-                      ? 'bg-blue-500 text-white shadow-lg ring-2 ring-blue-300'
+                      ? 'text-white border border-white/13'
                       : selStart === cell.key || selEnd === cell.key
-                      ? 'bg-white text-gray-900 shadow-xl ring-2 ring-white/50 scale-105'
-                      : 'bg-white/30 hover:bg-white/50 text-gray-900 backdrop-blur-sm border border-white/20 hover:scale-105'
+                      ? 'bg-white text-gray-900 shadow-lg scale-105'
+                      : 'text-white hover:bg-white/10 hover:scale-105'
                   }`}
+                  style={isInRange(cell.key) ? {
+                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                  } : undefined}
                 >
                   {Number(cell.key.split('-')[2])}
                 </button>
@@ -366,26 +426,29 @@ export default function WizardPage() {
               )
             ))}
           </div>
+
+          {/* Bouton OK */}
+          <div className="flex justify-center">
+            <button
+              onClick={() => {
+                if (selStart && selEnd) {
+                  props.onChange(selStart, selEnd);
+                  props.onClose();
+                }
+              }}
+              disabled={!selStart || !selEnd}
+              className="px-8 py-3 bg-white text-gray-900 rounded-full font-medium text-sm hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              OK
+            </button>
+          </div>
         </div>
       );
     }
+
     return (
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <button onClick={() => shiftMonth(-1)} className="rounded-lg bg-white/20 border border-white/30 px-3 py-2 hover:bg-white/30 text-white backdrop-blur-sm transition-all">← Précédent</button>
-          <div className="text-sm text-white/90 bg-white/10 rounded-lg px-3 py-1 backdrop-blur-sm">
-            {selStart ? formatDateLabel(selStart) : '—'} → {selEnd ? formatDateLabel(selEnd) : '—'}
-          </div>
-          <button onClick={() => shiftMonth(1)} className="rounded-lg bg-white/20 border border-white/30 px-3 py-2 hover:bg-white/30 text-white backdrop-blur-sm transition-all">Suivant →</button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {renderMonth(view.year, view.month)}
-          {renderMonth(view2.year, view2.month)}
-        </div>
-        <div className="mt-6 flex items-center justify-between">
-          <button onClick={() => { setSelStart(''); setSelEnd(''); }} className="text-sm text-white/80 hover:text-white bg-white/10 hover:bg-white/20 rounded-lg px-3 py-2 backdrop-blur-sm transition-all">Réinitialiser</button>
-          <button onClick={apply} className="rounded-xl bg-white text-gray-900 px-6 py-2 hover:bg-white/90 font-medium shadow-lg transition-all">Appliquer</button>
-        </div>
+      <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        {renderMonth()}
       </div>
     );
   }
@@ -555,11 +618,11 @@ export default function WizardPage() {
                 <input
                   type="text"
                   placeholder="Ex : tennis"
-                  className={`hero-input w-full ${selectedActivitiesInput ? 'border-white/13' : ''}`}
-                  style={selectedActivitiesInput ? {
+                  className={`hero-input w-full ${selectedActivities ? 'border-white/13' : ''}`}
+                  style={selectedActivities ? {
                     background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
                   } : undefined}
-                  onFocus={() => setSelectedActivitiesInput(true)}
+                  onFocus={() => setSelectedActivities(true)}
                 />
               </div>
 
@@ -648,24 +711,17 @@ export default function WizardPage() {
       )}
       
       {isDatePopupOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
-          <div className="absolute inset-0 bg-black/60" onClick={closeDatePopup} />
-          <div className="relative z-10 w-full max-w-md rounded-2xl glass-card text-white shadow-2xl p-6 border border-white/30">
-            <div className="text-lg font-semibold mb-4 text-center">Sélectionner vos dates</div>
-            <DateRangePicker
-              start={tmpStart}
-              end={tmpEnd}
-              onChange={(s, e) => {
-                setTmpStart(s);
-                setTmpEnd(e);
-              }}
-            />
-            <div className="mt-6 flex justify-end gap-3">
-              <button onClick={closeDatePopup} className="rounded-xl bg-white/20 border border-white/30 text-white px-5 py-2 hover:bg-white/30 backdrop-blur-sm transition-all">Annuler</button>
-              <button onClick={confirmDatePopup} className="rounded-xl bg-white text-gray-900 px-5 py-2 hover:bg-white/90 font-medium shadow-lg transition-all">Valider</button>
-            </div>
-          </div>
-        </div>
+        <ModernDatePicker
+          start={tmpStart}
+          end={tmpEnd}
+          onChange={(s, e) => {
+            setDateStart(s);
+            setDateEnd(e);
+            setSelectedDates(true);
+            setIsDatePopupOpen(false);
+          }}
+          onClose={() => setIsDatePopupOpen(false)}
+        />
       )}
 
       {/* Modal popup voyageurs */}
@@ -844,7 +900,7 @@ export default function WizardPage() {
             {/* Liste des activités */}
             <div className="space-y-3 mb-8">
               {predefinedActivities.map((activity) => {
-                const isSelected = selectedActivitiesList.includes(activity);
+                const isSelected = activitiesData.includes(activity);
                 return (
                   <button
                     key={activity}
