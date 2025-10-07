@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemple d'intégration Webflow → Don't Forget</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #1a1a1a;
+    }
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+      font-size: 14px;
+    }
+    select, input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.2s;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .activities {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .checkbox-label input {
+      width: auto;
+      margin-right: 8px;
+    }
+    .cta-button {
+      width: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 16px 32px;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 30px;
+    }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+    }
+    .cta-button:active {
+      transform: translateY(0);
+    }
+    .info-box {
+      background: #f0f4ff;
+      border-left: 4px solid #667eea;
+      padding: 15px;
+      margin-bottom: 30px;
+      border-radius: 4px;
+      font-size: 13px;
+      color: #555;
+    }
+    .generated-url {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 20px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      word-break: break-all;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎒 Créez votre checklist voyage</h1>
+    <p class="subtitle">Exemple d'intégration pour Webflow → App Don't Forget</p>
+
+    <div class="info-box">
+      ℹ️ Ce formulaire est un <strong>exemple complet</strong> que vous pouvez recréer dans Webflow.
+      Remplissez les champs et cliquez sur le bouton pour voir comment l'URL est générée.
+    </div>
+
+    <form id="travel-form">
+      <!-- Destination -->
+      <div class="form-group">
+        <label for="destination-select">Où partez-vous ?</label>
+        <select id="destination-select" required>
+          <option value="">Sélectionnez une destination</option>
+          <option value="FR">🇫🇷 France</option>
+          <option value="IS">🇮🇸 Islande</option>
+          <option value="TH">🇹🇭 Thaïlande</option>
+          <option value="MA">🇲🇦 Maroc</option>
+          <option value="BR">🇧🇷 Brésil</option>
+          <option value="US">🇺🇸 États-Unis</option>
+        </select>
+      </div>
+
+      <!-- Dates -->
+      <div class="form-group">
+        <label>Quand partez-vous ?</label>
+        <div class="row">
+          <div>
+            <input type="date" id="date-start-input" placeholder="Date de départ">
+          </div>
+          <div>
+            <input type="date" id="date-end-input" placeholder="Date de retour">
+          </div>
+        </div>
+      </div>
+
+      <!-- Voyageurs -->
+      <div class="form-group">
+        <label>Avec qui ?</label>
+        <div class="row">
+          <div>
+            <input type="number" id="adults-input" min="1" max="10" value="2" placeholder="Adultes">
+          </div>
+          <div>
+            <input type="number" id="children-input" min="0" max="10" value="0" placeholder="Enfants">
+          </div>
+        </div>
+      </div>
+
+      <!-- Animaux (optionnel) -->
+      <div class="form-group">
+        <label for="animals-input">Animaux (optionnel)</label>
+        <input type="number" id="animals-input" min="0" max="5" value="0" placeholder="Nombre d'animaux">
+      </div>
+
+      <!-- Activités -->
+      <div class="form-group">
+        <label>Vos activités prévues</label>
+        <div class="activities">
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Surf"> Surf
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Tennis"> Tennis
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Randonnée"> Randonnée
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Ski"> Ski
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Plongée sous-marine"> Plongée
+          </label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="activity" value="Via ferrata"> Via ferrata
+          </label>
+        </div>
+      </div>
+
+      <!-- Budget -->
+      <div class="form-group">
+        <label>Budget pour les activités</label>
+        <select id="budget-select">
+          <option value="">Sélectionnez un budget</option>
+          <option value="0-100">0€ - 100€</option>
+          <option value="100-300">100€ - 300€</option>
+          <option value="300+">300€ et +</option>
+        </select>
+      </div>
+
+      <!-- CTA Button -->
+      <button type="submit" class="cta-button" id="cta-button">
+        Créer ma checklist personnalisée ✨
+      </button>
+    </form>
+
+    <!-- URL générée (pour debug) -->
+    <div class="generated-url" id="generated-url" style="display: none;">
+      <strong>URL générée :</strong><br>
+      <span id="url-display"></span>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * CODE À COPIER DANS WEBFLOW (Custom Code Embed)
+     * ================================================
+     *
+     * Instructions :
+     * 1. Créez le même formulaire dans Webflow
+     * 2. Donnez les mêmes IDs aux champs
+     * 3. Copiez ce script dans un Embed Webflow
+     * 4. Changez l'URL de baseUrl par votre URL Vercel
+     */
+
+    // ⚠️ IMPORTANT : Remplacez cette URL par votre URL Vercel
+    const baseUrl = 'https://votre-app.vercel.app/wizard';
+
+    /**
+     * Fonction principale : construit l'URL avec les paramètres du formulaire
+     */
+    function buildAppUrl() {
+      const params = new URLSearchParams();
+
+      // Destination (obligatoire dans cet exemple)
+      const destination = document.getElementById('destination-select')?.value;
+      if (destination) params.append('destination', destination);
+
+      // Dates
+      const dateStart = document.getElementById('date-start-input')?.value;
+      if (dateStart) params.append('dateStart', dateStart);
+
+      const dateEnd = document.getElementById('date-end-input')?.value;
+      if (dateEnd) params.append('dateEnd', dateEnd);
+
+      // Voyageurs
+      const adults = document.getElementById('adults-input')?.value;
+      if (adults && adults > 0) params.append('adults', adults);
+
+      const children = document.getElementById('children-input')?.value;
+      if (children && children > 0) params.append('children', children);
+
+      const animals = document.getElementById('animals-input')?.value;
+      if (animals && animals > 0) params.append('animals', animals);
+
+      // Activités (checkboxes multiples)
+      const activities = [];
+      document.querySelectorAll('input[name="activity"]:checked').forEach(checkbox => {
+        activities.push(checkbox.value);
+      });
+      if (activities.length > 0) {
+        params.append('activities', activities.join(','));
+      }
+
+      // Budget
+      const budget = document.getElementById('budget-select')?.value;
+      if (budget) params.append('budget', budget);
+
+      // Construire l'URL finale
+      const queryString = params.toString();
+      const finalUrl = queryString ? `${baseUrl}?${queryString}` : baseUrl;
+
+      return finalUrl;
+    }
+
+    /**
+     * Gestion de l'événement submit du formulaire
+     */
+    document.getElementById('travel-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Construire l'URL
+      const url = buildAppUrl();
+
+      // Pour cet exemple, on affiche l'URL générée
+      // Dans Webflow, remplacez cette partie par : window.location.href = url;
+      document.getElementById('generated-url').style.display = 'block';
+      document.getElementById('url-display').textContent = url;
+
+      // Rediriger vers l'app (décommentez cette ligne dans Webflow)
+      // window.location.href = url;
+
+      // Pour tester, on ouvre dans un nouvel onglet
+      setTimeout(() => {
+        window.open(url, '_blank');
+      }, 500);
+    });
+
+    /**
+     * Optionnel : Validation côté client avant redirection
+     */
+    function validateForm() {
+      const destination = document.getElementById('destination-select')?.value;
+
+      if (!destination) {
+        alert('⚠️ Veuillez sélectionner une destination');
+        return false;
+      }
+
+      return true;
+    }
+
+    // Amélioration : mettre à jour l'URL en temps réel (optionnel)
+    document.querySelectorAll('input, select').forEach(element => {
+      element.addEventListener('change', function() {
+        const url = buildAppUrl();
+        document.getElementById('generated-url').style.display = 'block';
+        document.getElementById('url-display').textContent = url;
+      });
+    });
+  </script>
+</body>
+</html>

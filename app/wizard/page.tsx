@@ -242,6 +242,89 @@ export default function WizardPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Load query parameters from URL (Webflow integration)
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+
+      // Destination
+      const destination = params.get('destination');
+      if (destination && ['FR', 'IS', 'TH', 'MA', 'BR', 'US'].includes(destination.toUpperCase())) {
+        setDestinationCountry(destination.toUpperCase());
+        setSelectedDestination(true);
+      }
+
+      // Dates
+      const startDate = params.get('dateStart');
+      const endDate = params.get('dateEnd');
+      if (startDate && /^\d{4}-\d{2}-\d{2}$/.test(startDate)) {
+        setDateStart(startDate);
+        setSelectedDates(true);
+      }
+      if (endDate && /^\d{4}-\d{2}-\d{2}$/.test(endDate)) {
+        setDateEnd(endDate);
+        setSelectedDates(true);
+      }
+
+      // Adults
+      const adults = params.get('adults');
+      if (adults && !isNaN(Number(adults))) {
+        const numAdultsValue = Math.max(1, Math.min(10, Number(adults)));
+        setNumAdults(numAdultsValue);
+        setSelectedTravelers(true);
+      }
+
+      // Children
+      const children = params.get('children');
+      if (children && !isNaN(Number(children))) {
+        const numChildrenValue = Math.max(0, Math.min(10, Number(children)));
+        setNumChildren(numChildrenValue);
+        setSelectedTravelers(true);
+      }
+
+      // Animals
+      const animals = params.get('animals');
+      if (animals && !isNaN(Number(animals))) {
+        const numAnimalsValue = Math.max(0, Math.min(5, Number(animals)));
+        setNumAnimals(numAnimalsValue);
+      }
+
+      // Activities
+      const activities = params.get('activities');
+      if (activities) {
+        const activitiesList = activities.split(',').map(a => a.trim()).filter(Boolean);
+        // Valider que les activités sont dans la liste prédéfinie
+        const validActivities = activitiesList.filter(act =>
+          predefinedActivities.some(predef => predef.toLowerCase() === act.toLowerCase())
+        );
+        if (validActivities.length > 0) {
+          setActivitiesData(validActivities);
+          setWantsMoreIdeas(true);
+          setSelectedActivities(true);
+        }
+      }
+
+      // Budget
+      const budget = params.get('budget');
+      if (budget) {
+        // Mapper les codes budget vers les labels
+        const budgetMap: Record<string, string> = {
+          '0-100': '0€ - 100€',
+          '100-300': '100€ - 300€',
+          '300+': '300€ et +'
+        };
+        const budgetLabel = budgetMap[budget];
+        if (budgetLabel) {
+          setSelectedBudgetRange(budgetLabel);
+          setSelectedBudget(true);
+        }
+      }
+    } catch (err) {
+      console.warn('Error parsing query parameters:', err);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Popup Dates helpers
   function openDatePopup() {
     setTmpStart(dateStart);
