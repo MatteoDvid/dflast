@@ -23,9 +23,21 @@ type AiResult =
   | { status: 'success'; tags: TagItem[]; meta?: AiMeta }
   | { status: 'network-error' };
 
+// Liste des destinations d'origine avec recherche
+const DESTINATIONS = [
+  { code: 'FR', name: 'France', flag: '🇫🇷' },
+  { code: 'IS', name: 'Islande', flag: '🇮🇸' },
+  { code: 'TH', name: 'Thaïlande', flag: '🇹🇭' },
+  { code: 'MA', name: 'Maroc', flag: '🇲🇦' },
+  { code: 'BR', name: 'Brésil', flag: '🇧🇷' },
+  { code: 'US', name: 'États-Unis', flag: '🇺🇸' },
+];
+
 export default function WizardPage() {
   const router = useRouter();
   const [destinationCountry, setDestinationCountry] = useState('FR');
+  const [destinationSearch, setDestinationSearch] = useState('');
+  const [isDestinationDropdownOpen, setIsDestinationDropdownOpen] = useState(false);
   const [dateStart, setDateStart] = useState('');
   const [dateEnd, setDateEnd] = useState('');
   const [travelers, setTravelers] = useState(1);
@@ -88,6 +100,24 @@ export default function WizardPage() {
         : [...prev, activity]
     );
   };
+
+  // Filtrage des destinations pour l'autocomplétion
+  const filteredDestinations = useMemo(() => {
+    if (!destinationSearch.trim()) {
+      return DESTINATIONS;
+    }
+    const search = destinationSearch.toLowerCase().trim();
+    return DESTINATIONS.filter(dest =>
+      dest.name.toLowerCase().includes(search) ||
+      dest.code.toLowerCase().includes(search)
+    );
+  }, [destinationSearch]);
+
+  // Obtenir le nom de la destination sélectionnée
+  const getSelectedDestinationName = useCallback(() => {
+    const dest = DESTINATIONS.find(d => d.code === destinationCountry);
+    return dest ? `${dest.flag} ${dest.name}` : 'Sélectionner une destination';
+  }, [destinationCountry]);
 
   function extractPriority(explain: string[]): number {
     try {
@@ -249,9 +279,14 @@ export default function WizardPage() {
 
       // Destination
       const destination = params.get('destination');
-      if (destination && ['FR', 'IS', 'TH', 'MA', 'BR', 'US'].includes(destination.toUpperCase())) {
-        setDestinationCountry(destination.toUpperCase());
-        setSelectedDestination(true);
+      if (destination) {
+        const destCode = destination.toUpperCase();
+        // Vérifier si la destination existe dans notre liste
+        const validDest = DESTINATIONS.find(d => d.code === destCode);
+        if (validDest) {
+          setDestinationCountry(destCode);
+          setSelectedDestination(true);
+        }
       }
 
       // Dates
@@ -614,27 +649,69 @@ export default function WizardPage() {
           <div className="hero-form">
             {/* Grille 3x2 compacte */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-              {/* Destination */}
-              <div>
+              {/* Destination avec recherche */}
+              <div className="relative">
                 <div className="hero-label">Où partez-vous ?</div>
-                <select
-                  className={`hero-select w-full ${selectedDestination ? 'border-white/13' : ''}`}
-                  style={selectedDestination ? {
-                    background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
-                  } : undefined}
-                  value={destinationCountry}
-                  onChange={(e) => {
-                    setDestinationCountry(e.target.value);
-                    setSelectedDestination(true);
-                  }}
-                >
-                  <option value="FR">France</option>
-                  <option value="IS">Islande</option>
-                  <option value="TH">Thaïlande</option>
-                  <option value="MA">Maroc</option>
-                  <option value="BR">Brésil</option>
-                  <option value="US">États-Unis</option>
-                </select>
+                <div className="relative">
+                  <input
+                    type="text"
+                    className={`hero-input w-full ${selectedDestination ? 'border-white/13' : ''}`}
+                    style={selectedDestination ? {
+                      background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
+                    } : undefined}
+                    placeholder="Rechercher une destination..."
+                    value={isDestinationDropdownOpen ? destinationSearch : getSelectedDestinationName()}
+                    onChange={(e) => {
+                      setDestinationSearch(e.target.value);
+                      setIsDestinationDropdownOpen(true);
+                    }}
+                    onFocus={() => {
+                      setDestinationSearch('');
+                      setIsDestinationDropdownOpen(true);
+                    }}
+                    onBlur={() => {
+                      setTimeout(() => setIsDestinationDropdownOpen(false), 200);
+                    }}
+                  />
+
+                  {/* Dropdown avec autocomplétion - Liquid Glass */}
+                  {isDestinationDropdownOpen && (
+                    <div className="absolute top-full left-0 right-0 mt-2 glass-card-dark rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 modern-scroll">
+                      {filteredDestinations.length > 0 ? (
+                        filteredDestinations.map((dest) => (
+                          <button
+                            key={dest.code}
+                            type="button"
+                            className="w-full px-4 py-3 text-left transition-all flex items-center gap-3 text-white hover:border-white/13 border border-transparent rounded-xl"
+                            style={{
+                              transition: 'all 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.background = 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.background = 'transparent';
+                            }}
+                            onClick={() => {
+                              setDestinationCountry(dest.code);
+                              setSelectedDestination(true);
+                              setIsDestinationDropdownOpen(false);
+                              setDestinationSearch('');
+                            }}
+                          >
+                            <span className="text-2xl">{dest.flag}</span>
+                            <span className="font-medium">{dest.name}</span>
+                            <span className="text-white/50 text-sm ml-auto">{dest.code}</span>
+                          </button>
+                        ))
+                      ) : (
+                        <div className="px-4 py-3 text-white/60 text-center">
+                          Aucune destination trouvée
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Dates */}
