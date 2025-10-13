@@ -23,6 +23,14 @@ type AiResult =
   | { status: 'success'; tags: TagItem[]; meta?: AiMeta }
   | { status: 'network-error' };
 
+interface GeocodeSuggestion {
+  displayName: string;
+  city: string;
+  countryCode: string;
+  countryName: string;
+  coordinates: { lat: number; lng: number };
+}
+
 // Liste des destinations d'origine avec recherche
 const DESTINATIONS = [
   { code: 'FR', name: 'France', flag: '🇫🇷' },
@@ -38,6 +46,10 @@ export default function WizardPage() {
   const [destinationCountry, setDestinationCountry] = useState('FR');
   const [destinationSearch, setDestinationSearch] = useState('');
   const [isDestinationDropdownOpen, setIsDestinationDropdownOpen] = useState(false);
+  const [destinationInput, setDestinationInput] = useState('');
+  const [suggestions, setSuggestions] = useState<GeocodeSuggestion[]>([]);
+  const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<GeocodeSuggestion | null>(null);
   const [dateStart, setDateStart] = useState('');
   const [dateEnd, setDateEnd] = useState('');
   const [travelers, setTravelers] = useState(1);
@@ -119,6 +131,36 @@ export default function WizardPage() {
     return dest ? `${dest.flag} ${dest.name}` : 'Sélectionner une destination';
   }, [destinationCountry]);
 
+  // Hook pour l'autocomplétion avec debounce
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (destinationInput.length >= 2 && !selectedLocation) {
+        console.log('Recherche pour:', destinationInput);
+        setIsLoadingSuggestions(true);
+        try {
+          const response = await fetch(`/api/geocode?q=${encodeURIComponent(destinationInput)}`);
+          console.log('Response status:', response.status);
+          if (response.ok) {
+            const data = await response.json();
+            console.log('Suggestions reçues:', data.length);
+            setSuggestions(data);
+          } else {
+            console.error('Response not ok:', response.status);
+            setSuggestions([]);
+          }
+        } catch (error) {
+          console.error('Erreur geocoding:', error);
+          setSuggestions([]);
+        }
+        setIsLoadingSuggestions(false);
+      } else {
+        setSuggestions([]);
+      }
+    }, 300); // Délai de 300ms
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [destinationInput, selectedLocation]);
+
   function extractPriority(explain: string[]): number {
     try {
       const token = (explain || []).find((s) => s.startsWith('priority='));
@@ -180,13 +222,16 @@ export default function WizardPage() {
     // Sauvegarder les données de voyage dans sessionStorage pour la page résultats
     const tripData = {
       destination: destinationCountry,
+      destinationCountry: destinationCountry,
+      destinationDisplay: selectedLocation?.displayName || getSelectedDestinationName(),
+      destinationCity: selectedLocation?.city || '',
       startDate: dateStart,
       endDate: dateEnd,
       travelers,
       adults: numAdults,
       children: numChildren,
       ages,
-      activities: [] // Pas encore implémenté
+      activities: activitiesData // Maintenant implémenté
     };
     
     try {
@@ -197,7 +242,7 @@ export default function WizardPage() {
     setTimeout(() => {
       router.push('/results');
     }, 1500);
-  }, [router, destinationCountry, dateStart, dateEnd, travelers, numAdults, numChildren, ages]);
+  }, [router, destinationCountry, selectedLocation, dateStart, dateEnd, travelers, numAdults, numChildren, ages, activitiesData, getSelectedDestinationName]);
 
   // Deriver travelers et agesInputs depuis compteurs Adultes/Enfants
   useEffect(() => {
@@ -215,6 +260,8 @@ export default function WizardPage() {
     try {
       const state = {
         destinationCountry,
+        selectedLocation,
+        destinationInput,
         travelers,
         agesText,
         dateStart,
@@ -225,7 +272,7 @@ export default function WizardPage() {
       };
       localStorage.setItem('wizardStateV1', JSON.stringify(state));
     } catch {}
-  }, [destinationCountry, travelers, agesText, dateStart, dateEnd, numAdults, numChildren, childDefaultAge]);
+  }, [destinationCountry, selectedLocation, destinationInput, travelers, agesText, dateStart, dateEnd, numAdults, numChildren, childDefaultAge]);
 
   // Load wizardState from localStorage on first mount
   useEffect(() => {
@@ -234,6 +281,8 @@ export default function WizardPage() {
       if (raw) {
         const state = JSON.parse(raw) as Partial<{
           destinationCountry: string;
+          selectedLocation: GeocodeSuggestion;
+          destinationInput: string;
           travelers: number;
           agesText: string;
           dateStart: string;
@@ -243,6 +292,11 @@ export default function WizardPage() {
           childDefaultAge: number;
         }>;
         if (state.destinationCountry) setDestinationCountry(state.destinationCountry);
+        if (state.selectedLocation && state.destinationInput) {
+          setSelectedLocation(state.selectedLocation);
+          setDestinationInput(state.destinationInput);
+          setSelectedDestination(true);
+        }
         if (typeof state.numAdults === 'number') setNumAdults(state.numAdults);
         if (typeof state.numChildren === 'number') setNumChildren(state.numChildren);
         if (typeof state.childDefaultAge === 'number') setChildDefaultAge(state.childDefaultAge);
@@ -285,7 +339,16 @@ export default function WizardPage() {
         const validDest = DESTINATIONS.find(d => d.code === destCode);
         if (validDest) {
           setDestinationCountry(destCode);
+          setDestinationInput(`${validDest.name}`);
           setSelectedDestination(true);
+          // Créer un objet selectedLocation minimal pour la compatibilité
+          setSelectedLocation({
+            displayName: validDest.name,
+            city: '',
+            countryCode: destCode,
+            countryName: validDest.name,
+            coordinates: { lat: 0, lng: 0 }
+          });
         }
       }
 
@@ -649,40 +712,49 @@ export default function WizardPage() {
           <div className="hero-form">
             {/* Grille 3x2 compacte */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
-              {/* Destination avec recherche */}
+              {/* Destination avec autocomplétion */}
               <div className="relative">
                 <div className="hero-label">Où partez-vous ?</div>
                 <div className="relative">
                   <input
                     type="text"
-                    className={`hero-input w-full ${selectedDestination ? 'border-white/13' : ''}`}
-                    style={selectedDestination ? {
+                    className={`hero-input w-full ${selectedLocation ? 'border-white/13' : ''}`}
+                    style={selectedLocation ? {
                       background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
                     } : undefined}
-                    placeholder="Rechercher une destination..."
-                    value={isDestinationDropdownOpen ? destinationSearch : getSelectedDestinationName()}
+                    placeholder="Rechercher une ville ou un pays..."
+                    value={destinationInput}
                     onChange={(e) => {
-                      setDestinationSearch(e.target.value);
+                      setDestinationInput(e.target.value);
+                      setSelectedLocation(null);
+                      setSelectedDestination(false); // Réinitialiser pour permettre une nouvelle sélection
                       setIsDestinationDropdownOpen(true);
                     }}
                     onFocus={() => {
-                      setDestinationSearch('');
                       setIsDestinationDropdownOpen(true);
+                      if (destinationInput && !selectedLocation) {
+                        setSuggestions([]); // Forcer le rechargement des suggestions
+                      }
                     }}
                     onBlur={() => {
                       setTimeout(() => setIsDestinationDropdownOpen(false), 200);
                     }}
                   />
 
-                  {/* Dropdown avec autocomplétion - Liquid Glass */}
-                  {isDestinationDropdownOpen && (
+                  {/* Dropdown avec suggestions */}
+                  {isDestinationDropdownOpen && (destinationInput.length >= 2 || suggestions.length > 0) && (
                     <div className="absolute top-full left-0 right-0 mt-2 glass-card-dark rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 modern-scroll">
-                      {filteredDestinations.length > 0 ? (
-                        filteredDestinations.map((dest) => (
+                      {isLoadingSuggestions ? (
+                        <div className="px-4 py-3 text-white/60 text-center">
+                          <div className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                          <span className="ml-2">Recherche en cours...</span>
+                        </div>
+                      ) : suggestions.length > 0 ? (
+                        suggestions.map((suggestion, index) => (
                           <button
-                            key={dest.code}
+                            key={index}
                             type="button"
-                            className="w-full px-4 py-3 text-left transition-all flex items-center gap-3 text-white hover:border-white/13 border border-transparent rounded-xl"
+                            className="w-full px-4 py-3 text-left transition-all text-white hover:border-white/13 border border-transparent rounded-xl"
                             style={{
                               transition: 'all 0.2s ease'
                             }}
@@ -693,22 +765,22 @@ export default function WizardPage() {
                               e.currentTarget.style.background = 'transparent';
                             }}
                             onClick={() => {
-                              setDestinationCountry(dest.code);
+                              setSelectedLocation(suggestion);
+                              setDestinationCountry(suggestion.countryCode);
+                              setDestinationInput(suggestion.displayName);
                               setSelectedDestination(true);
                               setIsDestinationDropdownOpen(false);
-                              setDestinationSearch('');
+                              setSuggestions([]);
                             }}
                           >
-                            <span className="text-2xl">{dest.flag}</span>
-                            <span className="font-medium">{dest.name}</span>
-                            <span className="text-white/50 text-sm ml-auto">{dest.code}</span>
+                            <span className="font-medium">{suggestion.displayName}</span>
                           </button>
                         ))
-                      ) : (
+                      ) : destinationInput.length >= 2 ? (
                         <div className="px-4 py-3 text-white/60 text-center">
                           Aucune destination trouvée
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   )}
                 </div>

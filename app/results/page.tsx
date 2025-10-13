@@ -56,7 +56,7 @@ export default function ResultsPage() {
         };
 
         setTripSummary({
-          destination: getDestinationName(tripData.destinationCountry || tripData.destination) || "Destination",
+          destination: tripData.destinationDisplay || tripData.destinationCity || getDestinationName(tripData.destinationCountry || tripData.destination) || "Destination",
           startDate: formatDate(tripData.dateStart || tripData.startDate),
           endDate: formatDate(tripData.dateEnd || tripData.endDate),
           travelers: tripData.travelers || 1,
