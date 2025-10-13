@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PROMPT_VERSION } from '@/lib/tags';
+import { PROMPT_VERSION } from '@/lib/constants';
 import Header from '@/components/Header';
 import NoSSRWrapper from '@/components/NoSSRWrapper';
 

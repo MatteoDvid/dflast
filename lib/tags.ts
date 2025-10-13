@@ -1,30 +1,78 @@
-export type TagId =
-  | 'GEAR_BACKPACK_DAYPACK'
-  | 'GEAR_UNIVERSAL_ADAPTER'
-  | 'GEAR_POWER_BANK'
-  | 'GEAR_TRAVEL_BOTTLES'
-  | 'GEAR_RAIN_PONCHO'
-  | 'CLOTHING_THERMAL_LAYER'
-  | 'ESSENTIALS_DOCUMENT_POUCH'
-  | 'RISK_FIRST_AID_KIT'
-  | 'RISK_ANTI_THEFT_LOCK'
-  | 'RISK_MOSQUITO_REPELLENT';
+// Version dynamique du système de tags - SERVEUR UNIQUEMENT
+// Ne pas importer ce fichier dans les composants client
+import { readProductsFromCacheOrSheet } from './sheets';
+import type { ProductRecord } from './schemas';
+import { PROMPT_VERSION, type CategoryId, getCategoryFromTag } from './constants';
 
-export type CategoryId = 'gear-category' | 'clothing' | 'essentials' | 'risk-safety';
+// Ré-exporter pour compatibilité
+export { PROMPT_VERSION, getCategoryFromTag };
+export type { CategoryId };
 
-export const TAG_CATEGORY: Record<TagId, CategoryId> = {
-  GEAR_BACKPACK_DAYPACK: 'gear-category',
-  GEAR_UNIVERSAL_ADAPTER: 'gear-category',
-  GEAR_POWER_BANK: 'gear-category',
-  GEAR_TRAVEL_BOTTLES: 'gear-category',
-  GEAR_RAIN_PONCHO: 'gear-category',
-  CLOTHING_THERMAL_LAYER: 'clothing',
-  ESSENTIALS_DOCUMENT_POUCH: 'essentials',
-  RISK_FIRST_AID_KIT: 'risk-safety',
-  RISK_ANTI_THEFT_LOCK: 'risk-safety',
-  RISK_MOSQUITO_REPELLENT: 'risk-safety',
-};
+/**
+ * Récupère tous les tags uniques depuis les produits
+ * Ces tags viennent dynamiquement du Google Sheet
+ */
+export async function getDynamicTags(): Promise<string[]> {
+  try {
+    const products = await readProductsFromCacheOrSheet();
+    const tagSet = new Set<string>();
+    
+    for (const product of products) {
+      if (Array.isArray((product as any).tags)) {
+        ((product as any).tags as string[]).forEach(tag => {
+          if (tag && typeof tag === 'string') {
+            tagSet.add(tag);
+          }
+        });
+      }
+    }
+    
+    return Array.from(tagSet).sort();
+  } catch (error) {
+    console.error('Erreur lors de la récupération des tags dynamiques:', error);
+    return [];
+  }
+}
 
-export const ALL_TAGS: TagId[] = Object.keys(TAG_CATEGORY) as TagId[];
 
-export const PROMPT_VERSION = 'v0';
+/**
+ * Récupère les statistiques d'utilisation des tags
+ * Utile pour comprendre quels tags sont les plus utilisés
+ */
+export async function getTagStats(): Promise<Record<string, number>> {
+  try {
+    const products = await readProductsFromCacheOrSheet();
+    const tagCounts: Record<string, number> = {};
+    
+    for (const product of products) {
+      if (Array.isArray((product as any).tags)) {
+        const uniqueTags = new Set((product as any).tags as string[]);
+        uniqueTags.forEach(tag => {
+          if (tag && typeof tag === 'string') {
+            tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+          }
+        });
+      }
+    }
+    
+    return tagCounts;
+  } catch (error) {
+    console.error('Erreur lors du calcul des statistiques de tags:', error);
+    return {};
+  }
+}
+
+// Conserver pour compatibilité descendante si nécessaire
+// Note: Cette constante est maintenant dépréciée et ne devrait plus être utilisée
+export const ALL_TAGS_DEPRECATED = [
+  'GEAR_BACKPACK_DAYPACK',
+  'GEAR_UNIVERSAL_ADAPTER',
+  'GEAR_POWER_BANK',
+  'GEAR_TRAVEL_BOTTLES',
+  'GEAR_RAIN_PONCHO',
+  'CLOTHING_THERMAL_LAYER',
+  'ESSENTIALS_DOCUMENT_POUCH',
+  'RISK_FIRST_AID_KIT',
+  'RISK_ANTI_THEFT_LOCK',
+  'RISK_MOSQUITO_REPELLENT'
+];

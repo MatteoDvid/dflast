@@ -4,7 +4,7 @@ import {
   type ExplainRequest,
   type ExplainResponse,
 } from './schemas';
-import { ALL_TAGS } from './tags';
+import { getDynamicTags } from './tags';
 
 type CacheEntry = { value: ExplainResponse; expiresAt: number };
 const inMemoryCache = new Map<string, CacheEntry>();
@@ -43,9 +43,10 @@ export async function getTagsForWizardSummary(
 
   if (aiEnabled && apiKey) {
     try {
+      const dynamicTags = await getDynamicTags();
       const allowlist = Array.isArray(options?.allowedTags) && options!.allowedTags!.length > 0
         ? (options!.allowedTags as string[])
-        : ALL_TAGS;
+        : dynamicTags;
       const nordic = new Set(['IS', 'NO', 'SE', 'FI']);
       const isNordicSummer = nordic.has(parsed.destinationCountry) && (parsed.season || '').toLowerCase() === 'summer';
       const isBrazilSummer = parsed.destinationCountry === 'BR' && (parsed.season || '').toLowerCase() === 'summer';
@@ -180,9 +181,10 @@ export async function getTagsForWizardSummary(
 
   // If still empty tags → fallback to allowlist-derived tags to ensure filtering works
   if (!response.tags || response.tags.length === 0) {
+    const dynamicTags = await getDynamicTags();
     const allowlist = Array.isArray(options?.allowedTags) && options!.allowedTags!.length > 0
       ? (options!.allowedTags as string[])
-      : ALL_TAGS;
+      : dynamicTags;
     const chosenSource = allowlist.slice(0, parsed.constraints.maxTags);
     // Préférer core-kit si disponible
     const withCore = new Set<string>(chosenSource);
@@ -196,9 +198,10 @@ export async function getTagsForWizardSummary(
 
   // Enforce presence of core-kit globally si autorisé
   try {
+    const dynamicTags = await getDynamicTags();
     const allowForCore = Array.isArray(options?.allowedTags) && options!.allowedTags!.length > 0
       ? (options!.allowedTags as string[])
-      : ALL_TAGS;
+      : dynamicTags;
     if (allowForCore.includes('core-kit')) {
       const already = Array.isArray(response.tags) && response.tags.some((t: any) => t.id === 'core-kit');
       if (!already) {
