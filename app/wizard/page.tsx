@@ -219,30 +219,59 @@ export default function WizardPage() {
   const onSubmit = useCallback(async () => {
     setResult({ status: 'loading' });
     
-    // Sauvegarder les données de voyage dans sessionStorage pour la page résultats
-    const tripData = {
-      destination: destinationCountry,
+    // Préparer toutes les données pour l'API
+    const apiData = {
       destinationCountry: destinationCountry,
-      destinationDisplay: selectedLocation?.displayName || getSelectedDestinationName(),
       destinationCity: selectedLocation?.city || '',
-      startDate: dateStart,
-      endDate: dateEnd,
+      destinationDisplayName: selectedLocation?.displayName || getSelectedDestinationName(),
+      marketplaceCountry: 'FR', // ou détecter automatiquement
+      dates: dateStart && dateEnd ? {
+        start: new Date(dateStart).toISOString(),
+        end: new Date(dateEnd).toISOString()
+      } : undefined,
       travelers,
+      ages,
       adults: numAdults,
       children: numChildren,
-      ages,
-      activities: activitiesData // Maintenant implémenté
+      animals: numAnimals,
+      activities: activitiesData.length > 0 ? activitiesData : undefined,
+      budget: selectedBudgetRange || undefined
     };
-    
-    try {
-      sessionStorage.setItem('tripData', JSON.stringify(tripData));
-    } catch {}
 
-    // Simuler un petit délai pour l'effet de chargement
-    setTimeout(() => {
-      router.push('/results');
-    }, 1500);
-  }, [router, destinationCountry, selectedLocation, dateStart, dateEnd, travelers, numAdults, numChildren, ages, activitiesData, getSelectedDestinationName]);
+    try {
+      // Appeler l'API de recommandation
+      const response = await fetch('/api/recommend', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(apiData)
+      });
+
+      if (response.ok) {
+        const products = await response.json();
+        
+        // Sauvegarder les données pour la page résultats
+        const tripData = {
+          ...apiData,
+          products,
+          destination: destinationCountry,
+          destinationDisplay: selectedLocation?.displayName || getSelectedDestinationName(),
+          startDate: dateStart,
+          endDate: dateEnd
+        };
+        
+        sessionStorage.setItem('tripData', JSON.stringify(tripData));
+        
+        // Rediriger vers la page résultats
+        router.push('/results');
+      } else {
+        console.error('Erreur API:', response.status);
+        setResult({ status: 'network-error' });
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      setResult({ status: 'network-error' });
+    }
+  }, [router, destinationCountry, selectedLocation, dateStart, dateEnd, travelers, numAdults, numChildren, numAnimals, ages, activitiesData, selectedBudgetRange, getSelectedDestinationName]);
 
   // Deriver travelers et agesInputs depuis compteurs Adultes/Enfants
   useEffect(() => {

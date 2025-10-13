@@ -30,72 +30,6 @@ export async function POST(request: Request) {
     const groupMinAge = Math.min(...wizard.ages);
     const groupMaxAge = Math.max(...wizard.ages);
 
-    function computeSeason(
-      countryIso2: string,
-      isoDate?: string,
-    ): 'winter' | 'spring' | 'summer' | 'autumn' {
-      const d = isoDate ? new Date(isoDate) : new Date();
-      const month = d.getUTCMonth() + 1;
-      const south = new Set(['AU', 'NZ', 'ZA', 'AR', 'CL', 'UY', 'PY', 'BO', 'PE', 'BR']);
-      const isSouth = south.has((countryIso2 || '').toUpperCase());
-      let season: 'winter' | 'spring' | 'summer' | 'autumn';
-      if ([12, 1, 2].includes(month)) season = 'winter';
-      else if ([3, 4, 5].includes(month)) season = 'spring';
-      else if ([6, 7, 8].includes(month)) season = 'summer';
-      else season = 'autumn';
-      if (isSouth) {
-        if (season === 'winter') season = 'summer';
-        else if (season === 'summer') season = 'winter';
-        else if (season === 'spring') season = 'autumn';
-        else season = 'spring';
-      }
-      return season;
-    }
-
-    const tripSeason = computeSeason(
-      wizard.destinationCountry,
-      (wizard as any).dates?.start as string | undefined,
-    );
-
-    function isClearlyWinterItem(p: ProductRecord): boolean {
-      const label = String((p as any).label || '').toLowerCase();
-      const productTags: string[] = Array.isArray((p as any).tags)
-        ? ((p as any).tags as string[])
-        : [];
-      const tagsLower = new Set(productTags.map((t) => String(t).toLowerCase()));
-      const winterKeywords = [
-        'doudoune',
-        'anorak',
-        'parka',
-        'down jacket',
-        'puffer',
-        'hiver',
-        'cold-weather',
-        'thermique',
-        'thermal',
-        'clothing_thermal_layer',
-        'polaire',
-        'fleece',
-        'bonnet',
-        'beanie',
-        'cache-cou',
-        'tour de cou',
-        'neck warmer',
-        'laine',
-        'wool',
-        'balaclava',
-        'gants',
-        'gloves',
-        'echarpe',
-        'scarf',
-      ];
-      for (const k of winterKeywords) {
-        if (label.includes(k)) return true;
-        if (tagsLower.has(k)) return true;
-      }
-      return false;
-    }
-
     // Déduire la liste blanche dynamique de tags (TagId) depuis le Sheet + fréquences
     const tagCounts: Record<string, number> = {};
     for (const p of validatedProducts) {
@@ -131,12 +65,18 @@ export async function POST(request: Request) {
         ));
         const explain = await getTagsForWizardSummary({
           destinationCountry: wizard.destinationCountry,
+          destinationCity: wizard.destinationCity,
+          destinationDisplayName: wizard.destinationDisplayName,
           marketplaceCountry: wizard.marketplaceCountry ?? wizard.destinationCountry,
           groupAge: { min: groupMinAge, max: groupMaxAge },
-          dates: { start: (wizard as any).dates?.start, end: (wizard as any).dates?.end },
-          season: tripSeason,
+          dates: wizard.dates,
+          adults: wizard.adults,
+          children: wizard.children,
+          animals: wizard.animals || 0,
+          activities: wizard.activities,
+          budget: wizard.budget,
           constraints: { maxTags: Math.max(1, Math.min(400, maxTags)), promptVersion: PROMPT_VERSION },
-        } as any, {
+        }, {
           allowedTags: destScopedAllow.length > 0 ? destScopedAllow : (allowedTagIds.length > 0 ? allowedTagIds : undefined),
         });
         excludedTagsFromAi = new Set<string>((explain as any).exclude?.map((e: any) => e.id) || []);
@@ -178,13 +118,6 @@ export async function POST(request: Request) {
     const filtered: ProductRecord[] = validatedProducts
       .filter((p) => p.status === 'active')
       .filter((p) => {
-        // Exclure les articles d'hiver si la saison estimée à destination est l'été
-        if (tripSeason === 'summer') {
-          return !isClearlyWinterItem(p);
-        }
-        return true;
-      })
-      .filter((p) => {
         // Si l'IA renvoie des tags à exclure, éliminer tout produit qui les possède
         if (excludedTagsFromAi.size === 0) return true;
         const productTags: string[] = Array.isArray((p as any).tags)
@@ -194,12 +127,6 @@ export async function POST(request: Request) {
           if (excludedTagsFromAi.has(String(t))) return false;
         }
         return true;
-      })
-      .filter((p) => {
-        // Si des pays sont spécifiés sur le produit, filtrer par destination
-        const cc = Array.isArray((p as any).countryCodes) ? ((p as any).countryCodes as string[]) : [];
-        if (cc.length === 0) return true; // pas de restriction
-        return cc.includes(wizard.destinationCountry.toUpperCase());
       })
       .filter((p) => groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax) // intersection non vide
       .filter((p) => {

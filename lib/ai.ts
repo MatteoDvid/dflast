@@ -47,55 +47,76 @@ export async function getTagsForWizardSummary(
       const allowlist = Array.isArray(options?.allowedTags) && options!.allowedTags!.length > 0
         ? (options!.allowedTags as string[])
         : dynamicTags;
-      const nordic = new Set(['IS', 'NO', 'SE', 'FI']);
-      const isNordicSummer = nordic.has(parsed.destinationCountry) && (parsed.season || '').toLowerCase() === 'summer';
-      const isBrazilSummer = parsed.destinationCountry === 'BR' && (parsed.season || '').toLowerCase() === 'summer';
-      const isBrazilWinter = parsed.destinationCountry === 'BR' && (parsed.season || '').toLowerCase() === 'winter';
-      const isMoroccoSummer = parsed.destinationCountry === 'MA' && (parsed.season || '').toLowerCase() === 'summer';
+
+      // Construction du contexte avec fallbacks
+      const contextParts: string[] = [];
+      
+      // Destination
+      const destinationName = parsed.destinationDisplayName || 
+                            parsed.destinationCity || 
+                            parsed.destinationCountry;
+      contextParts.push(`- Destination: ${destinationName}`);
+      
+      // Dates
+      if (parsed.dates?.start && parsed.dates?.end) {
+        const start = new Date(parsed.dates.start);
+        const end = new Date(parsed.dates.end);
+        const duration = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+        contextParts.push(`- Dates: du ${start.toLocaleDateString('fr-FR')} au ${end.toLocaleDateString('fr-FR')} (${duration} jours)`);
+      } else {
+        contextParts.push(`- Dates: Non spécifiées (prévoir pour toute saison)`);
+      }
+      
+      // Voyageurs
+      const travelersInfo: string[] = [];
+      if (parsed.adults && parsed.adults > 0) {
+        travelersInfo.push(`${parsed.adults} adulte${parsed.adults > 1 ? 's' : ''}`);
+      }
+      if (parsed.children && parsed.children > 0) {
+        const childAges = parsed.groupAge.max < 18 ? `${parsed.groupAge.min}-${parsed.groupAge.max} ans` : 'âges variés';
+        travelersInfo.push(`${parsed.children} enfant${parsed.children > 1 ? 's' : ''} (${childAges})`);
+      }
+      if (parsed.animals && parsed.animals > 0) {
+        travelersInfo.push(`${parsed.animals} animal${parsed.animals > 1 ? 'aux' : ''}`);
+      }
+      if (travelersInfo.length === 0) {
+        travelersInfo.push(`${parsed.groupAge.min}-${parsed.groupAge.max} ans`);
+      }
+      contextParts.push(`- Voyageurs: ${travelersInfo.join(', ')}`);
+      
+      // Activités
+      if (parsed.activities && parsed.activities.length > 0) {
+        contextParts.push(`- Activités prévues: ${parsed.activities.join(', ')}`);
+      } else {
+        contextParts.push(`- Activités: Voyage général sans activités spécifiques`);
+      }
+      
+      // Budget
+      if (parsed.budget) {
+        contextParts.push(`- Budget activités: ${parsed.budget}`);
+      }
+
       const system = [
-        'Tu es un assistant de tagging de voyage. Réponds en JSON strict uniquement.',
-        'Ne propose que des tags parmi la liste blanche suivante (TagID):',
+        'Tu es un expert en préparation de voyage. Analyse le contexte et recommande UNIQUEMENT les articles essentiels.',
+        '',
+        'CONTEXTE DU VOYAGE:',
+        ...contextParts,
+        '',
+        'INSTRUCTIONS:',
+        `1. Analyse le climat typique de cette destination ${parsed.dates ? 'à cette période précise' : 'en toute saison'}`,
+        '2. Prends en compte les activités spécifiques si mentionnées',
+        `3. Adapte aux besoins des voyageurs${parsed.animals ? ' (incluant les animaux)' : ''}`,
+        '4. Priorise les articles vraiment indispensables (score élevé) vs utiles (score moyen)',
+        '5. Exclue les articles inappropriés pour ce contexte',
+        '',
+        'TAGS DISPONIBLES:',
         allowlist.join(', '),
-        'Contraintes:',
-        `- max ${parsed.constraints.maxTags} tags pertinents (0..${parsed.constraints.maxTags})`,
-        '- Chaque tag: { id, score ∈ [0,1] }',
-        '- Propose aussi une liste "exclude" de tags à écarter si non pertinents (toujours issus de la allowlist).',
-        '- Si la allowlist contient "core-kit", inclure "core-kit" (score élevé).',
-        ...(isNordicSummer ? [
-          'Règle spéciale été nordique (IS/NO/SE/FI + season=summer):',
-          '- Exclure UNIQUEMENT: doudoune, parka, puffer, ski, base-layer thermique épais',
-          '- NE PAS exclure: polaire léger, bonnet fin, coupe-vent, pluie, waterproof',
-          '- Favoriser: core-kit, rain, waterproof, randonnée/trek, chaussures antidérapantes/cramponnables, sacs',
-        ] : []),
-        ...(isBrazilSummer ? [
-          'Règle spéciale Brésil été (BR + season=summer):',
-          '- Favoriser fortement: core-kit, randonnée/trek, chaussures, waterproof/pluie, anti-moustique',
-          '- Éviter les items hiver (thermal, doudoune, parka)',
-        ] : []),
-        ...(isBrazilWinter ? [
-          'Règle spéciale Brésil hiver (BR + season=winter):',
-          '- Favoriser: core-kit, randonnée/trek, chaussures, waterproof/pluie, adaptateur universel, power bank',
-          '- Éviter l’hiver lourd (doudoune/parka/puffer) ; privilégier couches légères si besoin',
-        ] : []),
-        ...(isMoroccoSummer ? [
-          'Règle spéciale Maroc été (MA + season=summer):',
-          '- Favoriser: core-kit, chaussures de rando/trek, sac à dos, bouteilles/gourde, waterproof/pluie, adaptateur universel, power bank',
-          '- Ne pas se limiter à solaire/baume uniquement',
-          '- Éviter les items hiver lourds (doudoune/parka)',
-        ] : []),
-        '- Pas de texte hors JSON.',
+        '',
+        `Retourne un JSON avec max ${parsed.constraints.maxTags} tags pertinents:`,
+        '{ "tags": [{"id": "tag", "score": 0.0-1.0}], "exclude": [{"id": "tag"}] }',
       ].join('\n');
 
-      const user = {
-        destinationCountry: parsed.destinationCountry,
-        marketplaceCountry: parsed.marketplaceCountry ?? parsed.destinationCountry,
-        groupAge: parsed.groupAge,
-        dates: parsed.dates,
-        season: parsed.season ?? 'any',
-        tripType: parsed.tripType ?? 'general',
-        maxTags: parsed.constraints.maxTags,
-        promptVersion: parsed.constraints.promptVersion,
-      };
+      const user = `Analyse ce voyage et retourne les tags appropriés en JSON.`;
 
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);

@@ -12,20 +12,27 @@ export const TagIdSchema = z.string().min(1).max(64);
 export const WizardStateSchema = z
   .object({
     destinationCountry: Iso2CountrySchema,
+    destinationCity: z.string().optional(),
+    destinationDisplayName: z.string().optional(),
     marketplaceCountry: Iso2CountrySchema.optional(),
     dates: z.object({
       start: z.string().datetime(),
       end: z.string().datetime(),
-    }),
+    }).optional(),
     travelers: z.number().int().min(1).max(20),
     ages: z.array(z.number().int().min(0).max(120)).min(1),
+    adults: z.number().int().min(0).max(20).optional(),
+    children: z.number().int().min(0).max(20).optional(),
+    animals: z.number().int().min(0).max(10).default(0),
+    activities: z.array(z.string()).optional(),
+    budget: z.string().optional(),
     tags: z.array(TagIdSchema).max(400).optional(),
   })
   .refine((v) => v.ages.length === v.travelers, {
     message: "Le nombre d'âges doit correspondre au nombre de voyageurs",
     path: ['ages'],
   })
-  .refine((v) => new Date(v.dates.start) <= new Date(v.dates.end), {
+  .refine((v) => !v.dates || new Date(v.dates.start) <= new Date(v.dates.end), {
     message: 'La date de début doit être antérieure ou égale à la date de fin',
     path: ['dates', 'end'],
   });
@@ -65,14 +72,19 @@ export type ProductResponse = z.infer<typeof ProductResponseSchema>;
 
 export const ExplainRequestSchema = z.object({
   destinationCountry: Iso2CountrySchema,
+  destinationCity: z.string().optional(),
+  destinationDisplayName: z.string().optional(),
   marketplaceCountry: Iso2CountrySchema.optional(),
   groupAge: z.object({
     min: z.number().int().min(0).max(120),
     max: z.number().int().min(0).max(120),
   }),
   dates: z.object({ start: z.string().datetime(), end: z.string().datetime() }).optional(),
-  season: z.string().optional(),
-  tripType: z.string().optional(),
+  adults: z.number().int().min(0).max(20).optional(),
+  children: z.number().int().min(0).max(20).optional(),
+  animals: z.number().int().min(0).max(10).optional(),
+  activities: z.array(z.string()).optional(),
+  budget: z.string().optional(),
   constraints: z.object({ maxTags: z.number().int().min(1).max(400), promptVersion: z.string() }),
 });
 
