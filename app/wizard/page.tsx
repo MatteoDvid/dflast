@@ -1082,10 +1082,10 @@ export default function WizardPage() {
       {/* État de chargement pendant redirection */}
       {result.status === 'loading' && (
         <div className="relative flex min-h-screen flex-col items-center justify-center px-6">
-          <div className="text-center">
+          <div className="flex flex-col items-center">
             <div className="w-16 h-16 border-4 border-white/30 border-t-white rounded-full animate-spin mb-6"></div>
-            <p className="text-white/90 text-lg">Génération de votre checklist personnalisée...</p>
-            <p className="text-white/70 text-sm mt-2">Analyse de vos critères en cours</p>
+            <p className="text-white/90 text-lg text-center">Génération de votre checklist personnalisée...</p>
+            <p className="text-white/70 text-sm mt-2 text-center">Analyse de vos critères en cours</p>
           </div>
         </div>
       )}
