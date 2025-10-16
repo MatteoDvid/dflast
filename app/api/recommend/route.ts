@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 import { readProductsFromCacheOrSheet } from '@/lib/sheets';
 import { getTagsForWizardSummary } from '@/lib/ai';
 import { PROMPT_VERSION } from '@/lib/tags';
+import { AILogger } from '@/lib/logger';
 import {
   WizardStateSchema,
   ProductRecordSchema,
@@ -14,8 +15,16 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    
+    // Démarrer le logging pour cette requête
+    AILogger.startRequest(body);
+    
+    AILogger.group('API Recommend');
+    AILogger.log('Request body:', body);
+    
     const parsed = WizardStateSchema.safeParse(body);
     if (!parsed.success) {
+      AILogger.error('Validation error:', parsed.error.format());
       return NextResponse.json(
         { message: 'Validation error', issues: parsed.error.format() },
         { status: 400 },
@@ -24,8 +33,21 @@ export async function POST(request: Request) {
 
     const wizard = parsed.data;
     const marketplace = (wizard.marketplaceCountry ?? wizard.destinationCountry).toUpperCase();
+    
+    AILogger.log('Wizard data:', {
+      destination: wizard.destinationCountry,
+      city: wizard.destinationCity,
+      displayName: wizard.destinationDisplayName,
+      travelers: wizard.travelers,
+      adults: wizard.adults,
+      children: wizard.children,
+      animals: wizard.animals,
+      activities: wizard.activities,
+      budget: wizard.budget
+    });
 
     const validatedProducts = await readProductsFromCacheOrSheet();
+    AILogger.info(`Produits chargés: ${validatedProducts.length}`);
 
     const groupMinAge = Math.min(...wizard.ages);
     const groupMaxAge = Math.max(...wizard.ages);
@@ -48,8 +70,16 @@ export async function POST(request: Request) {
     let aiSource: 'openai' | 'fallback' | 'disabled' | 'error' | 'manual' | 'none' = 'none';
     let aiReason: string | undefined;
     let excludedTagsFromAi = new Set<string>();
+    
+    AILogger.log('IA configuration:', {
+      aiActive,
+      manualTags: effectiveTags.length,
+      hasApiKey: !!process.env.OPENAI_API_KEY
+    });
+    
     if (effectiveTags.length > 0) {
       aiSource = 'manual';
+      AILogger.info('Tags manuels fournis:', effectiveTags);
     }
     if (aiActive && effectiveTags.length === 0) {
       try {
@@ -114,6 +144,10 @@ export async function POST(request: Request) {
         }
       }
     }
+
+    AILogger.log('Tags effectifs utilisés:', effectiveTags.length);
+    AILogger.log('Source des tags:', aiSource);
+    if (aiReason) AILogger.log('Raison:', aiReason);
 
     const filtered: ProductRecord[] = validatedProducts
       .filter((p) => p.status === 'active')
@@ -181,10 +215,17 @@ export async function POST(request: Request) {
     });
 
     const validatedResponse = ProductResponseSchema.array().parse(response);
+    
+    // Log pour mode summary
+    AILogger.setSelectedProducts(validatedResponse);
+    
+    AILogger.info(`✅ Réponse finale: ${validatedResponse.length} produits`);
+    AILogger.groupEnd();
 
     return NextResponse.json(validatedResponse, { status: 200 });
   } catch (err) {
-    console.error('[api/recommend] Internal error', err);
+    AILogger.error('[api/recommend] Internal error', err);
+    AILogger.groupEnd();
     const detail = err instanceof Error ? { name: err.name, message: err.message } : { err };
     return NextResponse.json({ message: 'Server error', detail }, { status: 500 });
   }

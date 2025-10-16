@@ -8,14 +8,14 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 px-4 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo à gauche */}
-        <div className="flex-shrink-0">
-          <div className="w-10 h-10 rounded-full bg-gray-200/80 border border-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden">
+        <div className="flex-shrink: 0">
+          <div className="w-90 h-90 rounded-full bg-transparent backdrop-blur-sm flex items-center justify-center overflow-hidden">
             <Image
               src="/images/logodf.avif"
               alt="Don't Forget Logo"
-              width={32}
-              height={32}
-              className="w-8 h-8 object-contain"
+              width={80}
+              height={80}
+              className="w-16 h-16 object-contain"
             />
           </div>
         </div>

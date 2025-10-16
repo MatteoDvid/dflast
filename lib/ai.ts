@@ -5,6 +5,7 @@ import {
   type ExplainResponse,
 } from './schemas';
 import { getDynamicTags } from './tags';
+import { AILogger } from './logger';
 
 type CacheEntry = { value: ExplainResponse; expiresAt: number };
 const inMemoryCache = new Map<string, CacheEntry>();
@@ -22,11 +23,27 @@ export async function getTagsForWizardSummary(
   input: ExplainRequest,
   options?: { allowedTags?: string[] },
 ): Promise<ExplainResponse> {
+  AILogger.group('getTagsForWizardSummary');
+  AILogger.log('Input:', {
+    destination: input.destinationCountry,
+    city: input.destinationCity,
+    displayName: input.destinationDisplayName,
+    dates: input.dates,
+    groupAge: input.groupAge,
+    adults: input.adults,
+    children: input.children,
+    animals: input.animals,
+    activities: input.activities,
+    budget: input.budget
+  });
+
   const parsed = ExplainRequestSchema.parse(input);
   const key = computeCacheKey(parsed);
   const now = Date.now();
   const cached = inMemoryCache.get(key);
   if (cached && cached.expiresAt > now) {
+    AILogger.info('✅ Réponse trouvée dans le cache');
+    AILogger.groupEnd();
     return cached.value;
   }
 
@@ -35,11 +52,26 @@ export async function getTagsForWizardSummary(
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
   const timeoutMs = Number(process.env.OPENAI_TIMEOUT_MS || '100000');
 
+  AILogger.log('Configuration:', {
+    aiEnabled,
+    hasApiKey: !!apiKey,
+    apiKeyStart: apiKey ? apiKey.substring(0, 7) + '...' : 'MISSING',
+    model,
+    timeoutMs
+  });
+
   // Minimal fallback V1: return empty tags when AI disabled or no key
   let response: ExplainResponse = {
     tags: [],
     meta: { promptVersion: parsed.constraints.promptVersion, source: 'disabled', reason: 'AI_DISABLED_OR_NO_KEY' },
   };
+
+  if (!aiEnabled) {
+    AILogger.warn('❌ IA désactivée via AI_ENABLED=false');
+  } else if (!apiKey) {
+    AILogger.error('❌ OPENAI_API_KEY manquante ! Ajoutez-la dans .env.local');
+    AILogger.error('Format attendu: OPENAI_API_KEY=sk-...');
+  }
 
   if (aiEnabled && apiKey) {
     try {
@@ -96,6 +128,10 @@ export async function getTagsForWizardSummary(
         contextParts.push(`- Budget activités: ${parsed.budget}`);
       }
 
+      AILogger.debug('Contexte du voyage:', contextParts);
+      AILogger.info(`Tags disponibles: ${allowlist.length}`);
+      AILogger.debug('Exemples de tags:', allowlist.slice(0, 10).join(', '));
+
       const system = [
         'Tu es un expert en préparation de voyage. Analyse le contexte et recommande UNIQUEMENT les articles essentiels.',
         '',
@@ -116,11 +152,17 @@ export async function getTagsForWizardSummary(
         '{ "tags": [{"id": "tag", "score": 0.0-1.0}], "exclude": [{"id": "tag"}] }',
       ].join('\n');
 
+      AILogger.debug('Prompt système (200 premiers chars):', system.substring(0, 200) + '...');
+      
+      // Log pour mode summary
+      AILogger.setAIPrompt(system, allowlist.length);
+
       const user = `Analyse ce voyage et retourne les tags appropriés en JSON.`;
 
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), timeoutMs);
       try {
+        AILogger.info('🚀 Appel OpenAI en cours...');
         const resp = await fetch('https://api.openai.com/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -146,18 +188,30 @@ export async function getTagsForWizardSummary(
           signal: controller.signal,
         });
         clearTimeout(timer);
-        if (!resp.ok) throw new Error(`openai_http_${resp.status}`);
+        AILogger.log('Réponse OpenAI - Status:', resp.status);
+        if (!resp.ok) {
+          const errorText = await resp.text();
+          AILogger.error('❌ Erreur OpenAI:', errorText);
+          throw new Error(`openai_http_${resp.status}`);
+        }
         const data = (await resp.json()) as any;
+        AILogger.info('✅ Réponse OpenAI reçue');
         const content = data?.choices?.[0]?.message?.content;
         if (typeof content !== 'string') throw new Error('openai_no_content');
+        AILogger.debug('Contenu brut:', content.substring(0, 200) + '...');
         let parsedJson: any;
         try {
           parsedJson = JSON.parse(content);
         } catch {
           parsedJson = content;
         }
+        AILogger.debug('Contenu parsé:', parsedJson);
         const validated = ExplainResponseSchema.parse(parsedJson);
         const rawCount = Array.isArray(validated.tags) ? validated.tags.length : 0;
+        AILogger.info(`Nombre de tags retournés par l'IA: ${rawCount}`);
+        if (validated.exclude && validated.exclude.length > 0) {
+          AILogger.debug('Tags exclus:', validated.exclude.map(e => e.id).join(', '));
+        }
         const allow = new Set(allowlist);
         const unique: Record<string, number> = {};
         for (const t of validated.tags || []) {
@@ -178,6 +232,12 @@ export async function getTagsForWizardSummary(
             : [],
           meta: { promptVersion: parsed.constraints.promptVersion, source: 'openai', ...(reason ? { reason } : {}) },
         } as any;
+        
+        AILogger.info(`✅ Tags finaux: ${compact.length}`);
+        AILogger.log('Tags sélectionnés:', compact.map(t => `${t.id} (${t.score})`).join(', '));
+        
+        // Log pour mode summary
+        AILogger.setAIResponse({ tags: compact, meta: response.meta });
       } catch (err: any) {
         clearTimeout(timer);
         let reason = 'OPENAI_REQUEST_FAILED';
@@ -187,9 +247,8 @@ export async function getTagsForWizardSummary(
         } else if (typeof msg === 'string' && /^openai_http_\d+/.test(msg)) {
           reason = msg.toUpperCase();
         }
-        try {
-          console.error('[ai] OpenAI error:', msg);
-        } catch {}
+        AILogger.error('❌ Erreur OpenAI:', msg);
+        AILogger.error('Raison:', reason);
         response = { tags: [], meta: { promptVersion: parsed.constraints.promptVersion, source: 'error', reason } };
       }
     } catch (outerErr: any) {
@@ -235,6 +294,13 @@ export async function getTagsForWizardSummary(
     }
   } catch {}
 
+  AILogger.log('Response finale:', {
+    source: response.meta?.source,
+    reason: response.meta?.reason,
+    tagsCount: response.tags?.length || 0
+  });
+  AILogger.groupEnd();
+  
   inMemoryCache.set(key, { value: response, expiresAt: now + getTtlMs() });
   return ExplainResponseSchema.parse(response);
 }
