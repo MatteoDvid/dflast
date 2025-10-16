@@ -262,7 +262,7 @@ export default function WizardPage() {
       console.error('Erreur:', error);
       setResult({ status: 'network-error' });
     }
-  }, [router, destinationCountry, selectedLocation, dateStart, dateEnd, travelers, numAdults, numChildren, numAnimals, ages, activitiesData, selectedBudgetRange, getSelectedDestinationName]);
+  }, [router, destinationCountry, selectedLocation, dateStart, dateEnd, travelers, numAdults, numChildren, numAnimals, ages, activitiesData, selectedBudgetRange, getSelectedDestinationName, manualActivities]);
 
   // Deriver travelers et agesInputs depuis compteurs Adultes/Enfants
   useEffect(() => {
@@ -917,7 +917,7 @@ export default function WizardPage() {
                 {showActivitySuggestions && (
                   <div className="absolute top-full left-0 right-0 mt-2 suggestions-dropdown rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-40 modern-scroll">
                     <div className="p-2 space-y-1">
-                      <div className="px-3 py-2 text-white/60 text-sm">Suggestions d'activités</div>
+                      <div className="px-3 py-2 text-white/60 text-sm">Suggestions d&apos;activités</div>
                       {filteredActivitySuggestions.map((activity, index) => (
                         <button
                           key={index}

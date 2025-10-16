@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import { generateChecklistPDF } from '@/lib/pdf-generator';
+import { config } from '@/lib/config';
 
 type ProductItem = {
   label: string;
@@ -21,6 +23,7 @@ type TripSummary = {
   travelers: number;
   adults: number;
   children: number;
+  animals?: number;
   activities?: string[];
 };
 
@@ -62,6 +65,7 @@ export default function ResultsPage() {
           travelers: tripData.travelers || 1,
           adults: tripData.numAdults || tripData.adults || 1,
           children: tripData.numChildren || tripData.children || 0,
+          animals: tripData.numAnimals || tripData.animals || 0,
           activities: (tripData.activities && tripData.activities.length > 0) ? tripData.activities : ["Voyage découverte"]
         });
       }
@@ -183,33 +187,36 @@ export default function ResultsPage() {
     });
   };
 
-  // Télécharger la checklist (copie dans le presse-papier)
+  // Télécharger la checklist en PDF
   const downloadChecklist = async () => {
-    const checklist = `✈️ CHECKLIST VOYAGE - ${tripSummary.destination} (${tripSummary.startDate} - ${tripSummary.endDate})
-
-📋 Produits recommandés :
-${products.map(product => {
-  const isPlanned = plannedProducts.has(product.asin);
-  return `${isPlanned ? '✅' : '❌'} ${product.label} - ${isPlanned ? 'J\'ai déjà prévu' : 'Je n\'ai pas prévu'}`;
-}).join('\n')}
-
-🔗 Liens Amazon disponibles sur Don't Forget`;
-
     try {
-      await navigator.clipboard.writeText(checklist);
+      // Préparer les données pour le PDF
+      const pdfData = {
+        destination: tripSummary.destination,
+        startDate: tripSummary.startDate,
+        endDate: tripSummary.endDate,
+        adults: tripSummary.adults,
+        children: tripSummary.children,
+        animals: tripSummary.animals,
+        activities: tripSummary.activities,
+        products: products.map(product => ({
+          label: product.label,
+          asin: product.asin,
+          isPlanned: plannedProducts.has(product.asin),
+          description: product.description,
+          price: product.price
+        })),
+        affiliateTag: config.amazonAffiliateTag
+      };
+      
+      // Générer et télécharger le PDF
+      await generateChecklistPDF(pdfData);
+      
       setShowCopyMessage(true);
       setTimeout(() => setShowCopyMessage(false), 2000);
     } catch (err) {
-      console.error('Erreur lors de la copie:', err);
-      // Fallback pour les navigateurs plus anciens
-      const textArea = document.createElement('textarea');
-      textArea.value = checklist;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setShowCopyMessage(true);
-      setTimeout(() => setShowCopyMessage(false), 2000);
+      console.error('Erreur lors de la génération du PDF:', err);
+      alert('Une erreur est survenue lors de la génération du PDF. Veuillez réessayer.');
     }
   };
 
@@ -252,7 +259,11 @@ ${products.map(product => {
 
                 <div>
                   <div className="text-sm text-gray-300">Voyageurs :</div>
-                  <div className="font-medium">{tripSummary.adults} adultes, {tripSummary.children} enfant</div>
+                  <div className="font-medium">
+                    {tripSummary.adults} adulte{tripSummary.adults > 1 ? 's' : ''}
+                    {tripSummary.children > 0 && `, ${tripSummary.children} enfant${tripSummary.children > 1 ? 's' : ''}`}
+                    {tripSummary.animals && tripSummary.animals > 0 && `, ${tripSummary.animals} animal${tripSummary.animals > 1 ? 'aux' : ''}`}
+                  </div>
                 </div>
 
                 <div>
@@ -404,11 +415,11 @@ ${products.map(product => {
         </div>
       </div>
 
-      {/* Message de confirmation copie */}
+      {/* Message de confirmation téléchargement */}
       {showCopyMessage && (
         <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2">
           <span>✅</span>
-          <span>Checklist copiée dans le presse-papier !</span>
+          <span>Checklist PDF téléchargée avec succès !</span>
         </div>
       )}
     </div>
