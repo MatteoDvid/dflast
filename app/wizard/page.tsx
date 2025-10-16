@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { PROMPT_VERSION } from '@/lib/constants';
+import { PREDEFINED_ACTIVITIES, getActivitySuggestions } from '@/lib/activities';
 import Header from '@/components/Header';
 import NoSSRWrapper from '@/components/NoSSRWrapper';
 
@@ -76,6 +77,10 @@ export default function WizardPage() {
   const [selectedBudget, setSelectedBudget] = useState(false);
   const [isBudgetPopupOpen, setIsBudgetPopupOpen] = useState(false);
   const [selectedBudgetRange, setSelectedBudgetRange] = useState('');
+  const [currentActivityInput, setCurrentActivityInput] = useState('');
+  const [manualActivities, setManualActivities] = useState<string[]>([]);
+  const [showActivitySuggestions, setShowActivitySuggestions] = useState(false);
+  const [filteredActivitySuggestions, setFilteredActivitySuggestions] = useState<string[]>([]);
 
   // Options de budget
   const budgetOptions = [
@@ -84,25 +89,11 @@ export default function WizardPage() {
     { value: '300+', label: '300€ et +' }
   ];
 
-  // Liste des activités prédéfinies
-  const predefinedActivities = [
-    'Surf',
-    'Parc d&apos;attractions',
-    'Saut en parachute',
-    'Randonnée',
-    'Plongée sous-marine',
-    'Ski',
-    'Tennis',
-    'Golf',
-    'Via ferrata',
-    'Kayak',
-    'Équitation',
-    'Cyclisme',
-    'Escalade',
-    'Spéléologie',
-    'Canoë',
-    'Voile'
-  ];
+  // Utiliser les activités prédéfinies depuis le fichier externe
+  // Note: Dans le popup, on utilise une version échappée pour l'affichage HTML
+  const predefinedActivitiesForPopup = PREDEFINED_ACTIVITIES.slice(0, 16).map(activity => 
+    activity.replace(/'/g, '&apos;')
+  );
 
   // Fonctions pour gérer les activités
   const toggleActivity = (activity: string) => {
@@ -234,7 +225,7 @@ export default function WizardPage() {
       adults: numAdults,
       children: numChildren,
       animals: numAnimals,
-      activities: activitiesData.length > 0 ? activitiesData : undefined,
+      activities: [...manualActivities, ...activitiesData].length > 0 ? [...manualActivities, ...activitiesData] : undefined,
       budget: selectedBudgetRange || undefined
     };
 
@@ -422,7 +413,7 @@ export default function WizardPage() {
         const activitiesList = activities.split(',').map(a => a.trim()).filter(Boolean);
         // Valider que les activités sont dans la liste prédéfinie
         const validActivities = activitiesList.filter(act =>
-          predefinedActivities.some(predef => predef.toLowerCase() === act.toLowerCase())
+          PREDEFINED_ACTIVITIES.some(predef => predef.toLowerCase() === act.toLowerCase())
         );
         if (validActivities.length > 0) {
           setActivitiesData(validActivities);
@@ -772,7 +763,7 @@ export default function WizardPage() {
 
                   {/* Dropdown avec suggestions */}
                   {isDestinationDropdownOpen && (destinationInput.length >= 2 || suggestions.length > 0) && (
-                    <div className="absolute top-full left-0 right-0 mt-2 glass-card-dark rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 modern-scroll">
+                    <div className="absolute top-full left-0 right-0 mt-2 suggestions-dropdown rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-50 modern-scroll">
                       {isLoadingSuggestions ? (
                         <div className="px-4 py-3 text-white/60 text-center">
                           <div className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -874,7 +865,7 @@ export default function WizardPage() {
               </div>
 
               {/* Activités */}
-              <div>
+              <div className="relative">
                 <div className="hero-label">Vos activités</div>
                 <input
                   type="text"
@@ -883,8 +874,136 @@ export default function WizardPage() {
                   style={selectedActivities ? {
                     background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
                   } : undefined}
-                  onFocus={() => setSelectedActivities(true)}
+                  value={currentActivityInput}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setCurrentActivityInput(value);
+                    
+                    if (value.trim()) {
+                      // Obtenir les suggestions en excluant les activités déjà ajoutées
+                      const allAddedActivities = [...manualActivities, ...activitiesData];
+                      const suggestions = getActivitySuggestions(value, allAddedActivities);
+                      setFilteredActivitySuggestions(suggestions);
+                      setShowActivitySuggestions(suggestions.length > 0);
+                    } else {
+                      setShowActivitySuggestions(false);
+                    }
+                  }}
+                  onFocus={() => {
+                    setSelectedActivities(true);
+                    if (currentActivityInput.trim() && filteredActivitySuggestions.length > 0) {
+                      setShowActivitySuggestions(true);
+                    }
+                  }}
+                  onBlur={() => {
+                    // Délai pour permettre le clic sur les suggestions
+                    setTimeout(() => setShowActivitySuggestions(false), 200);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && currentActivityInput.trim()) {
+                      e.preventDefault();
+                      const newActivity = currentActivityInput.trim();
+                      if (!manualActivities.includes(newActivity) && !activitiesData.includes(newActivity)) {
+                        setManualActivities([...manualActivities, newActivity]);
+                        setSelectedActivities(true);
+                      }
+                      setCurrentActivityInput('');
+                      setShowActivitySuggestions(false);
+                    }
+                  }}
                 />
+                
+                {/* Suggestions dropdown */}
+                {showActivitySuggestions && (
+                  <div className="absolute top-full left-0 right-0 mt-2 suggestions-dropdown rounded-2xl shadow-2xl max-h-64 overflow-y-auto z-40 modern-scroll">
+                    <div className="p-2 space-y-1">
+                      <div className="px-3 py-2 text-white/60 text-sm">Suggestions d'activités</div>
+                      {filteredActivitySuggestions.map((activity, index) => (
+                        <button
+                          key={index}
+                          type="button"
+                          className="w-full px-4 py-3 text-left transition-all text-white hover:border-white/13 border border-transparent rounded-xl flex items-center justify-between group"
+                          style={{
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.background = 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.background = 'transparent';
+                          }}
+                          onClick={() => {
+                            if (!manualActivities.includes(activity) && !activitiesData.includes(activity)) {
+                              setManualActivities([...manualActivities, activity]);
+                              setSelectedActivities(true);
+                            }
+                            setCurrentActivityInput('');
+                            setShowActivitySuggestions(false);
+                          }}
+                        >
+                          <span className="font-medium">{activity}</span>
+                          <div className="w-5 h-5 rounded-full bg-white/20 group-hover:bg-white/30 flex items-center justify-center">
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {/* Affichage des activités ajoutées */}
+                {(manualActivities.length > 0 || activitiesData.length > 0) && (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {/* Activités manuelles */}
+                    {manualActivities.map((activity, index) => (
+                      <div
+                        key={`manual-${index}`}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-white border border-white/20"
+                        style={{
+                          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05))'
+                        }}
+                      >
+                        <span>{activity}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setManualActivities(manualActivities.filter((_, i) => i !== index));
+                            if (manualActivities.length <= 1 && activitiesData.length === 0) {
+                              setSelectedActivities(false);
+                            }
+                          }}
+                          className="w-4 h-4 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all"
+                        >
+                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                    {/* Activités du popup */}
+                    {activitiesData.map((activity, index) => (
+                      <div
+                        key={`popup-${index}`}
+                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium text-white border border-white/20"
+                        style={{
+                          background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08))'
+                        }}
+                      >
+                        <span>{activity}</span>
+                        <button
+                          type="button"
+                          onClick={() => toggleActivity(activity)}
+                          className="w-4 h-4 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-all"
+                        >
+                          <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Plus d'activités */}
@@ -1160,13 +1279,14 @@ export default function WizardPage() {
 
             {/* Liste des activités */}
             <div className="space-y-3 mb-8">
-              {predefinedActivities.map((activity) => {
-                const isSelected = activitiesData.includes(activity);
+              {predefinedActivitiesForPopup.map((activity) => {
+                const activityRaw = activity.replace(/&apos;/g, "'");
+                const isSelected = activitiesData.includes(activityRaw);
                 return (
                   <button
                     key={activity}
                     type="button"
-                    onClick={() => toggleActivity(activity)}
+                    onClick={() => toggleActivity(activityRaw)}
                     className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all border ${
                       isSelected
                         ? 'border-white/13'
@@ -1176,7 +1296,7 @@ export default function WizardPage() {
                       background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
                     } : undefined}
                   >
-                    <span className="text-white font-medium">{activity}</span>
+                    <span className="text-white font-medium" dangerouslySetInnerHTML={{ __html: activity }} />
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
                       isSelected ? 'bg-white text-gray-900' : 'bg-white/20'
                     }`}>
