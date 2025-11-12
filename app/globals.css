@@ -218,7 +218,7 @@ body {
   .hero-form {
     max-width: 70%;
   }
-  
+
   .hero-fields {
     grid-template-columns: 1fr 1fr;
   }
@@ -228,8 +228,11 @@ body {
   .hero-form {
     max-width: 100%;
     margin-top: 80px;
+    margin-bottom: 100px;
+    position: relative;
+    z-index: 10;
   }
-  
+
   .hero-fields {
     grid-template-columns: 1fr;
   }
@@ -239,8 +242,9 @@ body {
   .hero-form {
     padding-left: 10px;
     padding-right: 10px;
+    margin-bottom: 120px;
   }
-  
+
   .date-row {
     grid-template-columns: 1fr;
     gap: 12px;

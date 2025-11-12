@@ -704,16 +704,19 @@ export default function WizardPage() {
       <Header />
 
       {/* Background fixe qui ne bouge jamais */}
-      <div 
+      <div
         className="fixed inset-0 w-full h-screen -z-10"
         style={{
           backgroundImage: "url('/images/hero.jpg')",
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center center',
           backgroundRepeat: 'no-repeat',
         }}
       />
       <div className="fixed inset-0 bg-black/0 -z-10" />
+
+      {/* Overlay gradient pour améliorer la lisibilité sur mobile */}
+      <div className="fixed inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30 -z-10 md:hidden" />
 
       {/* Layout initial - avant recherche */}
       {result.status === 'idle' && (
