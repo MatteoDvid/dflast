@@ -233,11 +233,11 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           {/* Sidebar - Récapitulatif du voyage */}
           <div className="lg:col-span-4">
-            <div className="rounded-2xl p-6 sticky top-8" style={{backgroundColor: '#1a1a1a'}}>
+            <div className="rounded-2xl p-4 sm:p-6 lg:sticky lg:top-8" style={{backgroundColor: '#1a1a1a'}}>
               <div className="mb-4">
                 <div className="text-sm text-gray-300 mb-1 flex items-center gap-2">
                   {tripSummary.destination} {tripSummary.startDate && new Date(tripSummary.startDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
@@ -272,10 +272,10 @@ export default function ResultsPage() {
                 </div>
               </div>
 
-              <div className="mt-8 flex gap-2">
+              <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2">
                 <a
                   href="/wizard"
-                  className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium transition-colors flex items-center justify-center whitespace-nowrap"
+                  className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium transition-colors flex items-center justify-center"
                   style={{
                     height: '39.41px',
                     borderRadius: '35.29px',
@@ -286,11 +286,12 @@ export default function ResultsPage() {
                     paddingRight: '20.52px'
                   }}
                 >
-                  Modifier le voyage
+                  <span className="hidden sm:inline">Modifier le voyage</span>
+                  <span className="sm:hidden">Modifier</span>
                 </a>
                 <button
                   onClick={downloadChecklist}
-                  className="flex-1 text-white text-xs font-medium transition-colors flex items-center justify-center hover:opacity-90 whitespace-nowrap"
+                  className="flex-1 text-white text-xs font-medium transition-colors flex items-center justify-center hover:opacity-90"
                   style={{
                     backgroundColor: '#1a1a1a',
                     height: '39.41px',
@@ -302,7 +303,8 @@ export default function ResultsPage() {
                     paddingRight: '20.52px'
                   }}
                 >
-                  Télécharger la checklist
+                  <span className="hidden sm:inline">Télécharger la checklist</span>
+                  <span className="sm:hidden">Télécharger PDF</span>
                 </button>
               </div>
             </div>
@@ -310,15 +312,15 @@ export default function ResultsPage() {
 
           {/* Résultats */}
           <div className="lg:col-span-8">
-            <div className="mb-6 text-center">
-              <h1 className="text-2xl font-bold text-gray-900 mb-2">Votre checklist personnalisée</h1>
-              <p className="text-gray-600">
+            <div className="mb-4 sm:mb-6 text-center">
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">Votre checklist personnalisée</h1>
+              <p className="text-sm sm:text-base text-gray-600 px-2 sm:px-0">
                 Recommandations personnalisées pour votre voyage à {tripSummary.destination}.
                 Ces produits ont été sélectionnés selon vos activités et votre destination.
               </p>
             </div>
 
-            <div className="mb-4 text-lg font-bold text-gray-900">
+            <div className="mb-3 sm:mb-4 text-base sm:text-lg font-bold text-gray-900 px-1">
               Produits conseillés :
             </div>
 
@@ -335,13 +337,13 @@ export default function ResultsPage() {
               </div>
             )}
 
-            <div className="space-y-4">
+            <div className="space-y-3 sm:space-y-4">
               {!apiLoading && products.map((product, index) => (
-                <div key={product.asin} className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
-                  <div className="flex gap-4">
+                <div key={product.asin} className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
+                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     {/* Image placeholder */}
-                    <div className="flex-shrink-0">
-                      <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
+                    <div className="flex-shrink-0 mx-auto sm:mx-0">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
                         <div className="text-gray-400 text-xs text-center">
                           <div>📦</div>
                           <div className="text-[10px] mt-1">Image à venir</div>
@@ -351,12 +353,12 @@ export default function ResultsPage() {
 
                     {/* Contenu */}
                     <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-semibold text-gray-900 text-lg leading-tight">
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-2 gap-2">
+                        <h3 className="font-semibold text-gray-900 text-base sm:text-lg leading-tight">
                           {product.label}
                         </h3>
                         {product.price && (
-                          <div className="text-right ml-4">
+                          <div className="text-left sm:text-right sm:ml-4">
                             <div className="font-bold text-gray-900">{product.price}</div>
                             {product.originalPrice && (
                               <div className="text-sm text-gray-500 line-through">{product.originalPrice}</div>
@@ -365,35 +367,36 @@ export default function ResultsPage() {
                         )}
                       </div>
 
-                      <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                      <p className="text-gray-600 text-sm mb-3 sm:mb-4 leading-relaxed">
                         {product.description}
                       </p>
 
-                      <div className="flex items-center gap-4">
-                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                        <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded self-start">
                           Recommandation IA
                         </div>
-                        
-                        <div className="flex gap-2 ml-auto">
-                          <a 
+
+                        <div className="flex flex-col sm:flex-row gap-2 sm:ml-auto w-full sm:w-auto">
+                          <a
                             href={`/api/affiliate/${product.asin}?marketplace=${product.marketplace}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90 flex items-center gap-1"
+                            className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90 flex items-center justify-center gap-1 w-full sm:w-auto"
                             style={{backgroundColor: '#1a1a1a'}}
                           >
-                            Voir plus sur amazon
+                            <span className="hidden sm:inline">Voir plus sur amazon</span>
+                            <span className="sm:hidden">Voir sur Amazon</span>
                             <span className="text-orange-400">a</span>
                           </a>
-                          
+
                           <button
                             onClick={() => toggleProductPlanned(product.asin)}
-                            className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
+                            className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90 w-full sm:w-auto"
                             style={{
                               backgroundColor: plannedProducts.has(product.asin) ? '#099142' : '#666666'
                             }}
                           >
-                            {plannedProducts.has(product.asin) ? 'J\'ai déjà prévu ✓' : 'Je n\'ai pas prévu'}
+                            {plannedProducts.has(product.asin) ? 'Déjà prévu ✓' : 'Pas prévu'}
                           </button>
                         </div>
                       </div>
@@ -402,8 +405,8 @@ export default function ResultsPage() {
 
                   {/* Badge IA pour les produits prioritaires */}
                   {product.description?.includes('mustHave=true') && (
-                    <div className="mt-4 p-3 rounded-lg" style={{backgroundColor: '#E8F5E8', border: '1px solid #099142'}}>
-                      <div className="font-medium text-sm" style={{color: '#099142'}}>
+                    <div className="mt-3 sm:mt-4 p-2 sm:p-3 rounded-lg" style={{backgroundColor: '#E8F5E8', border: '1px solid #099142'}}>
+                      <div className="font-medium text-xs sm:text-sm" style={{color: '#099142'}}>
                         ⭐ Produit essentiel identifié par l&apos;IA
                       </div>
                     </div>
