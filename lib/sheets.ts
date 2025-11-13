@@ -133,6 +133,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     tags: ['tags', 'mots cles', 'mots-cles', 'mots_cles', 'keywords'],
     tokens: ['_tokens', 'tokens', '_token', 'token'],
     countryCodes: ['countrycodes', 'pays', 'pays cibles', 'countries', 'country'],
+    imageUrl: ['imageurl', 'image url', 'image_url', 'image-url', 'imagelien', 'image lien', 'image_lien', 'image-lien', 'url image', 'lien image'],
   };
   function normalizeCountryNameToIso2(input: string | undefined): string | null {
     const v = String(input || '').trim().toLowerCase();
@@ -257,6 +258,9 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     const tokenSet = tokenColIdx >= 0 ? parsePythonSet(r[tokenColIdx]) : [];
     const tags = Array.from(new Set([...freeformTags, ...tokenSet])).slice(0, 20);
 
+    const imageUrlRaw = (r[idx('imageUrl')] || '').toString().trim();
+    const imageUrl = imageUrlRaw && imageUrlRaw.startsWith('http') ? imageUrlRaw : undefined;
+
     const candidate = {
       label: (r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim(),
       asin: (r[idx('asin')] || '').toString().trim(),
@@ -268,6 +272,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
       ageMax: toInt(r[idx('ageMax')] ?? r[idx('age max' as any)], 120),
       tags: tags as any,
       countryCodes: parseCountries(r[idx('countryCodes')]),
+      imageUrl,
     };
 
     const parsed = ProductRecordSchema.safeParse(candidate);

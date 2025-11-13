@@ -13,7 +13,10 @@
       "Bash(next dev:*)",
       "Bash(ipconfig:*)",
       "Bash(npx next:*)",
-      "Bash(npm install)"
+      "Bash(npm install)",
+      "Bash(curl:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill -9)"
     ],
     "deny": [],
     "ask": []

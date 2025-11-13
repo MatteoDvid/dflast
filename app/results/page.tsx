@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { generateChecklistPDF } from '@/lib/pdf-generator';
 import { config } from '@/lib/config';
 
@@ -11,6 +12,7 @@ type ProductItem = {
   price?: string;
   originalPrice?: string;
   image?: string;
+  imageUrl?: string;
   description?: string;
   availability?: string;
   inStock?: boolean;
@@ -129,6 +131,7 @@ export default function ResultsPage() {
           label: product.label || 'Produit sans nom',
           asin: product.asin || `unknown-${index}`,
           marketplace: product.marketplace || 'FR',
+          imageUrl: product.imageUrl,
           price: undefined, // Sera géré par l'affichage (pas de prix dans l'API recommend)
           originalPrice: undefined,
           description: `Recommandé pour votre voyage.`,
@@ -341,13 +344,25 @@ export default function ResultsPage() {
               {!apiLoading && products.map((product, index) => (
                 <div key={product.asin} className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-sm border border-gray-200">
                   <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-                    {/* Image placeholder */}
+                    {/* Image produit */}
                     <div className="flex-shrink-0 mx-auto sm:mx-0">
-                      <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg flex items-center justify-center border border-gray-200">
-                        <div className="text-gray-400 text-xs text-center">
-                          <div>📦</div>
-                          <div className="text-[10px] mt-1">Image à venir</div>
-                        </div>
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 relative">
+                        {product.imageUrl ? (
+                          <Image
+                            src={product.imageUrl}
+                            alt={product.label}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 640px) 80px, 96px"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center">
+                            <div className="text-gray-400 text-xs text-center">
+                              <div>📦</div>
+                              <div className="text-[10px] mt-1">Image à venir</div>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
 
