@@ -274,7 +274,7 @@ export default function ResultsPage() {
 
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2">
                 <a
-                  href="/wizard"
+                  href="/voyage"
                   className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium transition-colors flex items-center justify-center"
                   style={{
                     height: '39.41px',
