@@ -252,6 +252,17 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     return Number.isFinite(n) ? Math.trunc(n) : fallback;
   }
 
+  function convertGoogleDriveUrl(url: string): string {
+    // Convertir les URLs Google Drive en format direct
+    // Format partage: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+    // Format direct: https://drive.google.com/uc?export=view&id=FILE_ID
+    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if (driveMatch) {
+      return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+    }
+    return url;
+  }
+
   const mapRow = (r: string[], rowIndex: number): ProductRecord | null => {
     const freeformTags = parseCommaSeparated(r[idx('tags')]);
     const tokenColIdx = idx('tokens');
@@ -259,7 +270,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     const tags = Array.from(new Set([...freeformTags, ...tokenSet])).slice(0, 20);
 
     const imageUrlRaw = (r[idx('imageUrl')] || '').toString().trim();
-    const imageUrl = imageUrlRaw && imageUrlRaw.startsWith('http') ? imageUrlRaw : undefined;
+    const imageUrl = imageUrlRaw && imageUrlRaw.startsWith('http') ? convertGoogleDriveUrl(imageUrlRaw) : undefined;
 
     const candidate = {
       label: (r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim(),
