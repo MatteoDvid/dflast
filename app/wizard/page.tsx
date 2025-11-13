@@ -699,13 +699,13 @@ export default function WizardPage() {
 
   return (
     <NoSSRWrapper>
-    <main className="relative w-full text-white min-h-screen">
+    <main className="relative w-full text-white min-h-[100dvh]">
       {/* Header */}
       <Header />
 
       {/* Background fixe qui ne bouge jamais */}
       <div
-        className="fixed inset-0 w-full h-screen -z-10"
+        className="fixed inset-0 w-full h-[100dvh] bg-cover bg-center bg-no-repeat -z-10"
         style={{
           backgroundImage: "url('/images/hero.jpg')",
           backgroundSize: 'cover',
