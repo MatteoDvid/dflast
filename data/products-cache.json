@@ -1,7 +1,75 @@
 [
   {
-    "label": "Baume à lèvres hydratant",
-    "asin": "B006DUPURO",
+    "label": "Lunettes de soleil mixtes - Protection UV400, Polarisées",
+    "asin": "B0DPHJS7X4",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "lunettes",
+      "soleil",
+      "mixtes",
+      "protection",
+      "polarisées",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "uv400",
+      "protection-solaire"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sous vêtements Thermiques hommes",
+    "asin": "B0CG5RFS3Z",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sous",
+      "vêtements",
+      "thermiques",
+      "hommes",
+      "thermotech",
+      "sport",
+      "outdoor",
+      "thermique",
+      "isolation"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sous vêtements thermiques femme",
+    "asin": "B0CJ91TWD8",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sous",
+      "vêtements",
+      "thermiques",
+      "femme",
+      "thermotech",
+      "sport",
+      "outdoor",
+      "thermique",
+      "isolation"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Masque anti vents",
+    "asin": "B0DK8DTY7H",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -9,24 +77,119 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "baume",
-      "lèvres",
-      "hydratant",
+      "masque",
+      "anti",
+      "vents",
       "genericbrand",
       "sports",
       "loisirs",
-      "accessoires",
-      "soin",
-      "peau",
-      "a",
-      "levres"
+      "accessoires"
     ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalons thermiques homme",
+    "asin": "B0D3H82ZMT",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "pantalons",
+      "thermiques",
+      "homme",
+      "thermotech",
+      "vêtements",
+      "sport",
+      "outdoor",
+      "thermique",
+      "isolation"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalons thermiques femme",
+    "asin": "B0FL24GVRB",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "pantalons",
+      "thermiques",
+      "femme",
+      "thermotech",
+      "vêtements",
+      "sport",
+      "outdoor",
+      "thermique",
+      "isolation"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Polaire homme",
+    "asin": "B0FHLPNQ73",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "polaire",
+      "homme",
+      "warmgear",
+      "vêtements",
+      "sport",
+      "outdoor",
+      "chaud"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Polaire femme",
+    "asin": "B0FBTGSTRW",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "polaire",
+      "femme",
+      "warmgear",
+      "vêtements",
+      "sport",
+      "outdoor",
+      "chaud"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crampons pour chaussures - Antidérapantes, Respirantes",
+    "asin": "B0CLD22MTY",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "crampons",
+      "chaussures",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
+      "sport"
+    ],
+    "countryCodes": []
   },
   {
     "label": "Doudoune homme prix 1",
@@ -43,43 +206,13 @@
       "genericbrand",
       "vêtements",
       "sport",
-      "outdoor",
-      "prix",
-      "1"
+      "outdoor"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Gourdes isothermes",
-    "asin": "B01MY09LEL",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "gourdes",
-      "isothermes",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "isotherme",
-      "température"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes femme",
-    "asin": "B06VXVRR8R",
+    "label": "Doudoune homme prix 2",
+    "asin": "B0DXC8MY81",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -87,232 +220,14 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "chaussures",
-      "randonnée",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "femme",
-      "3",
-      "randonnee"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "serviette microfibre",
-    "asin": "B06XJ9MY96",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "serviette",
-      "microfibre",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "absorption"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "t-shirts (coton / technique respirant) homme",
-    "asin": "B079NLHSV8",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "shirts",
-      "coton",
-      "technique",
-      "respirant",
+      "doudoune",
       "homme",
       "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "t",
-      "thailande"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "coupe vent légers mixte",
-    "asin": "B07FNJP2GB",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "coupe",
-      "vent",
-      "légers",
-      "mixte",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "legers"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Chaussures de randonnée craponnables prix 1 - Antidérapantes, Respirantes",
-    "asin": "B07G5YFS1L",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussures",
-      "randonnée",
-      "craponnables",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
+      "vêtements",
       "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "randonnee",
-      "1",
-      "de"
+      "outdoor"
     ],
-    "countryCodes": [
-      "BR",
-      "IS",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Sac a dos randonnée - Résistant à l'eau, Léger (MARCHE PAS)",
-    "asin": "B07T9P5Q23",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "sac",
-      "dos",
-      "randonnée",
-      "résistant",
-      "eau",
-      "léger",
-      "genericbrand",
-      "bagages",
-      "sacs",
-      "trekking",
-      "outdoor",
-      "randonnee",
-      "a",
-      "resistant",
-      "leger",
-      "l"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "t-shirts (coton / technique respirant) femme",
-    "asin": "B07TXZ841G",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "shirts",
-      "coton",
-      "technique",
-      "respirant",
-      "femme",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "t"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Spray anti-moustique",
-    "asin": "B088RTJXHS",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "spray",
-      "anti",
-      "moustique",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "anti-moustique",
-      "répulsif",
-      "insectes"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
   },
   {
     "label": "Doudoune homme prix 3",
@@ -329,17 +244,13 @@
       "genericbrand",
       "vêtements",
       "sport",
-      "outdoor",
-      "3",
-      "prix"
+      "outdoor"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Crème solaire SPF 50+",
-    "asin": "B08BTD7RFV",
+    "label": "sac a dos Waterproof bas de gamme - Résistant à l'eau, Léger",
+    "asin": "B0C1JT8RQS",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -347,53 +258,24 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "crème",
-      "solaire",
-      "spf",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "protection-solaire",
-      "soleil",
-      "protection",
-      "creme",
-      "50"
+      "sac",
+      "dos",
+      "waterproof",
+      "résistant",
+      "eau",
+      "léger",
+      "outdoorpro",
+      "bagages",
+      "sacs",
+      "randonnée",
+      "étanche",
+      "imperméable"
     ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Tour de cou polaire",
-    "asin": "B08J7FJC54",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "tour",
-      "cou",
-      "polaire",
-      "warmgear",
-      "vêtements",
-      "sport",
-      "outdoor",
-      "chaud",
-      "de"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Gants imperméable - Tactiles, Résistants",
-    "asin": "B099K49RB1",
+    "label": "Sac a dos Waterproof moyenne gamme - Résistant à l'eau, Léger",
+    "asin": "B0CVKZ5BDR",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -401,44 +283,20 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "gants",
-      "imperméable",
-      "tactiles",
-      "résistants",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "impermeable",
-      "resistants"
+      "sac",
+      "dos",
+      "waterproof",
+      "résistant",
+      "eau",
+      "léger",
+      "outdoorpro",
+      "bagages",
+      "sacs",
+      "randonnée",
+      "étanche",
+      "imperméable"
     ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Bonnet en laine doublé",
-    "asin": "B09M9P8NMJ",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "bonnet",
-      "laine",
-      "doublé",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "en",
-      "double"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
     "label": "Sac a dos Waterproof haute gamme - Résistant à l'eau, Léger",
@@ -461,21 +319,163 @@
       "sacs",
       "randonnée",
       "étanche",
-      "imperméable",
-      "gamme",
-      "a",
-      "resistant",
-      "leger",
-      "haute",
-      "l"
+      "imperméable"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Adaptateur de prise universel",
-    "asin": "B0B2DRC76L",
+    "label": "Bonnet en laine doublé",
+    "asin": "B09M9P8NMJ",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "bonnet",
+      "laine",
+      "doublé",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Gants imperméable - Tactiles, Résistants",
+    "asin": "B099K49RB1",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "gants",
+      "imperméable",
+      "tactiles",
+      "résistants",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Tour de cou polaire",
+    "asin": "B08J7FJC54",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "tour",
+      "cou",
+      "polaire",
+      "warmgear",
+      "vêtements",
+      "sport",
+      "outdoor",
+      "chaud"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussettes en laine",
+    "asin": "B0DHKHC1T7",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussettes",
+      "laine",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussures de randonnée craponnables prix 1 - Antidérapantes, Respirantes",
+    "asin": "B07G5YFS1L",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussures",
+      "randonnée",
+      "craponnables",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
+      "sport",
+      "trekking",
+      "outdoor"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussures de randonnée craponnables prix 2 - Antidérapantes, Respirantes",
+    "asin": "B0CLJFPWB6",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussures",
+      "randonnée",
+      "craponnables",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
+      "sport",
+      "trekking",
+      "outdoor"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussures de randonnée craponnables prix 3 - Antidérapantes, Respirantes",
+    "asin": "B0DCTLL6FN",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussures",
+      "randonnée",
+      "craponnables",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
+      "sport",
+      "trekking",
+      "outdoor"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "adaptateur prise européenne",
+    "asin": "B0DCBTKN95",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -485,43 +485,13 @@
     "tags": [
       "adaptateur",
       "prise",
-      "universel",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "de"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Claquettes enfant",
-    "asin": "B0BDYN7ZQH",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "child",
-    "ageMin": 3,
-    "ageMax": 17,
-    "tags": [
-      "claquettes",
-      "enfant",
+      "européenne",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
   },
   {
     "label": "lampe frontale - LED, Rechargeable USB",
@@ -545,169 +515,11 @@
       "éclairage",
       "camping"
     ],
-    "countryCodes": [
-      "BR",
-      "IS",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Mini ventilateur portatif",
-    "asin": "B0BRV61DPY",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "mini",
-      "ventilateur",
-      "portatif",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Thermomètre digital",
-    "asin": "B0BTHB8GWJ",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "thermomètre",
-      "digital",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "thermometre"
-    ],
-    "countryCodes": [
-      "MA"
-    ]
-  },
-  {
-    "label": "sac a dos Waterproof bas de gamme - Résistant à l'eau, Léger",
-    "asin": "B0C1JT8RQS",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "sac",
-      "dos",
-      "waterproof",
-      "résistant",
-      "eau",
-      "léger",
-      "outdoorpro",
-      "bagages",
-      "sacs",
-      "randonnée",
-      "étanche",
-      "imperméable",
-      "bas",
-      "gamme",
-      "a",
-      "resistant",
-      "leger",
-      "l",
-      "de"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "brumisateur",
-    "asin": "B0C7QV2M6D",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "brumisateur",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
-    ],
-    "countryCodes": [
-      "MA",
-      "TH"
-    ]
-  },
-  {
-    "label": "Chaussure rando enfant unisex",
-    "asin": "B0CB4CM4BV",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "child",
-    "ageMin": 3,
-    "ageMax": 16,
-    "tags": [
-      "chaussure",
-      "rando",
-      "enfant",
-      "mixte",
-      "genericbrand",
-      "chaussures",
-      "sacs",
-      "sport"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Claquettes mixte",
-    "asin": "B0CB9DJJVW",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "claquettes",
-      "mixte",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Sous vêtements Thermiques hommes",
-    "asin": "B0CG5RFS3Z",
+    "label": "THAILANDE t-shirts (coton / technique respirant) homme",
+    "asin": "B079NLHSV8",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -715,396 +527,80 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "sous",
-      "vêtements",
-      "thermiques",
-      "hommes",
-      "thermotech",
-      "sport",
-      "outdoor",
-      "thermique",
-      "isolation",
-      "vetements"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Sous vêtements thermiques femme",
-    "asin": "B0CJ91TWD8",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "sous",
-      "vêtements",
-      "thermiques",
-      "femme",
-      "thermotech",
-      "sport",
-      "outdoor",
-      "thermique",
-      "isolation",
-      "vetements"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes homme",
-    "asin": "B0CKJDBZYR",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussures",
-      "randonnée",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "3",
-      "randonnee",
-      "homme"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Crampons pour chaussures - Antidérapantes, Respirantes",
-    "asin": "B0CLD22MTY",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "crampons",
-      "chaussures",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "antiderapantes",
-      "pour"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Chaussures de randonnée craponnables prix 2 - Antidérapantes, Respirantes",
-    "asin": "B0CLJFPWB6",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussures",
-      "randonnée",
-      "craponnables",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "randonnee",
-      "2",
-      "de"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Lunettes de soleil UV400 mixte",
-    "asin": "B0CQYRTFGS",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "lunettes",
-      "soleil",
-      "mixte",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "uv400",
-      "protection-solaire",
-      "de"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Sac a dos Waterproof moyenne gamme - Résistant à l'eau, Léger",
-    "asin": "B0CVKZ5BDR",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "sac",
-      "dos",
-      "waterproof",
-      "résistant",
-      "eau",
-      "léger",
-      "outdoorpro",
-      "bagages",
-      "sacs",
-      "randonnée",
-      "étanche",
-      "imperméable",
-      "gamme",
-      "moyenne",
-      "a",
-      "resistant",
-      "leger",
-      "l"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Pantalons thermiques homme",
-    "asin": "B0D3H82ZMT",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "pantalons",
-      "thermiques",
-      "homme",
-      "thermotech",
-      "vêtements",
-      "sport",
-      "outdoor",
-      "thermique",
-      "isolation"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "adaptateur prise européenne",
-    "asin": "B0DCBTKN95",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "adaptateur",
-      "prise",
-      "européenne",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "europeenne"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Chaussures de randonnée craponnables prix 3 - Antidérapantes, Respirantes",
-    "asin": "B0DCTLL6FN",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussures",
-      "randonnée",
-      "craponnables",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "3",
-      "randonnee",
-      "de"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Chaussettes en laine",
-    "asin": "B0DHKHC1T7",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussettes",
-      "laine",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "en"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Masque anti vents",
-    "asin": "B0DK8DTY7H",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "masque",
-      "anti",
-      "vents",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes femme",
-    "asin": "B0DNTPFND6",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "chaussures",
-      "randonnée",
-      "antidérapantes",
-      "respirantes",
-      "genericbrand",
-      "sacs",
-      "sport",
-      "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "femme",
-      "randonnee",
-      "2"
-    ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
-  },
-  {
-    "label": "Lunettes de soleil mixtes - Protection UV400, Polarisées",
-    "asin": "B0DPHJS7X4",
-    "status": "active",
-    "mustHave": false,
-    "priority": 2,
-    "audience": "all",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "lunettes",
-      "soleil",
-      "mixtes",
-      "protection",
-      "polarisées",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
-      "uv400",
-      "protection-solaire",
-      "de",
-      "polarisees"
-    ],
-    "countryCodes": [
-      "IS"
-    ]
-  },
-  {
-    "label": "Doudoune homme prix 2",
-    "asin": "B0DXC8MY81",
-    "status": "active",
-    "mustHave": false,
-    "priority": 3,
-    "audience": "adult",
-    "ageMin": 0,
-    "ageMax": 120,
-    "tags": [
-      "doudoune",
+      "shirts",
+      "coton",
+      "technique",
+      "respirant",
       "homme",
       "genericbrand",
-      "vêtements",
-      "sport",
-      "outdoor",
-      "2",
-      "prix"
+      "sports",
+      "loisirs",
+      "accessoires"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
+  },
+  {
+    "label": "t-shirts (coton / technique respirant) femme",
+    "asin": "B07TXZ841G",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "shirts",
+      "coton",
+      "technique",
+      "respirant",
+      "femme",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "coupe vent légers mixte",
+    "asin": "B07FNJP2GB",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "coupe",
+      "vent",
+      "légers",
+      "mixte",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "serviette microfibre",
+    "asin": "B06XJ9MY96",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "serviette",
+      "microfibre",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "absorption"
+    ],
+    "countryCodes": []
   },
   {
     "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes homme",
@@ -1124,23 +620,13 @@
       "sacs",
       "sport",
       "trekking",
-      "outdoor",
-      "prix",
-      "antiderapantes",
-      "randonnee",
-      "2",
-      "homme"
+      "outdoor"
     ],
-    "countryCodes": [
-      "BR",
-      "MA",
-      "US",
-      "TH"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Polaire femme",
-    "asin": "B0FBTGSTRW",
+    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes homme",
+    "asin": "B0CKJDBZYR",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -1148,21 +634,21 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "polaire",
-      "femme",
-      "warmgear",
-      "vêtements",
+      "chaussures",
+      "randonnée",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
       "sport",
-      "outdoor",
-      "chaud"
+      "trekking",
+      "outdoor"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Polaire homme",
-    "asin": "B0FHLPNQ73",
+    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes femme",
+    "asin": "B0DNTPFND6",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -1170,21 +656,21 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "polaire",
-      "homme",
-      "warmgear",
-      "vêtements",
+      "chaussures",
+      "randonnée",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
       "sport",
-      "outdoor",
-      "chaud"
+      "trekking",
+      "outdoor"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
   },
   {
-    "label": "Pantalons thermiques femme",
-    "asin": "B0FL24GVRB",
+    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes femme",
+    "asin": "B06VXVRR8R",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -1192,19 +678,312 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "pantalons",
-      "thermiques",
-      "femme",
-      "thermotech",
-      "vêtements",
+      "chaussures",
+      "randonnée",
+      "antidérapantes",
+      "respirantes",
+      "genericbrand",
+      "sacs",
       "sport",
-      "outdoor",
-      "thermique",
-      "isolation"
+      "trekking",
+      "outdoor"
     ],
-    "countryCodes": [
-      "IS"
-    ]
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussure rando enfant mixte",
+    "asin": "B0CB4CM4BV",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussure",
+      "rando",
+      "enfant",
+      "mixte",
+      "genericbrand",
+      "chaussures",
+      "sacs",
+      "sport"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Claquettes mixte",
+    "asin": "B0CB9DJJVW",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "claquettes",
+      "mixte",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Claquettes enfant",
+    "asin": "B0BDYN7ZQH",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "child",
+    "ageMin": 3,
+    "ageMax": 17,
+    "tags": [
+      "claquettes",
+      "enfant",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Lunettes de soleil UV400 mixte",
+    "asin": "B0CQYRTFGS",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "lunettes",
+      "soleil",
+      "mixte",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "uv400",
+      "protection-solaire"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crème solaire SPF 50+",
+    "asin": "B08BTD7RFV",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "crème",
+      "solaire",
+      "spf",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "protection-solaire",
+      "soleil",
+      "protection"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Baume à lèvres hydratant",
+    "asin": "B006DUPURO",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "baume",
+      "lèvres",
+      "hydratant",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "soin",
+      "peau"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Spray anti-moustique",
+    "asin": "B088RTJXHS",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "spray",
+      "anti",
+      "moustique",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "anti-moustique",
+      "répulsif",
+      "insectes"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Adaptateur de prise universel",
+    "asin": "B0B2DRC76L",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "adaptateur",
+      "prise",
+      "universel",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Lampe frontale - LED, Rechargeable USB",
+    "asin": "B01DNDMSLY",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "lampe",
+      "frontale",
+      "led",
+      "rechargeable",
+      "usb",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "éclairage",
+      "camping"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Gourdes isothermes",
+    "asin": "B01MY09LEL",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "gourdes",
+      "isothermes",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires",
+      "isotherme",
+      "température"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac a dos randonnée - Résistant à l'eau, Léger",
+    "asin": "B07T9P5Q23",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sac",
+      "dos",
+      "randonnée",
+      "résistant",
+      "eau",
+      "léger",
+      "genericbrand",
+      "bagages",
+      "sacs",
+      "trekking",
+      "outdoor"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Mini ventilateur portatif",
+    "asin": "B0BRV61DPY",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "mini",
+      "ventilateur",
+      "portatif",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "brumisateur",
+    "asin": "B0C7QV2M6D",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "brumisateur",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Thermomètre digital",
+    "asin": "B0BTHB8GWJ",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "thermomètre",
+      "digital",
+      "genericbrand",
+      "sports",
+      "loisirs",
+      "accessoires"
+    ],
+    "countryCodes": []
   },
   {
     "label": "Batterie externe",
@@ -1223,8 +1002,6 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": [
-      "MA"
-    ]
+    "countryCodes": []
   }
 ]

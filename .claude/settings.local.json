@@ -8,7 +8,15 @@
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git add:*)",
-      "Bash(git check-ignore:*)"
+      "Bash(git check-ignore:*)",
+      "Bash(git reset:*)",
+      "Bash(next dev:*)",
+      "Bash(ipconfig:*)",
+      "Bash(npx next:*)",
+      "Bash(npm install)",
+      "Bash(curl:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill -9)"
     ],
     "deny": [],
     "ask": []

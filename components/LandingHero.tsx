@@ -21,7 +21,7 @@ export default function LandingHero() {
       };
       localStorage.setItem("wizardStateV1", JSON.stringify(state));
     } catch {}
-    router.push("/wizard");
+    router.push("/voyage");
   }
 
   return (

@@ -210,6 +210,7 @@ export async function POST(request: Request) {
         label: p.label,
         asin: p.asin,
         marketplace,
+        imageUrl: p.imageUrl,
         explain: [...explain, `ai=${aiSource}`, ...(aiReason ? [`aiReason=${aiReason}`] : [])],
       };
     });

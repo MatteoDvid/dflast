@@ -7,11 +7,11 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
-    { href: '#fonctionnement', label: 'Fonctionnement' },
-    { href: '#avantages', label: 'Avantages' },
-    { href: '#donnees', label: 'Vos données' },
-    { href: '#faq', label: 'FAQ' },
-    { href: '#avis', label: 'Avis' },
+    { href: 'https://www.dont-forget.co/#fonctionnement', label: 'Fonctionnement' },
+    { href: 'https://www.dont-forget.co/#avantages', label: 'Avantages' },
+    { href: 'https://www.dont-forget.co/#donnees', label: 'Vos données' },
+    { href: 'https://www.dont-forget.co/#faq', label: 'FAQ' },
+    { href: 'https://www.dont-forget.co/#avis', label: 'Avis' },
   ];
 
   const handleLinkClick = () => {
@@ -40,31 +40,31 @@ export default function Header() {
             <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-3xl px-3 sm:px-6 md:px-12 py-3 md:py-4 shadow-lg">
               <div className="flex items-center justify-center space-x-3 sm:space-x-4 md:space-x-6 lg:space-x-10">
                 <a
-                  href="#fonctionnement"
+                  href="https://www.dont-forget.co/#fonctionnement"
                   className="text-white font-medium hover:text-white/80 transition-colors text-xs sm:text-sm whitespace-nowrap"
                 >
                   Fonctionnement
                 </a>
                 <a
-                  href="#avantages"
+                  href="https://www.dont-forget.co/#avantages"
                   className="text-white font-medium hover:text-white/80 transition-colors text-xs sm:text-sm whitespace-nowrap"
                 >
                   Avantages
                 </a>
                 <a
-                  href="#donnees"
+                  href="https://www.dont-forget.co/#donnees"
                   className="text-white font-medium hover:text-white/80 transition-colors text-xs sm:text-sm whitespace-nowrap hidden md:block"
                 >
                   Vos données
                 </a>
                 <a
-                  href="#faq"
+                  href="https://www.dont-forget.co/#faq"
                   className="text-white font-medium hover:text-white/80 transition-colors text-xs sm:text-sm"
                 >
                   FAQ
                 </a>
                 <a
-                  href="#avis"
+                  href="https://www.dont-forget.co/#avis"
                   className="text-white font-medium hover:text-white/80 transition-colors text-xs sm:text-sm hidden lg:block"
                 >
                   Avis

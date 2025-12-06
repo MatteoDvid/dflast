@@ -9,7 +9,8 @@
     "countryCodes": [],
     "ageMin": 8,
     "ageMax": 65,
-    "tags": ["GEAR_BACKPACK_DAYPACK", "randonnee", "voyage"]
+    "tags": ["GEAR_BACKPACK_DAYPACK", "randonnee", "voyage"],
+    "imageUrl": "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=400&h=400&fit=crop"
   },
   {
     "label": "Adaptateur universel",
@@ -21,7 +22,8 @@
     "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["GEAR_UNIVERSAL_ADAPTER", "electrique", "universel"]
+    "tags": ["GEAR_UNIVERSAL_ADAPTER", "electrique", "universel"],
+    "imageUrl": "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=400&h=400&fit=crop"
   },
   {
     "label": "Veste imperméable",
@@ -45,7 +47,8 @@
     "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["CARE_SUN_PROTECTION", "soleil", "protection"]
+    "tags": ["CARE_SUN_PROTECTION", "soleil", "protection"],
+    "imageUrl": "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop"
   },
   {
     "label": "Trousse de premiers secours",
@@ -69,6 +72,7 @@
     "countryCodes": [],
     "ageMin": 3,
     "ageMax": 120,
-    "tags": ["GEAR_WATER_BOTTLE", "hydratation", "voyage"]
+    "tags": ["GEAR_WATER_BOTTLE", "hydratation", "voyage"],
+    "imageUrl": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
   }
 ]

@@ -10,6 +10,9 @@ type SheetsConfig = {
   serviceKey: string;
 };
 
+// Cache en mémoire pour éviter de recharger le fichier à chaque requête
+let memoryCache: { products: ProductRecord[]; timestamp: number } | null = null;
+
 function getConfig(): SheetsConfig | null {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
   const range = process.env.GOOGLE_SHEETS_PRODUCTS_RANGE || 'DF!A:Z';
@@ -31,15 +34,24 @@ function getCacheTtlMs(): number {
 export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
   const disabled = String(process.env.SHEETS_DISABLED ?? 'true').toLowerCase() === 'true';
   const cachePath = getCachePath();
+  const ttl = getCacheTtlMs();
 
-  // 1) Try cache
+  // 0) Try memory cache first (ultra rapide)
+  if (memoryCache && (Date.now() - memoryCache.timestamp) < ttl) {
+    return memoryCache.products;
+  }
+
+  // 1) Try file cache
   try {
     const stat = await fs.stat(cachePath);
     const age = Date.now() - stat.mtimeMs;
-    if (age < getCacheTtlMs()) {
+    if (age < ttl) {
       const raw = await fs.readFile(cachePath, 'utf-8');
       const json = JSON.parse(raw);
-      return ProductRecordSchema.array().parse(json);
+      const products = ProductRecordSchema.array().parse(json);
+      // Mettre en mémoire cache
+      memoryCache = { products, timestamp: Date.now() };
+      return products;
     }
   } catch {}
 
@@ -47,7 +59,10 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
   if (disabled) {
     const raw = await fs.readFile(path.join(process.cwd(), 'data', 'products.mock.json'), 'utf-8');
     const json = JSON.parse(raw);
-    return ProductRecordSchema.array().parse(json);
+    const products = ProductRecordSchema.array().parse(json);
+    // Mettre en mémoire cache
+    memoryCache = { products, timestamp: Date.now() };
+    return products;
   }
 
   // 3) Read from Google Sheets
@@ -62,7 +77,10 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
   if (!cfg && !keyFile) {
     const raw = await fs.readFile(path.join(process.cwd(), 'data', 'products.mock.json'), 'utf-8');
     const json = JSON.parse(raw);
-    return ProductRecordSchema.array().parse(json);
+    const products = ProductRecordSchema.array().parse(json);
+    // Mettre en mémoire cache
+    memoryCache = { products, timestamp: Date.now() };
+    return products;
   }
 
   let auth: any;
@@ -115,6 +133,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     tags: ['tags', 'mots cles', 'mots-cles', 'mots_cles', 'keywords'],
     tokens: ['_tokens', 'tokens', '_token', 'token'],
     countryCodes: ['countrycodes', 'pays', 'pays cibles', 'countries', 'country'],
+    imageUrl: ['imageurl', 'image url', 'image_url', 'image-url', 'imagelien', 'image lien', 'image_lien', 'image-lien', 'url image', 'lien image'],
   };
   function normalizeCountryNameToIso2(input: string | undefined): string | null {
     const v = String(input || '').trim().toLowerCase();
@@ -233,11 +252,25 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     return Number.isFinite(n) ? Math.trunc(n) : fallback;
   }
 
+  function convertGoogleDriveUrl(url: string): string {
+    // Convertir les URLs Google Drive en format direct
+    // Format partage: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+    // Format direct: https://drive.google.com/uc?export=view&id=FILE_ID
+    const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^/]+)/);
+    if (driveMatch) {
+      return `https://drive.google.com/uc?export=view&id=${driveMatch[1]}`;
+    }
+    return url;
+  }
+
   const mapRow = (r: string[], rowIndex: number): ProductRecord | null => {
     const freeformTags = parseCommaSeparated(r[idx('tags')]);
     const tokenColIdx = idx('tokens');
     const tokenSet = tokenColIdx >= 0 ? parsePythonSet(r[tokenColIdx]) : [];
     const tags = Array.from(new Set([...freeformTags, ...tokenSet])).slice(0, 20);
+
+    const imageUrlRaw = (r[idx('imageUrl')] || '').toString().trim();
+    const imageUrl = imageUrlRaw && imageUrlRaw.startsWith('http') ? convertGoogleDriveUrl(imageUrlRaw) : undefined;
 
     const candidate = {
       label: (r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim(),
@@ -250,6 +283,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
       ageMax: toInt(r[idx('ageMax')] ?? r[idx('age max' as any)], 120),
       tags: tags as any,
       countryCodes: parseCountries(r[idx('countryCodes')]),
+      imageUrl,
     };
 
     const parsed = ProductRecordSchema.safeParse(candidate);
@@ -287,6 +321,9 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     await fs.mkdir(path.join(process.cwd(), 'data'), { recursive: true });
     await fs.writeFile(cachePath, JSON.stringify(deduped, null, 2), 'utf-8');
   } catch {}
+
+  // Mettre en mémoire cache
+  memoryCache = { products: deduped, timestamp: Date.now() };
 
   return deduped;
 }
