@@ -45,7 +45,7 @@ export async function POST(req: Request) {
             style: 'vivid', // Make it pop
         });
 
-        const imageUrl = response.data[0]?.url;
+        const imageUrl = response?.data?.[0]?.url;
 
         if (!imageUrl) {
             throw new Error('No image URL returned from OpenAI');
