@@ -608,12 +608,12 @@ export default function WizardPage() {
                   onClick={() => onSelect(cell.key)}
                   disabled={cell.key < todayKey}
                   className={`h-10 w-10 rounded-xl text-sm font-medium transition-all ${cell.key < todayKey
-                      ? 'text-white/30 cursor-not-allowed'
-                      : isInRange(cell.key)
-                        ? 'text-white border border-white/13'
-                        : selStart === cell.key || selEnd === cell.key
-                          ? 'bg-white text-gray-900 shadow-lg scale-105'
-                          : 'text-white hover:bg-white/10 hover:scale-105'
+                    ? 'text-white/30 cursor-not-allowed'
+                    : isInRange(cell.key)
+                      ? 'text-white border border-white/13'
+                      : selStart === cell.key || selEnd === cell.key
+                        ? 'bg-white text-gray-900 shadow-lg scale-105'
+                        : 'text-white hover:bg-white/10 hover:scale-105'
                     }`}
                   style={isInRange(cell.key) ? {
                     background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
@@ -698,14 +698,13 @@ export default function WizardPage() {
 
   return (
     <NoSSRWrapper>
-<<<<<<< HEAD:app/wizard/page.tsx
-      <main className="relative w-full text-white min-h-screen bg-[#1a1a1a]">
+      <main className="relative w-full text-white min-h-[100dvh]">
         {/* Header */}
         <Header />
 
         {/* Background fixe qui ne bouge jamais */}
         <div
-          className="fixed inset-0 w-full h-full -z-10"
+          className="fixed inset-0 w-full h-[100dvh] bg-cover bg-center bg-no-repeat -z-10"
           style={{
             backgroundImage: "url('/images/hero.jpg')",
             backgroundSize: 'cover',
@@ -713,23 +712,7 @@ export default function WizardPage() {
             backgroundRepeat: 'no-repeat',
           }}
         />
-=======
-    <main className="relative w-full text-white min-h-[100dvh]">
-      {/* Header */}
-      <Header />
-
-      {/* Background fixe qui ne bouge jamais */}
-      <div
-        className="fixed inset-0 w-full h-[100dvh] bg-cover bg-center bg-no-repeat -z-10"
-        style={{
-          backgroundImage: "url('/images/hero.jpg')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      <div className="fixed inset-0 bg-black/0 -z-10" />
->>>>>>> bb5ed216849df611aa85c315d9496c9afb699ce8:app/voyage/page.tsx
+        <div className="fixed inset-0 bg-black/0 -z-10" />
 
         {/* Overlay gradient pour améliorer la lisibilité sur mobile */}
         <div className="fixed inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30 -z-10 md:hidden" />
@@ -1035,8 +1018,8 @@ export default function WizardPage() {
                         setIsActivitiesPopupOpen(true);
                       }}
                       className={`col-span-2 hero-input h-12 text-xs font-medium transition-all text-center border ${wantsMoreIdeas
-                          ? 'border-white/13'
-                          : 'bg-black/25 hover:bg-black/35 border-white/20'
+                        ? 'border-white/13'
+                        : 'bg-black/25 hover:bg-black/35 border-white/20'
                         }`}
                       style={wantsMoreIdeas ? {
                         background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
@@ -1047,8 +1030,8 @@ export default function WizardPage() {
                     <button
                       onClick={() => setWantsMoreIdeas(false)}
                       className={`hero-input h-12 text-xs font-medium transition-all text-center border ${!wantsMoreIdeas
-                          ? 'border-white/13'
-                          : 'bg-black/25 hover:bg-black/35 border-white/20'
+                        ? 'border-white/13'
+                        : 'bg-black/25 hover:bg-black/35 border-white/20'
                         }`}
                       style={!wantsMoreIdeas ? {
                         background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
@@ -1252,8 +1235,8 @@ export default function WizardPage() {
                       type="button"
                       onClick={() => setSelectedBudgetRange(budget.label)}
                       className={`w-full p-4 rounded-2xl transition-all border ${isSelected
-                          ? 'border-white/13'
-                          : 'bg-white/5 hover:bg-white/10 border-white/10'
+                        ? 'border-white/13'
+                        : 'bg-white/5 hover:bg-white/10 border-white/10'
                         }`}
                       style={isSelected ? {
                         background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
@@ -1304,8 +1287,8 @@ export default function WizardPage() {
                       type="button"
                       onClick={() => toggleActivity(activityRaw)}
                       className={`w-full flex items-center justify-between p-4 rounded-2xl transition-all border ${isSelected
-                          ? 'border-white/13'
-                          : 'bg-white/5 hover:bg-white/10 border-white/10'
+                        ? 'border-white/13'
+                        : 'bg-white/5 hover:bg-white/10 border-white/10'
                         }`}
                       style={isSelected ? {
                         background: 'linear-gradient(0deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.13)), linear-gradient(0deg, rgba(51, 235, 145, 0.31), rgba(51, 235, 145, 0.31))'
