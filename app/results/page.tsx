@@ -281,36 +281,38 @@ export default function ResultsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
 
         {/* MERGED: AI Hero Section (From HEAD) inserted into Upstream Layout */}
-        <div className="mb-4 sm:mb-8 rounded-3xl overflow-hidden relative min-h-[250px] sm:min-h-[300px] flex items-end">
-          {destinationImage ? (
-            <div
-              className="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-700"
-              style={{ backgroundImage: `url('${destinationImage}')` }}
-            />
-          ) : (
-            <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 ${imageLoading ? 'animate-pulse' : ''}`} />
-          )}
-
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-
-          <div className="relative z-10 p-4 sm:p-8 w-full">
-            <div className="glass-card-dark inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-2xl backdrop-blur-md border border-white/10 mb-2 sm:mb-4">
-              <span className="text-orange-400 font-medium tracking-wider text-xs sm:text-sm uppercase">Votre Voyage</span>
-            </div>
-            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-2 font-airbnb drop-shadow-lg">
-              {tripSummary.destination}
-            </h1>
-            <p className="text-lg sm:text-xl text-gray-200 font-medium drop-shadow-md">
-              Préparez-vous pour l&apos;aventure
-            </p>
-            {imageLoading && (
-              <div className="mt-4 flex items-center gap-2 text-white/80 text-xs sm:text-sm">
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                Génération de votre image exclusive par l&apos;IA...
-              </div>
+        {process.env.NEXT_PUBLIC_ENABLE_AI_IMAGES === 'true' && (
+          <div className="mb-4 sm:mb-8 rounded-3xl overflow-hidden relative min-h-[250px] sm:min-h-[300px] flex items-end">
+            {destinationImage ? (
+              <div
+                className="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-700"
+                style={{ backgroundImage: `url('${destinationImage}')` }}
+              />
+            ) : (
+              <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 ${imageLoading ? 'animate-pulse' : ''}`} />
             )}
+
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+            <div className="relative z-10 p-4 sm:p-8 w-full">
+              <div className="glass-card-dark inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-2xl backdrop-blur-md border border-white/10 mb-2 sm:mb-4">
+                <span className="text-orange-400 font-medium tracking-wider text-xs sm:text-sm uppercase">Votre Voyage</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-2 font-airbnb drop-shadow-lg">
+                {tripSummary.destination}
+              </h1>
+              <p className="text-lg sm:text-xl text-gray-200 font-medium drop-shadow-md">
+                Préparez-vous pour l&apos;aventure
+              </p>
+              {imageLoading && (
+                <div className="mt-4 flex items-center gap-2 text-white/80 text-xs sm:text-sm">
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  Génération de votre image exclusive par l&apos;IA...
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
         {/* END MERGED HERO */}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
