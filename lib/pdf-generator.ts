@@ -1,4 +1,5 @@
 import jsPDF from 'jspdf';
+import { config } from './config';
 
 interface PDFProduct {
   label: string;
@@ -237,7 +238,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       const linkWidth = doc.getTextWidth(linkText);
       
       // Ajouter le lien cliquable avec le tag d'affiliation
-      const affiliateTag = tripData.affiliateTag || 'dontforget00-21';
+      const affiliateTag = tripData.affiliateTag || config.amazonAffiliateTag;
       doc.textWithLink(linkText, productNameX, currentY, {
         url: `https://www.amazon.fr/dp/${product.asin}?tag=${affiliateTag}`
       });

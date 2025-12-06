@@ -227,8 +227,8 @@ body {
 @media (max-width: 767px) {
   .hero-form {
     max-width: 100%;
-    margin-top: 80px;
-    margin-bottom: 100px;
+    margin-top: 60px;
+    margin-bottom: 40px;
     position: relative;
     z-index: 10;
   }
@@ -242,7 +242,8 @@ body {
   .hero-form {
     padding-left: 10px;
     padding-right: 10px;
-    margin-bottom: 120px;
+    margin-top: 50px;
+    margin-bottom: 40px;
   }
 
   .date-row {

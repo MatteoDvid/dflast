@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { config } from '@/lib/config';
 
 export const runtime = 'nodejs';
 
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest, { params }: { params: { asin: string
   const marketplace = (req.nextUrl.searchParams.get('marketplace') ?? 'FR').toUpperCase();
   const subtag = req.nextUrl.searchParams.get('sub') ?? undefined;
 
-  const tag = process.env.AMAZON_AFFILIATE_TAG ?? 'TAG';
+  const tag = config.amazonAffiliateTag;
   const tld = tldForMarketplace(marketplace);
 
   const url = new URL(`https://www.amazon.${tld}/dp/${asin}`);
