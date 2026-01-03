@@ -163,13 +163,24 @@ export async function POST(request: Request) {
             return false;
           }
 
+          // Si l'IA renvoie des tags à exclure, éliminer tout produit qui les possède
+          // SAUF si le produit possède un tag EXPLICITEMENT demandé (L'inclusion l'emporte sur l'exclusion)
           if (excludedTagsFromAi.size > 0) {
             const productTags: string[] = Array.isArray((p as any).tags) ? ((p as any).tags as string[]) : [];
-            for (const t of productTags) {
-              if (excludedTagsFromAi.has(String(t))) {
-                if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : TAG EXCLU [${t}] (${p.label})`);
-                return false;
+
+            // Vérifier d'abord si le produit est sauvé par un tag requis
+            const reqTags = effectiveTags;
+            const isSavedByInclusion = reqTags.length > 0 && productTags.some(t => reqTags.includes(t as any));
+
+            if (!isSavedByInclusion) {
+              for (const t of productTags) {
+                if (excludedTagsFromAi.has(String(t))) {
+                  if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : TAG EXCLU [${t}] (${p.label})`);
+                  return false;
+                }
               }
+            } else if (isSavedByInclusion && isDoudoune) {
+              console.log(`✅ [DEBUG-API] Doudoune SAUVÉE malgré exclusion car tag requis présent (${p.label})`);
             }
           }
 
