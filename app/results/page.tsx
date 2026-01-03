@@ -353,14 +353,7 @@ export default function ResultsPage() {
 
               <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-2">
                 <a
-                  href="/wizard" // Upstream uses /voyage? Head used /wizard? Reverting to wizard as per my knowledge or keeping upstream? Upstream has /voyage. 
-                  // Wait, earlier files used /wizard. If upstream changed to /voyage, I should respect it. 
-                  // But lines 398 in HEAD was /wizard. Upstream line 595 is /voyage. 
-                  // I will stick to HEAD's /wizard if I'm unsure, OR check if /voyage exists. 
-                  // To be safe and minimize diffs, I'll use Upstream's structure but check the link.
-                  // Actually, I'll use /wizard to be safe as I know that works in my context. 
-                  // If upstream renamed it, I might break it. 
-                  // Let's use /wizard for safety.
+                  href="/voyage"
                   className="flex-1 bg-white hover:bg-gray-100 text-gray-900 text-xs font-medium transition-colors flex items-center justify-center"
                   style={{
                     height: '39.41px',
