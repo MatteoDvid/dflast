@@ -115,11 +115,12 @@ export default function ResultsPage() {
     fetchImage();
   }, [tripSummary.destination, destinationImage]); // Added dependency to fix valid-deps
 
-  // Charger les recommandations (depuis sessionStorage OU API si absent)
+  // Charger les recommandations depuis l'API
   useEffect(() => {
     const loadRecommendations = async () => {
       if (isLoading) return; // Attendre que les données du voyage soient chargées
 
+      setApiLoading(true);
       try {
         const tripDataRaw = sessionStorage.getItem('tripData');
         if (!tripDataRaw) {
@@ -128,32 +129,6 @@ export default function ResultsPage() {
         }
 
         const tripData = JSON.parse(tripDataRaw);
-
-        // OPTIMISATION: Si les produits sont déjà présents dans le sessionStorage (depuis le Wizard), on les utilise directement !
-        if (tripData.products && Array.isArray(tripData.products) && tripData.products.length > 0) {
-          console.log('✅ Utilisation des produits en cache sessionStorage (Pas d\'appel API requis)');
-
-          // Transformer les données API vers notre format
-          const transformedProducts: ProductItem[] = tripData.products.map((product: any, index: number) => ({
-            label: product.label || 'Produit sans nom',
-            asin: product.asin || `unknown-${index}`,
-            marketplace: product.marketplace || 'FR',
-            imageUrl: product.imageUrl,
-            price: undefined,
-            originalPrice: undefined,
-            description: `Recommandé pour votre voyage.`,
-            availability: "Voir sur Amazon",
-            inStock: true
-          }));
-
-          setProducts(transformedProducts.slice(0, 10));
-          setApiLoading(false);
-          return;
-        }
-
-        // Sinon, fallback sur l'appel API (lenta latence, risque de divergence)
-        console.log('⚠️ Pas de produits en cache, appel API requis...');
-        setApiLoading(true);
 
         // Formatter les âges en array de nombres
         const ages = Array.isArray(tripData.ages)
@@ -173,7 +148,7 @@ export default function ResultsPage() {
           ages: ages
         };
 
-        console.log('Envoi de la requête de secours:', recommendPayload);
+        console.log('Envoi de la requête:', recommendPayload);
 
         // Appel à l'API de recommandation
         const response = await fetch('/api/recommend', {
