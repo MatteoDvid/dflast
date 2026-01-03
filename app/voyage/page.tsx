@@ -230,6 +230,7 @@ export default function WizardPage() {
     };
 
     try {
+      console.log('📦 [DEBUG-API] Request Payload (Client):', apiData);
       // Appeler l'API de recommandation
       const response = await fetch('/api/recommend', {
         method: 'POST',
@@ -240,6 +241,13 @@ export default function WizardPage() {
       if (response.ok) {
         const products = await response.json();
 
+        // [DEBUG-API] Logs pour vérification
+        console.log('✅ [DEBUG-API] Compte rendu (Client):', products);
+        console.log('📊 [DEBUG-API] Nombre de produits:', products.length);
+        if (products.length > 0) {
+          console.log('🔍 [DEBUG-API] Premier produit:', products[0]);
+          console.log('ℹ️ [DEBUG-API] Metadata IA:', products[0].explain);
+        }
 
         // Sauvegarder les données pour la page résultats
         const tripData = {

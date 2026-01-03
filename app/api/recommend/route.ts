@@ -15,6 +15,7 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+    console.log('📦 [DEBUG-API] Request Payload (Server):', JSON.stringify(body, null, 2));
 
     // Démarrer le logging pour cette requête
     AILogger.startRequest(body);
@@ -242,6 +243,9 @@ export async function POST(request: Request) {
     AILogger.setSelectedProducts(validatedResponse);
 
     AILogger.info(`✅ Réponse finale: ${validatedResponse.length} produits`);
+
+    // Log complet de la réponse pour debugging Vercel
+    console.log('📦 [DEBUG-API] Response Payload (Server):', JSON.stringify(validatedResponse, null, 2));
 
     AILogger.groupEnd();
 
