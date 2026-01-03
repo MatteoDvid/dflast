@@ -142,17 +142,17 @@ export async function getTagsForWizardSummary(
       AILogger.debug('Exemples de tags:', allowlist.slice(0, 10).join(', '));
 
       const system = [
-        'Tu es un expert en préparation de voyage. Analyse le contexte et recommande UNIQUEMENT les articles essentiels.',
+        'Tu es un expert en préparation de voyage. Analyse le contexte et sélectionne les tags les plus pertinents (articles ET contexte).',
         '',
         'CONTEXTE DU VOYAGE:',
         ...contextParts,
         '',
         'INSTRUCTIONS:',
         `1. Analyse le climat typique de cette destination ${parsed.dates ? 'à cette période précise' : 'en toute saison'}`,
-        '2. Prends en compte les activités spécifiques si mentionnées',
-        `3. Adapte aux besoins des voyageurs${parsed.animals ? ' (incluant les animaux)' : ''}`,
-        '4. Priorise les articles vraiment indispensables (score élevé) vs utiles (score moyen)',
-        '5. Exclue les articles inappropriés pour ce contexte',
+        '2. Sélectionne des tags correspondant aux ARTICES indispensables (ex: "doudoune", "gourde")',
+        '3. Sélectionne aussi des tags de CONTEXTE/CLIMAT (ex: "chaud", "froid", "soleil", "pluie") pour affiner la recherche',
+        `4. Adapte aux besoins des voyageurs${parsed.animals ? ' (incluant les animaux)' : ''}`,
+        '5. Exclue les tags inappropriés pour ce contexte',
         '',
         'TAGS DISPONIBLES:',
         allowlist.join(', '),
