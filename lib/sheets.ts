@@ -53,7 +53,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
       memoryCache = { products, timestamp: Date.now() };
       return products;
     }
-  } catch {}
+  } catch { }
 
   // 2) If disabled → fall back to mock
   if (disabled) {
@@ -316,11 +316,21 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     uniqByAsin.set(p.asin, better(existing, p));
   }
   const deduped = Array.from(uniqByAsin.values());
+
+  // [DEBUG-API] Log critique pour vérifier la lecture du Sheet
+  console.log(`📊 [DEBUG-API] SHEET LOADED: ${deduped.length} produits chargés depuis Google Sheets.`);
+  const example = deduped.find(p => p.tags && p.tags.length > 4); // Chercher un produit avec >4 tags (donc enrichi)
+  if (example) {
+    console.log(`🔎 [DEBUG-API] EXEMPLE PRODUIT (${example.label}): Tags détectés = [${example.tags?.join(', ')}]`);
+  } else {
+    console.log('⚠️ [DEBUG-API] Aucun produit riche en tags trouvé !');
+  }
+
   // write cache
   try {
     await fs.mkdir(path.join(process.cwd(), 'data'), { recursive: true });
     await fs.writeFile(cachePath, JSON.stringify(deduped, null, 2), 'utf-8');
-  } catch {}
+  } catch { }
 
   // Mettre en mémoire cache
   memoryCache = { products: deduped, timestamp: Date.now() };
