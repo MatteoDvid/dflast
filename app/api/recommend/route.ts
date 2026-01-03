@@ -170,7 +170,13 @@ export async function POST(request: Request) {
 
             // Vérifier d'abord si le produit est sauvé par un tag requis
             const reqTags = effectiveTags;
-            const savingTag = reqTags.find(t => productTags.includes(t as any));
+            // Liste des tags "faibles" qui ne doivent pas permettre de passer outre une exclusion
+            const weakTags = ['vêtements', 'vetements', 'accessoires', 'indispensable', 'homme', 'femme', 'enfant', 'sport', 'genericbrand'];
+
+            const savingTag = reqTags.find(t => {
+              if (weakTags.includes(t)) return false; // Un tag générique ne sauve pas
+              return productTags.includes(t as any);
+            });
             const isSavedByInclusion = !!savingTag;
 
             if (!isSavedByInclusion) {
