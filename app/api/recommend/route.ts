@@ -15,13 +15,14 @@ import {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
+    console.log('📦 FULL API REQUEST PAYLOAD:', JSON.stringify(body, null, 2));
+
     // Démarrer le logging pour cette requête
     AILogger.startRequest(body);
-    
+
     AILogger.group('API Recommend');
     AILogger.log('Request body:', body);
-    
+
     const parsed = WizardStateSchema.safeParse(body);
     if (!parsed.success) {
       AILogger.error('Validation error:', parsed.error.format());
@@ -33,7 +34,7 @@ export async function POST(request: Request) {
 
     const wizard = parsed.data;
     const marketplace = (wizard.marketplaceCountry ?? wizard.destinationCountry).toUpperCase();
-    
+
     AILogger.log('Wizard data:', {
       destination: wizard.destinationCountry,
       city: wizard.destinationCity,
@@ -70,13 +71,13 @@ export async function POST(request: Request) {
     let aiSource: 'openai' | 'fallback' | 'disabled' | 'error' | 'manual' | 'none' = 'none';
     let aiReason: string | undefined;
     let excludedTagsFromAi = new Set<string>();
-    
+
     AILogger.log('IA configuration:', {
       aiActive,
       manualTags: effectiveTags.length,
       hasApiKey: !!process.env.OPENAI_API_KEY
     });
-    
+
     if (effectiveTags.length > 0) {
       aiSource = 'manual';
       AILogger.info('Tags manuels fournis:', effectiveTags);
@@ -216,11 +217,15 @@ export async function POST(request: Request) {
     });
 
     const validatedResponse = ProductResponseSchema.array().parse(response);
-    
+
     // Log pour mode summary
     AILogger.setSelectedProducts(validatedResponse);
-    
+
     AILogger.info(`✅ Réponse finale: ${validatedResponse.length} produits`);
+
+    // Log complet de la réponse pour debugging Vercel
+    console.log('📦 FULL API RESPONSE PAYLOAD:', JSON.stringify(validatedResponse, null, 2));
+
     AILogger.groupEnd();
 
     return NextResponse.json(validatedResponse, { status: 200 });

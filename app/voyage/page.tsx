@@ -230,6 +230,7 @@ export default function WizardPage() {
     };
 
     try {
+      console.log('📦 FULL API REQUEST PAYLOAD (Client):', apiData);
       // Appeler l'API de recommandation
       const response = await fetch('/api/recommend', {
         method: 'POST',
@@ -239,6 +240,12 @@ export default function WizardPage() {
 
       if (response.ok) {
         const products = await response.json();
+        console.log('✅ Compte rendu de l\'API (Client):', products);
+        console.log('📊 Nombre de produits reçus:', products.length);
+        if (products.length > 0) {
+          console.log('🔍 Premier produit:', products[0]);
+          console.log('ℹ️ Metadata IA (si présent):', products[0].explain);
+        }
 
         // Sauvegarder les données pour la page résultats
         const tripData = {
