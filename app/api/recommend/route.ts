@@ -150,42 +150,63 @@ export async function POST(request: Request) {
     AILogger.log('Source des tags:', aiSource);
     if (aiReason) AILogger.log('Raison:', aiReason);
 
-    const filtered: ProductRecord[] = validatedProducts
-      .filter((p) => p.status === 'active')
-      .filter((p) => {
-        // Si l'IA renvoie des tags à exclure, éliminer tout produit qui les possède
-        if (excludedTagsFromAi.size === 0) return true;
-        const productTags: string[] = Array.isArray((p as any).tags)
-          ? ((p as any).tags as string[])
-          : [];
-        for (const t of productTags) {
-          if (excludedTagsFromAi.has(String(t))) return false;
-        }
-        return true;
-      })
-      .filter((p) => groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax) // intersection non vide
-      .filter((p) => {
-        const hasChild = wizard.ages.some((a) => a < 18);
-        const hasAdult = wizard.ages.some((a) => a >= 18);
-        if (p.audience === 'all') return true;
-        if (p.audience === 'child') return hasChild;
-        if (p.audience === 'adult') return hasAdult;
-        return true;
-      })
-      .filter((p) => {
-        // Optional tag intersection if tags provided (après éventuelle génération IA)
-        const reqTags = effectiveTags;
-        if (reqTags.length === 0) {
-          // Si pas de tags effectifs, et IA active strict → rien
-          if (aiActive) return false;
-          // Sinon on autorise (mode générique)
+    // Fonction de filtrage réutilisable
+    const applyFiltering = (products: ProductRecord[], useAiTags: boolean) => {
+      return products
+        .filter((p) => p.status === 'active')
+        .filter((p) => {
+          // Si l'IA renvoie des tags à exclure, éliminer tout produit qui les possède
+          if (excludedTagsFromAi.size === 0) return true;
+          const productTags: string[] = Array.isArray((p as any).tags)
+            ? ((p as any).tags as string[])
+            : [];
+          for (const t of productTags) {
+            if (excludedTagsFromAi.has(String(t))) return false;
+          }
           return true;
-        }
-        const productTags: string[] = Array.isArray((p as any).tags)
-          ? ((p as any).tags as string[])
-          : [];
-        return productTags.some((t) => reqTags.includes(t as any));
-      });
+        })
+        .filter((p) => groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax) // intersection non vide
+        .filter((p) => {
+          const hasChild = wizard.ages.some((a) => a < 18);
+          const hasAdult = wizard.ages.some((a) => a >= 18);
+          if (p.audience === 'all') return true;
+          if (p.audience === 'child') return hasChild;
+          if (p.audience === 'adult') return hasAdult;
+          return true;
+        })
+        .filter((p) => {
+          // Optional tag intersection if tags provided (après éventuelle génération IA)
+          const reqTags = effectiveTags;
+          if (!useAiTags) return true; // Mode générique (Safety Fallback)
+
+          if (reqTags.length === 0) {
+            // Si pas de tags effectifs, et IA active strict → rien
+            if (aiActive) return false;
+            // Sinon on autorise (mode générique)
+            return true;
+          }
+          const productTags: string[] = Array.isArray((p as any).tags)
+            ? ((p as any).tags as string[])
+            : [];
+          return productTags.some((t) => reqTags.includes(t as any));
+        });
+    };
+
+    // 1. Essai avec filtrage strict (IA)
+    let filtered = applyFiltering(validatedProducts, true);
+
+    // 2. Safety Fallback: Si pas assez de résultats (< 6), on élargit
+    if (filtered.length < 6 && aiActive) {
+      AILogger.warn(`⚠️ Trop peu de résultats (${filtered.length}) avec filtres IA stricts. Activation du Safety Fallback.`);
+      const fallbackFiltered = applyFiltering(validatedProducts, false); // false = ignorer les tags IA
+
+      if (fallbackFiltered.length > filtered.length) {
+        AILogger.info(`✅ Safety Fallback appliqué: ${fallbackFiltered.length} produits trouvés (vs ${filtered.length}).`);
+        filtered = fallbackFiltered;
+        aiSource = 'fallback'; // Indiquer que c'est du fallback
+        aiReason = 'SAFETY_THRESHOLD_TRIGGERED_LESS_THAN_6';
+      }
+    }
 
     const sorted = filtered.sort((a, b) => {
       if (a.mustHave !== b.mustHave) return a.mustHave ? -1 : 1;
