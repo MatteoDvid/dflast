@@ -43,35 +43,21 @@ export async function getTagsForWizardSummary(
   const cached = inMemoryCache.get(key);
   if (cached && cached.expiresAt > now) {
     AILogger.info('✅ Réponse trouvée dans le cache');
+    // [DEBUG-API] Log explicite pour le user
+    console.log('⚡ [DEBUG-API] CACHE HIT: Réponse servie depuis le cache mémoire (pas de nouvel appel IA)');
     AILogger.groupEnd();
     return cached.value;
   }
+
+  // [DEBUG-API]
+  console.log('🔄 [DEBUG-API] CACHE MISS: Nouvel appel IA requis');
 
   const aiEnabled = String(process.env.AI_ENABLED ?? 'false').toLowerCase() === 'true';
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
   const timeoutMs = Number(process.env.OPENAI_TIMEOUT_MS || '100000');
 
-  AILogger.log('Configuration:', {
-    aiEnabled,
-    hasApiKey: !!apiKey,
-    apiKeyStart: apiKey ? apiKey.substring(0, 7) + '...' : 'MISSING',
-    model,
-    timeoutMs
-  });
-
-  // Minimal fallback V1: return empty tags when AI disabled or no key
-  let response: ExplainResponse = {
-    tags: [],
-    meta: { promptVersion: parsed.constraints.promptVersion, source: 'disabled', reason: 'AI_DISABLED_OR_NO_KEY' },
-  };
-
-  if (!aiEnabled) {
-    AILogger.warn('❌ IA désactivée via AI_ENABLED=false');
-  } else if (!apiKey) {
-    AILogger.error('❌ OPENAI_API_KEY manquante ! Ajoutez-la dans .env.local');
-    AILogger.error('Format attendu: OPENAI_API_KEY=sk-...');
-  }
+  // ... (existing code)
 
   if (aiEnabled && apiKey) {
     try {
@@ -80,15 +66,19 @@ export async function getTagsForWizardSummary(
         ? (options!.allowedTags as string[])
         : dynamicTags;
 
+      // [DEBUG-API] Log de la liste blanche
+      console.log(`📋 [DEBUG-API] ALLOWLIST TAGS (${allowlist.length} tags disponibles pour l'IA):`, allowlist.slice(0, 50).join(', '));
+      if (allowlist.length > 50) console.log('... (et autres)');
+
       // Construction du contexte avec fallbacks
       const contextParts: string[] = [];
-      
+
       // Destination
-      const destinationName = parsed.destinationDisplayName || 
-                            parsed.destinationCity || 
-                            parsed.destinationCountry;
+      const destinationName = parsed.destinationDisplayName ||
+        parsed.destinationCity ||
+        parsed.destinationCountry;
       contextParts.push(`- Destination: ${destinationName}`);
-      
+
       // Dates
       if (parsed.dates?.start && parsed.dates?.end) {
         const start = new Date(parsed.dates.start);
@@ -98,7 +88,7 @@ export async function getTagsForWizardSummary(
       } else {
         contextParts.push(`- Dates: Non spécifiées (prévoir pour toute saison)`);
       }
-      
+
       // Voyageurs
       const travelersInfo: string[] = [];
       if (parsed.adults && parsed.adults > 0) {
@@ -115,14 +105,14 @@ export async function getTagsForWizardSummary(
         travelersInfo.push(`${parsed.groupAge.min}-${parsed.groupAge.max} ans`);
       }
       contextParts.push(`- Voyageurs: ${travelersInfo.join(', ')}`);
-      
+
       // Activités
       if (parsed.activities && parsed.activities.length > 0) {
         contextParts.push(`- Activités prévues: ${parsed.activities.join(', ')}`);
       } else {
         contextParts.push(`- Activités: Voyage général sans activités spécifiques`);
       }
-      
+
       // Budget
       if (parsed.budget) {
         contextParts.push(`- Budget activités: ${parsed.budget}`);
@@ -153,7 +143,7 @@ export async function getTagsForWizardSummary(
       ].join('\n');
 
       AILogger.debug('Prompt système (200 premiers chars):', system.substring(0, 200) + '...');
-      
+
       // Log pour mode summary
       AILogger.setAIPrompt(system, allowlist.length);
 
@@ -232,10 +222,10 @@ export async function getTagsForWizardSummary(
             : [],
           meta: { promptVersion: parsed.constraints.promptVersion, source: 'openai', ...(reason ? { reason } : {}) },
         } as any;
-        
+
         AILogger.info(`✅ Tags finaux: ${compact.length}`);
         AILogger.log('Tags sélectionnés:', compact.map(t => `${t.id} (${t.score})`).join(', '));
-        
+
         // Log pour mode summary
         AILogger.setAIResponse({ tags: compact, meta: response.meta });
       } catch (err: any) {
@@ -254,7 +244,7 @@ export async function getTagsForWizardSummary(
     } catch (outerErr: any) {
       try {
         console.error('[ai] OpenAI outer error:', outerErr?.message || String(outerErr));
-      } catch {}
+      } catch { }
       response = { tags: [], meta: { promptVersion: parsed.constraints.promptVersion, source: 'error', reason: 'OPENAI_UNEXPECTED_ERROR' } };
     }
   }
@@ -292,7 +282,7 @@ export async function getTagsForWizardSummary(
         response = { ...response, tags: next as any } as any;
       }
     }
-  } catch {}
+  } catch { }
 
   AILogger.log('Response finale:', {
     source: response.meta?.source,
@@ -300,7 +290,7 @@ export async function getTagsForWizardSummary(
     tagsCount: response.tags?.length || 0
   });
   AILogger.groupEnd();
-  
+
   inMemoryCache.set(key, { value: response, expiresAt: now + getTtlMs() });
   return ExplainResponseSchema.parse(response);
 }
