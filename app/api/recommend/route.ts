@@ -170,7 +170,8 @@ export async function POST(request: Request) {
 
             // Vérifier d'abord si le produit est sauvé par un tag requis
             const reqTags = effectiveTags;
-            const isSavedByInclusion = reqTags.length > 0 && productTags.some(t => reqTags.includes(t as any));
+            const savingTag = reqTags.find(t => productTags.includes(t as any));
+            const isSavedByInclusion = !!savingTag;
 
             if (!isSavedByInclusion) {
               for (const t of productTags) {
@@ -180,7 +181,7 @@ export async function POST(request: Request) {
                 }
               }
             } else if (isSavedByInclusion && isDoudoune) {
-              console.log(`✅ [DEBUG-API] Doudoune SAUVÉE malgré exclusion car tag requis présent (${p.label})`);
+              console.log(`✅ [DEBUG-API] Doudoune SAUVÉE grâce au tag : [${savingTag}] (${p.label})`);
             }
           }
 
