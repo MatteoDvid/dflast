@@ -57,7 +57,26 @@ export async function getTagsForWizardSummary(
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
   const timeoutMs = Number(process.env.OPENAI_TIMEOUT_MS || '100000');
 
-  // ... (existing code)
+  AILogger.log('Configuration:', {
+    aiEnabled,
+    hasApiKey: !!apiKey,
+    apiKeyStart: apiKey ? apiKey.substring(0, 7) + '...' : 'MISSING',
+    model,
+    timeoutMs
+  });
+
+  // Minimal fallback V1: return empty tags when AI disabled or no key
+  let response: ExplainResponse = {
+    tags: [],
+    meta: { promptVersion: parsed.constraints.promptVersion, source: 'disabled', reason: 'AI_DISABLED_OR_NO_KEY' },
+  };
+
+  if (!aiEnabled) {
+    AILogger.warn('❌ IA désactivée via AI_ENABLED=false');
+  } else if (!apiKey) {
+    AILogger.error('❌ OPENAI_API_KEY manquante ! Ajoutez-la dans .env.local');
+    AILogger.error('Format attendu: OPENAI_API_KEY=sk-...');
+  }
 
   if (aiEnabled && apiKey) {
     try {
