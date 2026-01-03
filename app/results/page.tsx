@@ -477,7 +477,6 @@ export default function ResultsPage() {
                           >
                             <span className="hidden sm:inline">Voir plus sur amazon</span>
                             <span className="sm:hidden">Voir sur Amazon</span>
-                            <span className="text-orange-400">a</span>
                           </a>
 
                           <button
