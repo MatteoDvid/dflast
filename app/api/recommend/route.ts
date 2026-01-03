@@ -155,40 +155,58 @@ export async function POST(request: Request) {
       return products
         .filter((p) => p.status === 'active')
         .filter((p) => {
-          // Si l'IA renvoie des tags à exclure, éliminer tout produit qui les possède
-          if (excludedTagsFromAi.size === 0) return true;
-          const productTags: string[] = Array.isArray((p as any).tags)
-            ? ((p as any).tags as string[])
-            : [];
-          for (const t of productTags) {
-            if (excludedTagsFromAi.has(String(t))) return false;
+          // DEBUG SPECIAL DOUDOUNE
+          const isDoudoune = p.label.toLowerCase().includes('doudoune');
+
+          if (p.status !== 'active') {
+            if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : STATUS INACTIF (${p.label})`);
+            return false;
           }
-          return true;
-        })
-        .filter((p) => groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax) // intersection non vide
-        .filter((p) => {
+
+          if (excludedTagsFromAi.size > 0) {
+            const productTags: string[] = Array.isArray((p as any).tags) ? ((p as any).tags as string[]) : [];
+            for (const t of productTags) {
+              if (excludedTagsFromAi.has(String(t))) {
+                if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : TAG EXCLU [${t}] (${p.label})`);
+                return false;
+              }
+            }
+          }
+
+          if (!(groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax)) {
+            if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : AGE (${p.ageMin}-${p.ageMax} vs ${groupMinAge}-${groupMaxAge}) (${p.label})`);
+            return false;
+          }
+
+          // Audience check
           const hasChild = wizard.ages.some((a) => a < 18);
           const hasAdult = wizard.ages.some((a) => a >= 18);
-          if (p.audience === 'all') return true;
-          if (p.audience === 'child') return hasChild;
-          if (p.audience === 'adult') return hasAdult;
-          return true;
-        })
-        .filter((p) => {
-          // Optional tag intersection if tags provided (après éventuelle génération IA)
+          let audienceMatch = true;
+          if (p.audience === 'child') audienceMatch = hasChild;
+          if (p.audience === 'adult') audienceMatch = hasAdult;
+
+          if (!audienceMatch) {
+            if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : AUDIENCE (${p.audience} vs Adult=${hasAdult}/Child=${hasChild}) (${p.label})`);
+            return false;
+          }
+
+          // Tag intersection
           const reqTags = effectiveTags;
           if (!useAiTags) return true; // Mode générique (Safety Fallback)
 
           if (reqTags.length === 0) {
-            // Si pas de tags effectifs, et IA active strict → rien
             if (aiActive) return false;
-            // Sinon on autorise (mode générique)
             return true;
           }
-          const productTags: string[] = Array.isArray((p as any).tags)
-            ? ((p as any).tags as string[])
-            : [];
-          return productTags.some((t) => reqTags.includes(t as any));
+          const productTags: string[] = Array.isArray((p as any).tags) ? ((p as any).tags as string[]) : [];
+          const hasOverlap = productTags.some((t) => reqTags.includes(t as any));
+
+          if (!hasOverlap) {
+            if (isDoudoune) console.log(`🚫 [DEBUG-API] Doudoune rejetée : NO TAG OVERLAP. ProdTags=[${productTags}] vs ReqTags=[${reqTags}] (${p.label})`);
+            return false;
+          }
+
+          return true;
         });
     };
 
