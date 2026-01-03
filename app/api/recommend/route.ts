@@ -228,6 +228,13 @@ export async function POST(request: Request) {
       explain.push(`ageRange=${groupMinAge}-${groupMaxAge}`);
       if (p.mustHave) explain.push('mustHave=true');
       explain.push(`priority=${p.priority}`);
+
+      // Ajouter les tags contextuels pour rassurer l'utilisateur sur l'IA
+      if (aiActive && effectiveTags.length > 0) {
+        // On met juste les 3 premiers tags pour ne pas polloer
+        explain.push(`tags=${effectiveTags.slice(0, 5).join(',')}`);
+      }
+
       return {
         label: p.label,
         asin: p.asin,
