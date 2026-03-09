@@ -184,7 +184,7 @@ export default function ResultsPage() {
           inStock: true
         }));
 
-        setProducts(transformedProducts.slice(0, 10)); // Limiter à 10 produits
+        setProducts(transformedProducts.slice(0, 15));
 
       } catch (error) {
         console.error('Erreur lors du chargement des recommandations:', error);
