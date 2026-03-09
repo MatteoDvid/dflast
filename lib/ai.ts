@@ -42,7 +42,7 @@ export async function selectProductsWithAI(
 
   const aiEnabled = String(process.env.AI_ENABLED ?? 'false').toLowerCase() === 'true';
   const apiKey = process.env.OPENAI_API_KEY;
-  const model = process.env.OPENAI_MODEL || 'gpt-4.5-mini';
+  const model = process.env.OPENAI_MODEL || 'gpt-5-mini';
   const timeoutMs = Number(process.env.OPENAI_TIMEOUT_MS || '30000');
 
   const fallbackResult: AISelectionResult = {
