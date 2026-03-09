@@ -8,3 +8,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 *.tsbuildinfo
+
+# Clés service account Google — ne jamais commiter
+*.json.key
+dont-forget-*.json
+credentials.json
+devis-*.pdf
