@@ -149,7 +149,7 @@ export async function getTagsForWizardSummary(
         '',
         'INSTRUCTIONS:',
         `1. Analyse le climat typique de cette destination ${parsed.dates ? 'à cette période précise' : 'en toute saison'}`,
-        '2. Sélectionne des tags correspondant aux ARTICES indispensables (ex: "doudoune", "gourde")',
+        '2. Sélectionne des tags correspondant aux ARTICLES indispensables (ex: "doudoune", "gourde")',
         '3. Sélectionne aussi des tags de CONTEXTE/CLIMAT (ex: "chaud", "froid", "soleil", "pluie") pour affiner la recherche',
         `4. Adapte aux besoins des voyageurs${parsed.animals ? ' (incluant les animaux)' : ''}`,
         '5. Exclue les tags inappropriés pour ce contexte',
@@ -285,23 +285,6 @@ export async function getTagsForWizardSummary(
     };
   }
 
-  // Enforce presence of core-kit globally si autorisé
-  try {
-    const dynamicTags = await getDynamicTags();
-    const allowForCore = Array.isArray(options?.allowedTags) && options!.allowedTags!.length > 0
-      ? (options!.allowedTags as string[])
-      : dynamicTags;
-    if (allowForCore.includes('core-kit')) {
-      const already = Array.isArray(response.tags) && response.tags.some((t: any) => t.id === 'core-kit');
-      if (!already) {
-        const max = parsed.constraints.maxTags;
-        const next = Array.isArray(response.tags) ? (response.tags as any[]).slice() : [];
-        next.unshift({ id: 'core-kit', score: 0.9 });
-        if (next.length > max) next.length = max;
-        response = { ...response, tags: next as any } as any;
-      }
-    }
-  } catch { }
 
   AILogger.log('Response finale:', {
     source: response.meta?.source,
