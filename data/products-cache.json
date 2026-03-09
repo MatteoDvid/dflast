@@ -1,6 +1,6 @@
 [
   {
-    "label": "Lunettes de soleil mixtes - Protection UV400, Polarisées",
+    "label": "Lunettes de soleil mixtes - Protection UV400, PolarisÃ©es",
     "asin": "B0DPHJS7X4",
     "status": "active",
     "mustHave": false,
@@ -13,7 +13,7 @@
       "soleil",
       "mixtes",
       "protection",
-      "polarisées",
+      "polarisÃ©es",
       "genericbrand",
       "sports",
       "loisirs",
@@ -24,7 +24,7 @@
     "countryCodes": []
   },
   {
-    "label": "Sous vêtements Thermiques hommes",
+    "label": "Sous vÃªtements Thermiques hommes",
     "asin": "B0CG5RFS3Z",
     "status": "active",
     "mustHave": false,
@@ -34,7 +34,7 @@
     "ageMax": 120,
     "tags": [
       "sous",
-      "vêtements",
+      "vÃªtements",
       "thermiques",
       "hommes",
       "thermotech",
@@ -46,7 +46,7 @@
     "countryCodes": []
   },
   {
-    "label": "Sous vêtements thermiques femme",
+    "label": "Sous vÃªtements thermiques femme",
     "asin": "B0CJ91TWD8",
     "status": "active",
     "mustHave": false,
@@ -56,7 +56,7 @@
     "ageMax": 120,
     "tags": [
       "sous",
-      "vêtements",
+      "vÃªtements",
       "thermiques",
       "femme",
       "thermotech",
@@ -101,7 +101,7 @@
       "thermiques",
       "homme",
       "thermotech",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor",
       "thermique",
@@ -123,7 +123,7 @@
       "thermiques",
       "femme",
       "thermotech",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor",
       "thermique",
@@ -144,7 +144,7 @@
       "polaire",
       "homme",
       "warmgear",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor",
       "chaud"
@@ -164,7 +164,7 @@
       "polaire",
       "femme",
       "warmgear",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor",
       "chaud"
@@ -172,7 +172,7 @@
     "countryCodes": []
   },
   {
-    "label": "Crampons pour chaussures - Antidérapantes, Respirantes",
+    "label": "Crampons pour chaussures - AntidÃ©rapantes, Respirantes",
     "asin": "B0CLD22MTY",
     "status": "active",
     "mustHave": false,
@@ -183,7 +183,7 @@
     "tags": [
       "crampons",
       "chaussures",
-      "antidérapantes",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -204,7 +204,7 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor"
     ],
@@ -223,7 +223,7 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor"
     ],
@@ -242,14 +242,14 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor"
     ],
     "countryCodes": []
   },
   {
-    "label": "sac a dos Waterproof bas de gamme - Résistant à l'eau, Léger",
+    "label": "sac a dos Waterproof bas de gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
     "asin": "B0C1JT8RQS",
     "status": "active",
     "mustHave": false,
@@ -261,20 +261,20 @@
       "sac",
       "dos",
       "waterproof",
-      "résistant",
+      "rÃ©sistant",
       "eau",
-      "léger",
+      "lÃ©ger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnée",
-      "étanche",
-      "imperméable"
+      "randonnÃ©e",
+      "Ã©tanche",
+      "impermÃ©able"
     ],
     "countryCodes": []
   },
   {
-    "label": "Sac a dos Waterproof moyenne gamme - Résistant à l'eau, Léger",
+    "label": "Sac a dos Waterproof moyenne gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
     "asin": "B0CVKZ5BDR",
     "status": "active",
     "mustHave": false,
@@ -286,20 +286,20 @@
       "sac",
       "dos",
       "waterproof",
-      "résistant",
+      "rÃ©sistant",
       "eau",
-      "léger",
+      "lÃ©ger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnée",
-      "étanche",
-      "imperméable"
+      "randonnÃ©e",
+      "Ã©tanche",
+      "impermÃ©able"
     ],
     "countryCodes": []
   },
   {
-    "label": "Sac a dos Waterproof haute gamme - Résistant à l'eau, Léger",
+    "label": "Sac a dos Waterproof haute gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
     "asin": "B09ZYPY3GB",
     "status": "active",
     "mustHave": false,
@@ -311,20 +311,20 @@
       "sac",
       "dos",
       "waterproof",
-      "résistant",
+      "rÃ©sistant",
       "eau",
-      "léger",
+      "lÃ©ger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnée",
-      "étanche",
-      "imperméable"
+      "randonnÃ©e",
+      "Ã©tanche",
+      "impermÃ©able"
     ],
     "countryCodes": []
   },
   {
-    "label": "Bonnet en laine doublé",
+    "label": "Bonnet en laine doublÃ©",
     "asin": "B09M9P8NMJ",
     "status": "active",
     "mustHave": false,
@@ -335,7 +335,7 @@
     "tags": [
       "bonnet",
       "laine",
-      "doublé",
+      "doublÃ©",
       "genericbrand",
       "sports",
       "loisirs",
@@ -344,7 +344,7 @@
     "countryCodes": []
   },
   {
-    "label": "Gants imperméable - Tactiles, Résistants",
+    "label": "Gants impermÃ©able - Tactiles, RÃ©sistants",
     "asin": "B099K49RB1",
     "status": "active",
     "mustHave": false,
@@ -354,9 +354,9 @@
     "ageMax": 120,
     "tags": [
       "gants",
-      "imperméable",
+      "impermÃ©able",
       "tactiles",
-      "résistants",
+      "rÃ©sistants",
       "genericbrand",
       "sports",
       "loisirs",
@@ -378,7 +378,7 @@
       "cou",
       "polaire",
       "warmgear",
-      "vêtements",
+      "vÃªtements",
       "sport",
       "outdoor",
       "chaud"
@@ -405,7 +405,7 @@
     "countryCodes": []
   },
   {
-    "label": "Chaussures de randonnée craponnables prix 1 - Antidérapantes, Respirantes",
+    "label": "Chaussures de randonnÃ©e craponnables prix 1 - AntidÃ©rapantes, Respirantes",
     "asin": "B07G5YFS1L",
     "status": "active",
     "mustHave": false,
@@ -415,9 +415,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
+      "randonnÃ©e",
       "craponnables",
-      "antidérapantes",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -428,7 +428,7 @@
     "countryCodes": []
   },
   {
-    "label": "Chaussures de randonnée craponnables prix 2 - Antidérapantes, Respirantes",
+    "label": "Chaussures de randonnÃ©e craponnables prix 2 - AntidÃ©rapantes, Respirantes",
     "asin": "B0CLJFPWB6",
     "status": "active",
     "mustHave": false,
@@ -438,9 +438,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
+      "randonnÃ©e",
       "craponnables",
-      "antidérapantes",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -451,7 +451,7 @@
     "countryCodes": []
   },
   {
-    "label": "Chaussures de randonnée craponnables prix 3 - Antidérapantes, Respirantes",
+    "label": "Chaussures de randonnÃ©e craponnables prix 3 - AntidÃ©rapantes, Respirantes",
     "asin": "B0DCTLL6FN",
     "status": "active",
     "mustHave": false,
@@ -461,9 +461,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
+      "randonnÃ©e",
       "craponnables",
-      "antidérapantes",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -474,7 +474,7 @@
     "countryCodes": []
   },
   {
-    "label": "adaptateur prise européenne",
+    "label": "adaptateur prise europÃ©enne",
     "asin": "B0DCBTKN95",
     "status": "active",
     "mustHave": false,
@@ -485,7 +485,7 @@
     "tags": [
       "adaptateur",
       "prise",
-      "européenne",
+      "europÃ©enne",
       "genericbrand",
       "sports",
       "loisirs",
@@ -512,13 +512,13 @@
       "sports",
       "loisirs",
       "accessoires",
-      "éclairage",
+      "Ã©clairage",
       "camping"
     ],
     "countryCodes": []
   },
   {
-    "label": "THAILANDE t-shirts (coton / technique respirant) homme",
+    "label": "T-shirts respirants homme (coton / technique)",
     "asin": "B079NLHSV8",
     "status": "active",
     "mustHave": false,
@@ -537,7 +537,9 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [
+      "TH"
+    ]
   },
   {
     "label": "t-shirts (coton / technique respirant) femme",
@@ -562,7 +564,7 @@
     "countryCodes": []
   },
   {
-    "label": "coupe vent légers mixte",
+    "label": "coupe vent lÃ©gers mixte",
     "asin": "B07FNJP2GB",
     "status": "active",
     "mustHave": false,
@@ -573,7 +575,7 @@
     "tags": [
       "coupe",
       "vent",
-      "légers",
+      "lÃ©gers",
       "mixte",
       "genericbrand",
       "sports",
@@ -603,7 +605,7 @@
     "countryCodes": []
   },
   {
-    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes homme",
+    "label": "chaussures randonnÃ©e prix 2 - AntidÃ©rapantes, Respirantes homme",
     "asin": "B0F13WP6KK",
     "status": "active",
     "mustHave": false,
@@ -613,8 +615,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
-      "antidérapantes",
+      "randonnÃ©e",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -625,7 +627,7 @@
     "countryCodes": []
   },
   {
-    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes homme",
+    "label": "chaussures randonnÃ©e prix 3 - AntidÃ©rapantes, Respirantes homme",
     "asin": "B0CKJDBZYR",
     "status": "active",
     "mustHave": false,
@@ -635,8 +637,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
-      "antidérapantes",
+      "randonnÃ©e",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -647,7 +649,7 @@
     "countryCodes": []
   },
   {
-    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes femme",
+    "label": "chaussures randonnÃ©e prix 2 - AntidÃ©rapantes, Respirantes femme",
     "asin": "B0DNTPFND6",
     "status": "active",
     "mustHave": false,
@@ -657,8 +659,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
-      "antidérapantes",
+      "randonnÃ©e",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -669,7 +671,7 @@
     "countryCodes": []
   },
   {
-    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes femme",
+    "label": "chaussures randonnÃ©e prix 3 - AntidÃ©rapantes, Respirantes femme",
     "asin": "B06VXVRR8R",
     "status": "active",
     "mustHave": false,
@@ -679,8 +681,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnée",
-      "antidérapantes",
+      "randonnÃ©e",
+      "antidÃ©rapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -772,7 +774,7 @@
     "countryCodes": []
   },
   {
-    "label": "Crème solaire SPF 50+",
+    "label": "CrÃ¨me solaire SPF 50+",
     "asin": "B08BTD7RFV",
     "status": "active",
     "mustHave": false,
@@ -781,7 +783,7 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "crème",
+      "crÃ¨me",
       "solaire",
       "spf",
       "genericbrand",
@@ -795,7 +797,7 @@
     "countryCodes": []
   },
   {
-    "label": "Baume à lèvres hydratant",
+    "label": "Baume Ã  lÃ¨vres hydratant",
     "asin": "B006DUPURO",
     "status": "active",
     "mustHave": false,
@@ -805,7 +807,7 @@
     "ageMax": 120,
     "tags": [
       "baume",
-      "lèvres",
+      "lÃ¨vres",
       "hydratant",
       "genericbrand",
       "sports",
@@ -834,7 +836,7 @@
       "loisirs",
       "accessoires",
       "anti-moustique",
-      "répulsif",
+      "rÃ©pulsif",
       "insectes"
     ],
     "countryCodes": []
@@ -878,7 +880,7 @@
       "sports",
       "loisirs",
       "accessoires",
-      "éclairage",
+      "Ã©clairage",
       "camping"
     ],
     "countryCodes": []
@@ -900,12 +902,12 @@
       "loisirs",
       "accessoires",
       "isotherme",
-      "température"
+      "tempÃ©rature"
     ],
     "countryCodes": []
   },
   {
-    "label": "Sac a dos randonnée - Résistant à l'eau, Léger",
+    "label": "Sac a dos randonnÃ©e - RÃ©sistant Ã  l'eau, LÃ©ger",
     "asin": "B07T9P5Q23",
     "status": "active",
     "mustHave": false,
@@ -916,10 +918,10 @@
     "tags": [
       "sac",
       "dos",
-      "randonnée",
-      "résistant",
+      "randonnÃ©e",
+      "rÃ©sistant",
       "eau",
-      "léger",
+      "lÃ©ger",
       "genericbrand",
       "bagages",
       "sacs",
@@ -967,7 +969,7 @@
     "countryCodes": []
   },
   {
-    "label": "Thermomètre digital",
+    "label": "ThermomÃ¨tre digital",
     "asin": "B0BTHB8GWJ",
     "status": "active",
     "mustHave": false,
@@ -976,7 +978,7 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "thermomètre",
+      "thermomÃ¨tre",
       "digital",
       "genericbrand",
       "sports",
@@ -1001,6 +1003,1610 @@
       "sports",
       "loisirs",
       "accessoires"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Trousse de secours",
+    "asin": "B0GDFCKCQH",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "securite",
+      "sante",
+      "premiers-secours",
+      "trousse",
+      "indispensable"
+    ],
+    "countryCodes": [],
+    "imageUrl": "https://drive.google.com/file/d/1HyuCN6yz8QVjv2ntuLFQqtOdIi3YCjzF/view?usp=drive_link"
+  },
+  {
+    "label": "Doudoune femme prix 1",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "doudoune",
+      "froid",
+      "hiver",
+      "femme",
+      "thermique",
+      "polaire"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Doudoune femme prix 2",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "doudoune",
+      "froid",
+      "hiver",
+      "femme",
+      "thermique",
+      "polaire"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Doudoune enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "child",
+    "ageMin": 0,
+    "ageMax": 15,
+    "tags": [
+      "doudoune",
+      "froid",
+      "hiver",
+      "enfant",
+      "thermique"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sous-vêtements thermiques femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "thermique",
+      "froid",
+      "hiver",
+      "femme",
+      "sous-vetements",
+      "neige"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sous-vêtements thermiques enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "child",
+    "ageMin": 4,
+    "ageMax": 15,
+    "tags": [
+      "thermique",
+      "froid",
+      "hiver",
+      "enfant",
+      "sous-vetements",
+      "neige"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bonnet laine mixte",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "bonnet",
+      "froid",
+      "hiver",
+      "laine",
+      "neige",
+      "accessoires-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Gants hiver imperméables",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 4,
+    "ageMax": 120,
+    "tags": [
+      "gants",
+      "froid",
+      "hiver",
+      "neige",
+      "impermeable",
+      "ski"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Gants ski enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "child",
+    "ageMin": 4,
+    "ageMax": 14,
+    "tags": [
+      "gants",
+      "ski",
+      "froid",
+      "hiver",
+      "neige",
+      "enfant"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Écharpe polaire mixte",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "echarpe",
+      "froid",
+      "hiver",
+      "polaire",
+      "neige"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussettes thermiques laine",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaussettes",
+      "thermique",
+      "froid",
+      "hiver",
+      "laine",
+      "neige"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bottes hiver imperméables homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "bottes",
+      "froid",
+      "hiver",
+      "neige",
+      "impermeable",
+      "homme",
+      "chaussures-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bottes hiver imperméables femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "bottes",
+      "froid",
+      "hiver",
+      "neige",
+      "impermeable",
+      "femme",
+      "chaussures-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bottes hiver enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "child",
+    "ageMin": 0,
+    "ageMax": 15,
+    "tags": [
+      "bottes",
+      "froid",
+      "hiver",
+      "neige",
+      "enfant",
+      "chaussures-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalon de ski homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "ski",
+      "pantalon",
+      "froid",
+      "hiver",
+      "neige",
+      "homme",
+      "glisse"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalon de ski femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "ski",
+      "pantalon",
+      "froid",
+      "hiver",
+      "neige",
+      "femme",
+      "glisse"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Cagoule / tour de cou",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 4,
+    "ageMax": 120,
+    "tags": [
+      "cagoule",
+      "froid",
+      "hiver",
+      "neige",
+      "protection-visage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crampons chaussures glace",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "crampons",
+      "glace",
+      "froid",
+      "hiver",
+      "neige",
+      "securite",
+      "randonnee-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaufferettes mains",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaufferettes",
+      "froid",
+      "hiver",
+      "neige",
+      "confort-hiver"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crème solaire SPF50 visage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "soleil",
+      "chaleur",
+      "ete",
+      "protection-solaire",
+      "creme-solaire",
+      "tropical",
+      "plage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crème solaire SPF50 corps",
+    "asin": "test",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "soleil",
+      "chaleur",
+      "ete",
+      "protection-solaire",
+      "creme-solaire",
+      "tropical",
+      "plage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crème solaire enfant SPF50+",
+    "asin": "test",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "child",
+    "ageMin": 0,
+    "ageMax": 15,
+    "tags": [
+      "soleil",
+      "chaleur",
+      "ete",
+      "protection-solaire",
+      "creme-solaire",
+      "enfant"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chapeau anti-UV mixte",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chapeau",
+      "soleil",
+      "chaleur",
+      "ete",
+      "protection-solaire",
+      "bob"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Short de bain homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "plage",
+      "mer",
+      "baignade",
+      "chaleur",
+      "ete",
+      "maillot",
+      "homme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Maillot de bain femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "plage",
+      "mer",
+      "baignade",
+      "chaleur",
+      "ete",
+      "maillot",
+      "femme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Maillot de bain enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "child",
+    "ageMin": 0,
+    "ageMax": 15,
+    "tags": [
+      "plage",
+      "mer",
+      "baignade",
+      "chaleur",
+      "ete",
+      "maillot",
+      "enfant"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Robe légère femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "robe",
+      "chaleur",
+      "ete",
+      "leger",
+      "femme",
+      "tropical"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Short cargo homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "short",
+      "chaleur",
+      "ete",
+      "leger",
+      "homme",
+      "randonnee"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "T-shirts respirants femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "shirts",
+      "respirant",
+      "chaleur",
+      "ete",
+      "femme",
+      "leger"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sandales légères homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "sandales",
+      "chaleur",
+      "ete",
+      "plage",
+      "leger",
+      "homme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sandales légères femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "sandales",
+      "chaleur",
+      "ete",
+      "plage",
+      "leger",
+      "femme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Anti-moustique spray",
+    "asin": "test",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "anti-moustique",
+      "tropical",
+      "chaleur",
+      "sante",
+      "protection",
+      "insectes"
+    ],
+    "countryCodes": [
+      "TH",
+      "MA",
+      "BR"
+    ]
+  },
+  {
+    "label": "Anti-moustique bracelet enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "child",
+    "ageMin": 0,
+    "ageMax": 15,
+    "tags": [
+      "anti-moustique",
+      "tropical",
+      "enfant",
+      "sante",
+      "protection",
+      "insectes"
+    ],
+    "countryCodes": [
+      "TH",
+      "MA",
+      "BR"
+    ]
+  },
+  {
+    "label": "Ventilateur portable USB",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "chaleur",
+      "ete",
+      "confort",
+      "ventilateur",
+      "tropical"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Masque de snorkeling",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 6,
+    "ageMax": 120,
+    "tags": [
+      "snorkeling",
+      "plage",
+      "mer",
+      "natation",
+      "plongee",
+      "tropical"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Palmes légères",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "palmes",
+      "plage",
+      "mer",
+      "natation",
+      "plongee",
+      "snorkeling"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac étanche waterproof",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "etanche",
+      "waterproof",
+      "plage",
+      "mer",
+      "kayak",
+      "protection"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Tapis de plage sable resistant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "plage",
+      "mer",
+      "sable",
+      "confort",
+      "ete"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac à dos randonnée 40L",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "sac-a-dos",
+      "montagne",
+      "outdoor",
+      "backpacking"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac à dos randonnée 20L",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 8,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "sac-a-dos",
+      "montagne",
+      "outdoor",
+      "journee"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bâtons de randonnée",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "montagne",
+      "batons",
+      "outdoor"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussures de randonnée homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "chaussures",
+      "montagne",
+      "outdoor",
+      "homme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Chaussures de randonnée enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "child",
+    "ageMin": 4,
+    "ageMax": 15,
+    "tags": [
+      "randonnee",
+      "trek",
+      "chaussures",
+      "montagne",
+      "outdoor",
+      "enfant"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Guêtres imperméables",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "impermeable",
+      "montagne",
+      "outdoor",
+      "boue"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Poncho de pluie léger",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "pluie",
+      "impermeable",
+      "randonnee",
+      "outdoor",
+      "leger"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Veste imperméable homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "pluie",
+      "impermeable",
+      "randonnee",
+      "outdoor",
+      "veste",
+      "homme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Veste imperméable femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "pluie",
+      "impermeable",
+      "randonnee",
+      "outdoor",
+      "veste",
+      "femme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalon de randonnée convertible homme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "pantalon",
+      "outdoor",
+      "homme",
+      "convertible"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pantalon de randonnée femme",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "pantalon",
+      "outdoor",
+      "femme"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Boussole de randonnée",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "randonnee",
+      "trek",
+      "boussole",
+      "orientation",
+      "outdoor",
+      "montagne"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Couverture de survie",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "securite",
+      "randonnee",
+      "survie",
+      "urgence",
+      "outdoor",
+      "montagne"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Adaptateur universel de voyage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": true,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "adaptateur",
+      "electronique",
+      "chargeur",
+      "universel",
+      "tech"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Power bank 20000mAh",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "powerbank",
+      "batterie",
+      "electronique",
+      "chargeur",
+      "tech"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Power bank solaire",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "powerbank",
+      "solaire",
+      "batterie",
+      "electronique",
+      "outdoor",
+      "randonnee"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Câble multi USB",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "cable",
+      "electronique",
+      "chargeur",
+      "tech",
+      "usb"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Casque audio voyage bruit",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 8,
+    "ageMax": 120,
+    "tags": [
+      "casque",
+      "audio",
+      "confort",
+      "transport",
+      "avion",
+      "electronique"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Serrure TSA valise",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "cadenas",
+      "securite",
+      "valise",
+      "tsa",
+      "bagage"
+    ],
+    "countryCodes": [
+      "US"
+    ]
+  },
+  {
+    "label": "Cadenas valise combinaison",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "cadenas",
+      "securite",
+      "valise",
+      "bagage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Appareil photo compact waterproof",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 8,
+    "ageMax": 120,
+    "tags": [
+      "photo",
+      "waterproof",
+      "electronique",
+      "plage",
+      "randonnee",
+      "mer"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "GoPro / caméra action",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "gopro",
+      "photo",
+      "video",
+      "outdoor",
+      "randonnee",
+      "sport",
+      "waterproof"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Valise cabine rigide",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "valise",
+      "bagage",
+      "transport",
+      "cabine"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac de voyage pliable",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sac-voyage",
+      "bagage",
+      "transport",
+      "pliable",
+      "leger"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pochette anti-vol ceinture",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "securite",
+      "anti-vol",
+      "pochette",
+      "documents",
+      "voyage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Organiseur de câbles",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "organisation",
+      "cables",
+      "electronique",
+      "rangement"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Cubes de rangement bagages set",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "organisation",
+      "rangement",
+      "bagage",
+      "valise",
+      "cubes"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Porte-documents voyage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "documents",
+      "organisation",
+      "securite",
+      "passeport",
+      "voyage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Étiquettes bagage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "bagage",
+      "etiquette",
+      "organisation",
+      "valise"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Kit hygiène voyage miniatures",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "hygiene",
+      "soin",
+      "toilette",
+      "miniatures",
+      "voyage"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Pastilles purification eau",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "eau",
+      "purification",
+      "sante",
+      "outdoor",
+      "randonnee",
+      "trek",
+      "tropical"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Crème anti-friction",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sante",
+      "soin",
+      "randonnee",
+      "confort",
+      "friction"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Médicaments mal des transports",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "sante",
+      "medicaments",
+      "transport",
+      "avion",
+      "bateau",
+      "confort"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Spray désinfectant mains",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "hygiene",
+      "sante",
+      "desinfectant",
+      "protection"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Collyre yeux secs voyage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "sante",
+      "soin",
+      "yeux",
+      "avion",
+      "confort"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Coussin de voyage gonflable",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "confort",
+      "transport",
+      "avion",
+      "train",
+      "sommeil"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Masque de nuit sommeil",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "confort",
+      "sommeil",
+      "transport",
+      "avion",
+      "nuit"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Bouchons oreilles réutilisables",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "confort",
+      "sommeil",
+      "transport",
+      "avion",
+      "bruit"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Couverture polaire légère voyage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "confort",
+      "transport",
+      "avion",
+      "froid",
+      "sommeil",
+      "couverture"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Sac de couchage léger",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 2,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "camping",
+      "randonnee",
+      "trek",
+      "sommeil",
+      "outdoor",
+      "backpacking"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Tapis de yoga voyage pliable",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "yoga",
+      "sport",
+      "bien-etre",
+      "meditation",
+      "confort"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Corde à sauter sport",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 6,
+    "ageMax": 120,
+    "tags": [
+      "sport",
+      "fitness",
+      "training",
+      "cardio",
+      "leger"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Raquette de plage",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 3,
+    "audience": "all",
+    "ageMin": 6,
+    "ageMax": 120,
+    "tags": [
+      "plage",
+      "sport",
+      "jeux",
+      "ete",
+      "mer"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Masque de ski / snowboard",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 6,
+    "ageMax": 120,
+    "tags": [
+      "ski",
+      "snowboard",
+      "hiver",
+      "neige",
+      "glisse",
+      "montagne"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Casque de ski adulte",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "adult",
+    "ageMin": 16,
+    "ageMax": 120,
+    "tags": [
+      "ski",
+      "snowboard",
+      "hiver",
+      "neige",
+      "glisse",
+      "securite",
+      "casque"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Casque de ski enfant",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "child",
+    "ageMin": 4,
+    "ageMax": 15,
+    "tags": [
+      "ski",
+      "snowboard",
+      "hiver",
+      "neige",
+      "glisse",
+      "securite",
+      "casque",
+      "enfant"
+    ],
+    "countryCodes": []
+  },
+  {
+    "label": "Gilet de sauvetage kayak",
+    "asin": "test",
+    "status": "active",
+    "mustHave": false,
+    "priority": 1,
+    "audience": "all",
+    "ageMin": 0,
+    "ageMax": 120,
+    "tags": [
+      "kayak",
+      "canoe",
+      "mer",
+      "riviere",
+      "securite",
+      "sport-eau"
     ],
     "countryCodes": []
   }

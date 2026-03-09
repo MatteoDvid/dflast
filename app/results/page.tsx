@@ -63,7 +63,15 @@ export default function ResultsPage() {
         };
 
         setTripSummary({
-          destination: tripData.destinationDisplay || tripData.destinationCity || getDestinationName(tripData.destinationCountry || tripData.destination) || "Destination",
+          destination: (() => {
+            const display = tripData.destinationDisplay || '';
+            // Évite "Maroc, Maroc" quand ville = pays
+            const parts = display.split(',').map((s: string) => s.trim());
+            if (parts.length >= 2 && parts[0].toLowerCase() === parts[parts.length - 1].toLowerCase()) {
+              return parts[0];
+            }
+            return display || tripData.destinationCity || getDestinationName(tripData.destinationCountry || tripData.destination) || "Destination";
+          })(),
           startDate: formatDate(tripData.dateStart || tripData.startDate),
           endDate: formatDate(tripData.dateEnd || tripData.endDate),
           travelers: tripData.travelers || 1,
