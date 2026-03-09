@@ -1,6 +1,6 @@
 [
   {
-    "label": "Lunettes de soleil mixtes - Protection UV400, PolarisÃ©es",
+    "label": "Lunettes de soleil mixtes - Protection UV400, Polarisées",
     "asin": "B0DPHJS7X4",
     "status": "active",
     "mustHave": false,
@@ -13,7 +13,7 @@
       "soleil",
       "mixtes",
       "protection",
-      "polarisÃ©es",
+      "polarisées",
       "genericbrand",
       "sports",
       "loisirs",
@@ -21,10 +21,11 @@
       "uv400",
       "protection-solaire"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Sous vÃªtements Thermiques hommes",
+    "label": "Sous vêtements Thermiques hommes",
     "asin": "B0CG5RFS3Z",
     "status": "active",
     "mustHave": false,
@@ -34,7 +35,7 @@
     "ageMax": 120,
     "tags": [
       "sous",
-      "vÃªtements",
+      "vêtements",
       "thermiques",
       "hommes",
       "thermotech",
@@ -43,10 +44,11 @@
       "thermique",
       "isolation"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Sous vÃªtements thermiques femme",
+    "label": "Sous vêtements thermiques femme",
     "asin": "B0CJ91TWD8",
     "status": "active",
     "mustHave": false,
@@ -56,7 +58,7 @@
     "ageMax": 120,
     "tags": [
       "sous",
-      "vÃªtements",
+      "vêtements",
       "thermiques",
       "femme",
       "thermotech",
@@ -65,7 +67,8 @@
       "thermique",
       "isolation"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Masque anti vents",
@@ -78,14 +81,13 @@
     "ageMax": 120,
     "tags": [
       "masque",
-      "anti",
       "vents",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
+      "froid",
+      "hiver",
+      "protection-visage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalons thermiques homme",
@@ -101,13 +103,14 @@
       "thermiques",
       "homme",
       "thermotech",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor",
       "thermique",
       "isolation"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalons thermiques femme",
@@ -123,13 +126,14 @@
       "thermiques",
       "femme",
       "thermotech",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor",
       "thermique",
       "isolation"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Polaire homme",
@@ -144,12 +148,14 @@
       "polaire",
       "homme",
       "warmgear",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor",
-      "chaud"
+      "froid",
+      "hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Polaire femme",
@@ -164,15 +170,17 @@
       "polaire",
       "femme",
       "warmgear",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor",
-      "chaud"
+      "froid",
+      "hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Crampons pour chaussures - AntidÃ©rapantes, Respirantes",
+    "label": "Crampons pour chaussures - Antidérapantes, Respirantes",
     "asin": "B0CLD22MTY",
     "status": "active",
     "mustHave": false,
@@ -183,13 +191,14 @@
     "tags": [
       "crampons",
       "chaussures",
-      "antidÃ©rapantes",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
       "sport"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Doudoune homme prix 1",
@@ -204,11 +213,12 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Doudoune homme prix 2",
@@ -223,11 +233,12 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Doudoune homme prix 3",
@@ -242,14 +253,15 @@
       "doudoune",
       "homme",
       "genericbrand",
-      "vÃªtements",
+      "vêtements",
       "sport",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "sac a dos Waterproof bas de gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
+    "label": "sac a dos Waterproof bas de gamme - Résistant à l'eau, Léger",
     "asin": "B0C1JT8RQS",
     "status": "active",
     "mustHave": false,
@@ -261,20 +273,21 @@
       "sac",
       "dos",
       "waterproof",
-      "rÃ©sistant",
+      "résistant",
       "eau",
-      "lÃ©ger",
+      "léger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnÃ©e",
-      "Ã©tanche",
-      "impermÃ©able"
+      "randonnée",
+      "étanche",
+      "imperméable"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Sac a dos Waterproof moyenne gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
+    "label": "Sac a dos Waterproof moyenne gamme - Résistant à l'eau, Léger",
     "asin": "B0CVKZ5BDR",
     "status": "active",
     "mustHave": false,
@@ -286,20 +299,21 @@
       "sac",
       "dos",
       "waterproof",
-      "rÃ©sistant",
+      "résistant",
       "eau",
-      "lÃ©ger",
+      "léger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnÃ©e",
-      "Ã©tanche",
-      "impermÃ©able"
+      "randonnée",
+      "étanche",
+      "imperméable"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Sac a dos Waterproof haute gamme - RÃ©sistant Ã  l'eau, LÃ©ger",
+    "label": "Sac a dos Waterproof haute gamme - Résistant à l'eau, Léger",
     "asin": "B09ZYPY3GB",
     "status": "active",
     "mustHave": false,
@@ -311,20 +325,21 @@
       "sac",
       "dos",
       "waterproof",
-      "rÃ©sistant",
+      "résistant",
       "eau",
-      "lÃ©ger",
+      "léger",
       "outdoorpro",
       "bagages",
       "sacs",
-      "randonnÃ©e",
-      "Ã©tanche",
-      "impermÃ©able"
+      "randonnée",
+      "étanche",
+      "imperméable"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Bonnet en laine doublÃ©",
+    "label": "Bonnet en laine doublé",
     "asin": "B09M9P8NMJ",
     "status": "active",
     "mustHave": false,
@@ -335,16 +350,17 @@
     "tags": [
       "bonnet",
       "laine",
-      "doublÃ©",
+      "doublé",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Gants impermÃ©able - Tactiles, RÃ©sistants",
+    "label": "Gants imperméable - Tactiles, Résistants",
     "asin": "B099K49RB1",
     "status": "active",
     "mustHave": false,
@@ -354,15 +370,16 @@
     "ageMax": 120,
     "tags": [
       "gants",
-      "impermÃ©able",
+      "imperméable",
       "tactiles",
-      "rÃ©sistants",
+      "résistants",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Tour de cou polaire",
@@ -378,12 +395,12 @@
       "cou",
       "polaire",
       "warmgear",
-      "vÃªtements",
-      "sport",
-      "outdoor",
-      "chaud"
+      "vêtements",
+      "froid",
+      "hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaussettes en laine",
@@ -402,10 +419,11 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Chaussures de randonnÃ©e craponnables prix 1 - AntidÃ©rapantes, Respirantes",
+    "label": "Chaussures de randonnée craponnables prix 1 - Antidérapantes, Respirantes",
     "asin": "B07G5YFS1L",
     "status": "active",
     "mustHave": false,
@@ -415,9 +433,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
+      "randonnée",
       "craponnables",
-      "antidÃ©rapantes",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -425,10 +443,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Chaussures de randonnÃ©e craponnables prix 2 - AntidÃ©rapantes, Respirantes",
+    "label": "Chaussures de randonnée craponnables prix 2 - Antidérapantes, Respirantes",
     "asin": "B0CLJFPWB6",
     "status": "active",
     "mustHave": false,
@@ -438,9 +457,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
+      "randonnée",
       "craponnables",
-      "antidÃ©rapantes",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -448,10 +467,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Chaussures de randonnÃ©e craponnables prix 3 - AntidÃ©rapantes, Respirantes",
+    "label": "Chaussures de randonnée craponnables prix 3 - Antidérapantes, Respirantes",
     "asin": "B0DCTLL6FN",
     "status": "active",
     "mustHave": false,
@@ -461,9 +481,9 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
+      "randonnée",
       "craponnables",
-      "antidÃ©rapantes",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -471,10 +491,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "adaptateur prise europÃ©enne",
+    "label": "adaptateur prise européenne",
     "asin": "B0DCBTKN95",
     "status": "active",
     "mustHave": false,
@@ -485,13 +506,14 @@
     "tags": [
       "adaptateur",
       "prise",
-      "europÃ©enne",
+      "européenne",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "lampe frontale - LED, Rechargeable USB",
@@ -512,10 +534,11 @@
       "sports",
       "loisirs",
       "accessoires",
-      "Ã©clairage",
+      "éclairage",
       "camping"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "T-shirts respirants homme (coton / technique)",
@@ -539,7 +562,8 @@
     ],
     "countryCodes": [
       "TH"
-    ]
+    ],
+    "imageUrl": null
   },
   {
     "label": "t-shirts (coton / technique respirant) femme",
@@ -561,10 +585,11 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "coupe vent lÃ©gers mixte",
+    "label": "coupe vent légers mixte",
     "asin": "B07FNJP2GB",
     "status": "active",
     "mustHave": false,
@@ -575,14 +600,15 @@
     "tags": [
       "coupe",
       "vent",
-      "lÃ©gers",
+      "légers",
       "mixte",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "serviette microfibre",
@@ -602,10 +628,11 @@
       "accessoires",
       "absorption"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "chaussures randonnÃ©e prix 2 - AntidÃ©rapantes, Respirantes homme",
+    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes homme",
     "asin": "B0F13WP6KK",
     "status": "active",
     "mustHave": false,
@@ -615,8 +642,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
-      "antidÃ©rapantes",
+      "randonnée",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -624,10 +651,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "chaussures randonnÃ©e prix 3 - AntidÃ©rapantes, Respirantes homme",
+    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes homme",
     "asin": "B0CKJDBZYR",
     "status": "active",
     "mustHave": false,
@@ -637,8 +665,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
-      "antidÃ©rapantes",
+      "randonnée",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -646,10 +674,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "chaussures randonnÃ©e prix 2 - AntidÃ©rapantes, Respirantes femme",
+    "label": "chaussures randonnée prix 2 - Antidérapantes, Respirantes femme",
     "asin": "B0DNTPFND6",
     "status": "active",
     "mustHave": false,
@@ -659,8 +688,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
-      "antidÃ©rapantes",
+      "randonnée",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -668,10 +697,11 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "chaussures randonnÃ©e prix 3 - AntidÃ©rapantes, Respirantes femme",
+    "label": "chaussures randonnée prix 3 - Antidérapantes, Respirantes femme",
     "asin": "B06VXVRR8R",
     "status": "active",
     "mustHave": false,
@@ -681,8 +711,8 @@
     "ageMax": 120,
     "tags": [
       "chaussures",
-      "randonnÃ©e",
-      "antidÃ©rapantes",
+      "randonnée",
+      "antidérapantes",
       "respirantes",
       "genericbrand",
       "sacs",
@@ -690,7 +720,8 @@
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaussure rando enfant mixte",
@@ -711,7 +742,8 @@
       "sacs",
       "sport"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Claquettes mixte",
@@ -730,7 +762,8 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Claquettes enfant",
@@ -749,7 +782,8 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Lunettes de soleil UV400 mixte",
@@ -771,10 +805,11 @@
       "uv400",
       "protection-solaire"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "CrÃ¨me solaire SPF 50+",
+    "label": "Crème solaire SPF 50+",
     "asin": "B08BTD7RFV",
     "status": "active",
     "mustHave": false,
@@ -783,7 +818,7 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "crÃ¨me",
+      "crème",
       "solaire",
       "spf",
       "genericbrand",
@@ -794,10 +829,11 @@
       "soleil",
       "protection"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Baume Ã  lÃ¨vres hydratant",
+    "label": "Baume à lèvres hydratant",
     "asin": "B006DUPURO",
     "status": "active",
     "mustHave": false,
@@ -807,7 +843,7 @@
     "ageMax": 120,
     "tags": [
       "baume",
-      "lÃ¨vres",
+      "lèvres",
       "hydratant",
       "genericbrand",
       "sports",
@@ -816,7 +852,8 @@
       "soin",
       "peau"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Spray anti-moustique",
@@ -836,10 +873,11 @@
       "loisirs",
       "accessoires",
       "anti-moustique",
-      "rÃ©pulsif",
+      "répulsif",
       "insectes"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Adaptateur de prise universel",
@@ -859,7 +897,8 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Lampe frontale - LED, Rechargeable USB",
@@ -880,10 +919,11 @@
       "sports",
       "loisirs",
       "accessoires",
-      "Ã©clairage",
+      "éclairage",
       "camping"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Gourdes isothermes",
@@ -902,12 +942,13 @@
       "loisirs",
       "accessoires",
       "isotherme",
-      "tempÃ©rature"
+      "température"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "Sac a dos randonnÃ©e - RÃ©sistant Ã  l'eau, LÃ©ger",
+    "label": "Sac a dos randonnée - Résistant à l'eau, Léger",
     "asin": "B07T9P5Q23",
     "status": "active",
     "mustHave": false,
@@ -918,17 +959,18 @@
     "tags": [
       "sac",
       "dos",
-      "randonnÃ©e",
-      "rÃ©sistant",
+      "randonnée",
+      "résistant",
       "eau",
-      "lÃ©ger",
+      "léger",
       "genericbrand",
       "bagages",
       "sacs",
       "trekking",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Mini ventilateur portatif",
@@ -948,7 +990,8 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "brumisateur",
@@ -966,10 +1009,11 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
-    "label": "ThermomÃ¨tre digital",
+    "label": "Thermomètre digital",
     "asin": "B0BTHB8GWJ",
     "status": "active",
     "mustHave": false,
@@ -978,14 +1022,15 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "thermomÃ¨tre",
+      "thermomètre",
       "digital",
       "genericbrand",
       "sports",
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Batterie externe",
@@ -1004,7 +1049,8 @@
       "loisirs",
       "accessoires"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Trousse de secours",
@@ -1042,7 +1088,8 @@
       "thermique",
       "polaire"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Doudoune femme prix 2",
@@ -1061,7 +1108,8 @@
       "thermique",
       "polaire"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Doudoune enfant",
@@ -1079,7 +1127,8 @@
       "enfant",
       "thermique"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sous-vêtements thermiques femme",
@@ -1098,7 +1147,8 @@
       "sous-vetements",
       "neige"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sous-vêtements thermiques enfant",
@@ -1117,7 +1167,8 @@
       "sous-vetements",
       "neige"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bonnet laine mixte",
@@ -1136,7 +1187,8 @@
       "neige",
       "accessoires-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Gants hiver imperméables",
@@ -1155,7 +1207,8 @@
       "impermeable",
       "ski"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Gants ski enfant",
@@ -1174,7 +1227,8 @@
       "neige",
       "enfant"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Écharpe polaire mixte",
@@ -1192,7 +1246,8 @@
       "polaire",
       "neige"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaussettes thermiques laine",
@@ -1211,7 +1266,8 @@
       "laine",
       "neige"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bottes hiver imperméables homme",
@@ -1231,7 +1287,8 @@
       "homme",
       "chaussures-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bottes hiver imperméables femme",
@@ -1251,7 +1308,8 @@
       "femme",
       "chaussures-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bottes hiver enfant",
@@ -1270,7 +1328,8 @@
       "enfant",
       "chaussures-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalon de ski homme",
@@ -1290,7 +1349,8 @@
       "homme",
       "glisse"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalon de ski femme",
@@ -1310,7 +1370,8 @@
       "femme",
       "glisse"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Cagoule / tour de cou",
@@ -1328,7 +1389,8 @@
       "neige",
       "protection-visage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Crampons chaussures glace",
@@ -1348,7 +1410,8 @@
       "securite",
       "randonnee-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaufferettes mains",
@@ -1366,7 +1429,8 @@
       "neige",
       "confort-hiver"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Crème solaire SPF50 visage",
@@ -1386,7 +1450,8 @@
       "tropical",
       "plage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Crème solaire SPF50 corps",
@@ -1406,7 +1471,8 @@
       "tropical",
       "plage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Crème solaire enfant SPF50+",
@@ -1425,7 +1491,8 @@
       "creme-solaire",
       "enfant"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chapeau anti-UV mixte",
@@ -1444,7 +1511,8 @@
       "protection-solaire",
       "bob"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Short de bain homme",
@@ -1464,7 +1532,8 @@
       "maillot",
       "homme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Maillot de bain femme",
@@ -1484,7 +1553,8 @@
       "maillot",
       "femme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Maillot de bain enfant",
@@ -1504,7 +1574,8 @@
       "maillot",
       "enfant"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Robe légère femme",
@@ -1523,7 +1594,8 @@
       "femme",
       "tropical"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Short cargo homme",
@@ -1542,7 +1614,8 @@
       "homme",
       "randonnee"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "T-shirts respirants femme",
@@ -1561,7 +1634,8 @@
       "femme",
       "leger"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sandales légères homme",
@@ -1580,7 +1654,8 @@
       "leger",
       "homme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sandales légères femme",
@@ -1599,7 +1674,8 @@
       "leger",
       "femme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Anti-moustique spray",
@@ -1622,7 +1698,8 @@
       "TH",
       "MA",
       "BR"
-    ]
+    ],
+    "imageUrl": null
   },
   {
     "label": "Anti-moustique bracelet enfant",
@@ -1645,7 +1722,8 @@
       "TH",
       "MA",
       "BR"
-    ]
+    ],
+    "imageUrl": null
   },
   {
     "label": "Ventilateur portable USB",
@@ -1663,7 +1741,8 @@
       "ventilateur",
       "tropical"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Masque de snorkeling",
@@ -1682,7 +1761,8 @@
       "plongee",
       "tropical"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Palmes légères",
@@ -1701,7 +1781,8 @@
       "plongee",
       "snorkeling"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sac étanche waterproof",
@@ -1720,7 +1801,8 @@
       "kayak",
       "protection"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Tapis de plage sable resistant",
@@ -1738,7 +1820,8 @@
       "confort",
       "ete"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sac à dos randonnée 40L",
@@ -1757,7 +1840,8 @@
       "outdoor",
       "backpacking"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sac à dos randonnée 20L",
@@ -1776,7 +1860,8 @@
       "outdoor",
       "journee"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bâtons de randonnée",
@@ -1794,7 +1879,8 @@
       "batons",
       "outdoor"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaussures de randonnée homme",
@@ -1813,7 +1899,8 @@
       "outdoor",
       "homme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Chaussures de randonnée enfant",
@@ -1832,7 +1919,8 @@
       "outdoor",
       "enfant"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Guêtres imperméables",
@@ -1851,7 +1939,8 @@
       "outdoor",
       "boue"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Poncho de pluie léger",
@@ -1869,7 +1958,8 @@
       "outdoor",
       "leger"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Veste imperméable homme",
@@ -1888,7 +1978,8 @@
       "veste",
       "homme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Veste imperméable femme",
@@ -1907,7 +1998,8 @@
       "veste",
       "femme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalon de randonnée convertible homme",
@@ -1926,7 +2018,8 @@
       "homme",
       "convertible"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pantalon de randonnée femme",
@@ -1944,7 +2037,8 @@
       "outdoor",
       "femme"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Boussole de randonnée",
@@ -1963,7 +2057,8 @@
       "outdoor",
       "montagne"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Couverture de survie",
@@ -1982,7 +2077,8 @@
       "outdoor",
       "montagne"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Adaptateur universel de voyage",
@@ -2000,7 +2096,8 @@
       "universel",
       "tech"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Power bank 20000mAh",
@@ -2018,7 +2115,8 @@
       "chargeur",
       "tech"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Power bank solaire",
@@ -2037,7 +2135,8 @@
       "outdoor",
       "randonnee"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Câble multi USB",
@@ -2055,7 +2154,8 @@
       "tech",
       "usb"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Casque audio voyage bruit",
@@ -2074,7 +2174,8 @@
       "avion",
       "electronique"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Serrure TSA valise",
@@ -2094,7 +2195,8 @@
     ],
     "countryCodes": [
       "US"
-    ]
+    ],
+    "imageUrl": null
   },
   {
     "label": "Cadenas valise combinaison",
@@ -2111,7 +2213,8 @@
       "valise",
       "bagage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Appareil photo compact waterproof",
@@ -2130,7 +2233,8 @@
       "randonnee",
       "mer"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "GoPro / caméra action",
@@ -2150,7 +2254,8 @@
       "sport",
       "waterproof"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Valise cabine rigide",
@@ -2167,7 +2272,8 @@
       "transport",
       "cabine"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sac de voyage pliable",
@@ -2185,7 +2291,8 @@
       "pliable",
       "leger"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pochette anti-vol ceinture",
@@ -2203,7 +2310,8 @@
       "documents",
       "voyage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Organiseur de câbles",
@@ -2220,7 +2328,8 @@
       "electronique",
       "rangement"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Cubes de rangement bagages set",
@@ -2238,7 +2347,8 @@
       "valise",
       "cubes"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Porte-documents voyage",
@@ -2256,7 +2366,8 @@
       "passeport",
       "voyage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Étiquettes bagage",
@@ -2273,7 +2384,8 @@
       "organisation",
       "valise"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Kit hygiène voyage miniatures",
@@ -2291,7 +2403,8 @@
       "miniatures",
       "voyage"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Pastilles purification eau",
@@ -2311,7 +2424,8 @@
       "trek",
       "tropical"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Crème anti-friction",
@@ -2329,7 +2443,8 @@
       "confort",
       "friction"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Médicaments mal des transports",
@@ -2348,7 +2463,8 @@
       "bateau",
       "confort"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Spray désinfectant mains",
@@ -2365,7 +2481,8 @@
       "desinfectant",
       "protection"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Collyre yeux secs voyage",
@@ -2383,7 +2500,8 @@
       "avion",
       "confort"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Coussin de voyage gonflable",
@@ -2401,7 +2519,8 @@
       "train",
       "sommeil"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Masque de nuit sommeil",
@@ -2419,7 +2538,8 @@
       "avion",
       "nuit"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Bouchons oreilles réutilisables",
@@ -2437,7 +2557,8 @@
       "avion",
       "bruit"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Couverture polaire légère voyage",
@@ -2456,7 +2577,8 @@
       "sommeil",
       "couverture"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Sac de couchage léger",
@@ -2475,7 +2597,8 @@
       "outdoor",
       "backpacking"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Tapis de yoga voyage pliable",
@@ -2493,7 +2616,8 @@
       "meditation",
       "confort"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Corde à sauter sport",
@@ -2511,7 +2635,8 @@
       "cardio",
       "leger"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Raquette de plage",
@@ -2529,7 +2654,8 @@
       "ete",
       "mer"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Masque de ski / snowboard",
@@ -2548,7 +2674,8 @@
       "glisse",
       "montagne"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Casque de ski adulte",
@@ -2568,7 +2695,8 @@
       "securite",
       "casque"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Casque de ski enfant",
@@ -2589,7 +2717,8 @@
       "casque",
       "enfant"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   },
   {
     "label": "Gilet de sauvetage kayak",
@@ -2608,6 +2737,7 @@
       "securite",
       "sport-eau"
     ],
-    "countryCodes": []
+    "countryCodes": [],
+    "imageUrl": null
   }
 ]
