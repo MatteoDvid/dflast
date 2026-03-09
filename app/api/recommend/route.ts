@@ -224,11 +224,18 @@ export async function POST(request: Request) {
       }
     }
 
-    const sorted = filtered.sort((a, b) => {
-      if (a.mustHave !== b.mustHave) return a.mustHave ? -1 : 1;
-      if (a.priority !== b.priority) return a.priority - b.priority;
-      return a.asin.localeCompare(b.asin); // tie-breaker stable
-    });
+    // mustHave en premier (trié par priority), puis le reste shufflé pour varier les résultats
+    const mustHaves = filtered
+      .filter(p => p.mustHave)
+      .sort((a, b) => a.priority - b.priority);
+
+    const others = filtered.filter(p => !p.mustHave);
+    for (let i = others.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [others[i], others[j]] = [others[j], others[i]];
+    }
+
+    const sorted = [...mustHaves, ...others];
 
     const seen = new Set<string>();
     const response = sorted.filter((p) => {
