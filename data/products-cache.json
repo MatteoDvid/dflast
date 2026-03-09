@@ -414,10 +414,10 @@
     "tags": [
       "chaussettes",
       "laine",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires"
+      "froid",
+      "hiver",
+      "thermique",
+      "montagne"
     ],
     "countryCodes": [],
     "imageUrl": null
@@ -729,7 +729,7 @@
     "status": "active",
     "mustHave": false,
     "priority": 3,
-    "audience": "all",
+    "audience": "child",
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
@@ -865,16 +865,12 @@
     "ageMin": 0,
     "ageMax": 120,
     "tags": [
-      "spray",
-      "anti",
-      "moustique",
-      "genericbrand",
-      "sports",
-      "loisirs",
-      "accessoires",
       "anti-moustique",
       "répulsif",
-      "insectes"
+      "insectes",
+      "tropical",
+      "ete",
+      "chaleur"
     ],
     "countryCodes": [],
     "imageUrl": null

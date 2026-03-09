@@ -180,6 +180,12 @@ export async function POST(request: Request) {
             }
           }
 
+          // CountryCodes filter: si défini, le produit doit inclure le pays de destination
+          if (Array.isArray((p as any).countryCodes) && (p as any).countryCodes.length > 0) {
+            const cc: string[] = (p as any).countryCodes;
+            if (!cc.includes(wizard.destinationCountry.toUpperCase())) return false;
+          }
+
           if (!(groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax)) return false;
 
           // Audience check
