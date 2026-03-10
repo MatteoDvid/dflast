@@ -271,8 +271,15 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${new Date().getTime()}.pdf`;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
-    // iOS Safari ne supporte pas les blob URLs ni l'attribut download
-    // On utilise une data URI qui reste valide sans référence externe
+    // iOS : utiliser le Web Share API natif (ouvre la feuille de partage iOS)
+    // Permet de sauvegarder dans Fichiers, AirDrop, etc.
+    const blob = doc.output('blob');
+    const file = new File([blob], fileName, { type: 'application/pdf' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: 'Checklist Voyage' });
+      return;
+    }
+    // Fallback si Web Share API non disponible
     const dataUri = doc.output('datauristring');
     window.location.href = dataUri;
   } else {
