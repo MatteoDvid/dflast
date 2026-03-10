@@ -267,9 +267,15 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.setTextColor(150, 150, 150);
   doc.text('Liens Amazon disponibles sur l\'application', pageWidth / 2, footerY, { align: 'center' });
   
-  // Sauvegarder le PDF
+  // Sauvegarder le PDF — iOS Safari ne supporte pas <a download>, on ouvre dans un onglet
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${new Date().getTime()}.pdf`;
-  doc.save(fileName);
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (isIOS) {
+    const blobUrl = doc.output('bloburl');
+    window.open(blobUrl as unknown as string, '_blank');
+  } else {
+    doc.save(fileName);
+  }
 }
 
 // Fonction pour générer un aperçu du PDF (optionnel)
