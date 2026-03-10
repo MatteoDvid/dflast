@@ -271,8 +271,11 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${new Date().getTime()}.pdf`;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
-    const blobUrl = doc.output('bloburl');
-    window.open(blobUrl as unknown as string, '_blank');
+    // iOS Safari bloque window.open() sur blob URL — on navigue dans le même onglet
+    // L'utilisateur peut ensuite partager/sauvegarder depuis le viewer natif
+    const blob = doc.output('blob');
+    const url = URL.createObjectURL(blob);
+    window.location.href = url;
   } else {
     doc.save(fileName);
   }
