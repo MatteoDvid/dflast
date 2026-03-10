@@ -271,11 +271,10 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${new Date().getTime()}.pdf`;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
-    // iOS Safari bloque window.open() sur blob URL — on navigue dans le même onglet
-    // L'utilisateur peut ensuite partager/sauvegarder depuis le viewer natif
-    const blob = doc.output('blob');
-    const url = URL.createObjectURL(blob);
-    window.location.href = url;
+    // iOS Safari ne supporte pas les blob URLs ni l'attribut download
+    // On utilise une data URI qui reste valide sans référence externe
+    const dataUri = doc.output('datauristring');
+    window.location.href = dataUri;
   } else {
     doc.save(fileName);
   }
