@@ -98,6 +98,8 @@ export async function POST(request: Request) {
         asin: p.asin,
         marketplace,
         imageUrl: p.imageUrl,
+        category: p.category,
+        mustHave: p.mustHave,
         explain: [
           `destination=${wizard.destinationCountry}`,
           `marketplace=${marketplace}`,
