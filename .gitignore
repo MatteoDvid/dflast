@@ -14,3 +14,4 @@ pnpm-debug.log*
 dont-forget-*.json
 credentials.json
 devis-*.pdf
+data/amazon-images-cache.json

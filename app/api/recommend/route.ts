@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 import { readProductsFromCacheOrSheet } from '@/lib/sheets';
 import { selectProductsWithAI } from '@/lib/ai';
 import { AILogger } from '@/lib/logger';
+import { enrichProductsWithAmazonImages } from '@/lib/amazon/enrich-products';
 import {
   WizardStateSchema,
   ProductResponseSchema,
@@ -24,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     const wizard = parsed.data;
-    const marketplace = (wizard.marketplaceCountry ?? wizard.destinationCountry).toUpperCase();
+    const marketplace = 'FR';
     const groupMinAge = Math.min(...wizard.ages);
     const groupMaxAge = Math.max(...wizard.ages);
     const hasChild = wizard.ages.some((a) => a < 18);
@@ -56,7 +57,7 @@ export async function POST(request: Request) {
         destinationCountry: wizard.destinationCountry,
         destinationCity: wizard.destinationCity,
         destinationDisplayName: wizard.destinationDisplayName,
-        marketplaceCountry: wizard.marketplaceCountry ?? wizard.destinationCountry,
+        marketplaceCountry: marketplace,
         dates: wizard.dates,
         adults: wizard.adults ?? 0,
         children: wizard.children ?? 0,
@@ -86,28 +87,30 @@ export async function POST(request: Request) {
 
     // Déduplication et formatage
     const seen = new Set<string>();
-    const response = combined
-      .filter((p) => {
-        const key = `${p.asin}::${p.label}`;
-        if (seen.has(key)) return false;
-        seen.add(key);
-        return true;
-      })
-      .map((p) => ({
-        label: p.label,
-        asin: p.asin,
-        marketplace,
-        imageUrl: p.imageUrl,
-        explain: [
-          `destination=${wizard.destinationCountry}`,
-          `marketplace=${marketplace}`,
-          `ageRange=${groupMinAge}-${groupMaxAge}`,
-          ...(p.mustHave ? ['mustHave=true'] : []),
-          `priority=${p.priority}`,
-          `ai=${aiResult.source}`,
-          ...(aiResult.reason ? [`aiReason=${aiResult.reason}`] : []),
-        ],
-      }));
+    const dedupedProducts = combined.filter((p) => {
+      const key = `${p.asin}::${p.label}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+
+    const enrichedProducts = await enrichProductsWithAmazonImages(dedupedProducts);
+
+    const response = enrichedProducts.map((p) => ({
+      label: p.label,
+      asin: p.asin,
+      marketplace,
+      imageUrl: p.imageUrl,
+      explain: [
+        `destination=${wizard.destinationCountry}`,
+        `marketplace=${marketplace}`,
+        `ageRange=${groupMinAge}-${groupMaxAge}`,
+        ...(p.mustHave ? ['mustHave=true'] : []),
+        `priority=${p.priority}`,
+        `ai=${aiResult.source}`,
+        ...(aiResult.reason ? [`aiReason=${aiResult.reason}`] : []),
+      ],
+    }));
 
     const validatedResponse = ProductResponseSchema.array().parse(response);
     AILogger.setSelectedProducts(validatedResponse);
