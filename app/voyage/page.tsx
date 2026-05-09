@@ -27,6 +27,7 @@ type AiResult =
 interface GeocodeSuggestion {
   displayName: string;
   city: string;
+  region: string;
   countryCode: string;
   countryName: string;
   coordinates: { lat: number; lng: number };
@@ -255,6 +256,7 @@ export default function WizardPage() {
           products,
           destination: destinationCountry,
           destinationDisplay: selectedLocation?.displayName || getSelectedDestinationName(),
+          region: selectedLocation?.region || '',
           startDate: dateStart,
           endDate: dateEnd
         };
@@ -374,6 +376,7 @@ export default function WizardPage() {
           setSelectedLocation({
             displayName: validDest.name,
             city: '',
+            region: '',
             countryCode: destCode,
             countryName: validDest.name,
             coordinates: { lat: 0, lng: 0 }
