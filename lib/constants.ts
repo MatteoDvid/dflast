@@ -55,3 +55,50 @@ export function getCategoryFromTag(tag: string): CategoryId {
   // Other / Autre
   return 'other';
 }
+
+export const INDISPENSABLES = [
+  { label: 'Passeport', icon: '🛂' },
+  { label: "Pièce d'identité", icon: '🪪' },
+  { label: 'Téléphone chargé', icon: '📱' },
+  { label: 'Chargeur universel', icon: '🔌' },
+  { label: 'Carte bancaire internationale', icon: '💳' },
+  { label: 'Assurance voyage', icon: '🏥' },
+  { label: 'Billets / réservations', icon: '✈️' },
+  { label: 'Médicaments personnels', icon: '💊' },
+] as const;
+
+export const CATEGORY_ORDER = [
+  'securite',
+  'sante',
+  'vetements',
+  'chaussures',
+  'accessoires',
+  'bagagerie',
+  'electronique',
+  'sport',
+  'confort',
+] as const;
+
+export const CATEGORY_LABELS: Record<string, string> = {
+  securite: 'Sécurité',
+  sante: 'Santé',
+  vetements: 'Vêtements',
+  chaussures: 'Chaussures',
+  accessoires: 'Accessoires',
+  bagagerie: 'Bagagerie',
+  electronique: 'Électronique',
+  sport: 'Sport',
+  confort: 'Confort',
+};
+
+export const CATEGORY_ICONS: Record<string, string> = {
+  securite: '🔒',
+  sante: '💊',
+  vetements: '🧥',
+  chaussures: '👟',
+  accessoires: '🎒',
+  bagagerie: '🧳',
+  electronique: '⚡',
+  sport: '🏃',
+  confort: '😌',
+};
