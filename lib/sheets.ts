@@ -134,6 +134,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     tokens: ['_tokens', 'tokens', '_token', 'token'],
     countryCodes: ['countrycodes', 'pays', 'pays cibles', 'countries', 'country'],
     imageUrl: ['imageurl', 'image url', 'image_url', 'image-url', 'imagelien', 'image lien', 'image_lien', 'image-lien', 'url image', 'lien image'],
+    category: ['category', 'categorie', 'catégorie'],
   };
   function normalizeCountryNameToIso2(input: string | undefined): string | null {
     const v = String(input || '').trim().toLowerCase();
@@ -284,6 +285,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
       tags: tags as any,
       countryCodes: parseCountries(r[idx('countryCodes')]),
       imageUrl,
+      category: (r[idx('category')] || '').toString().trim().toLowerCase() || undefined,
     };
 
     const parsed = ProductRecordSchema.safeParse(candidate);
