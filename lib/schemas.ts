@@ -52,6 +52,7 @@ export const ProductRecordSchema = z
     tags: z.array(TagIdSchema).max(50).optional(),
     countryCodes: z.array(Iso2CountrySchema).optional(),
     imageUrl: z.string().url().optional(),
+    category: z.string().optional(),
   })
   .refine((p) => p.ageMin <= p.ageMax, {
     message: 'ageMin doit être ≤ ageMax',
@@ -66,6 +67,8 @@ export const ProductResponseSchema = z.object({
   marketplace: Iso2CountrySchema,
   explain: z.array(z.string()),
   imageUrl: z.string().url().optional(),
+  category: z.string().optional(),
+  mustHave: z.boolean().optional(),
 });
 
 export type ProductResponse = z.infer<typeof ProductResponseSchema>;
