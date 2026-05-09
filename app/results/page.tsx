@@ -47,6 +47,9 @@ export default function ResultsPage() {
   const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [destinationImage, setDestinationImage] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(false);
+  const [tripRegion, setTripRegion] = useState('');
+  const [tripCityRaw, setTripCityRaw] = useState('');
+  const [tripCountryCode, setTripCountryCode] = useState('');
 
   // Charger les données du voyage depuis sessionStorage
   useEffect(() => {
@@ -80,6 +83,11 @@ export default function ResultsPage() {
           animals: tripData.numAnimals || tripData.animals || 0,
           activities: (tripData.activities && tripData.activities.length > 0) ? tripData.activities : ["Voyage découverte"]
         });
+
+        // Populate banner state
+        setTripRegion(tripData.region || '');
+        setTripCityRaw(tripData.destinationCity || '');
+        setTripCountryCode(tripData.destinationCountry || tripData.destination || '');
       }
     } catch (err) {
       console.warn('Erreur lors du chargement des données de voyage:', err);
@@ -88,40 +96,27 @@ export default function ResultsPage() {
     }
   }, []);
 
-  // Fetch AI Image once destination is set
   useEffect(() => {
-    const fetchImage = async () => {
-      // Feature Flag check
-      if (process.env.NEXT_PUBLIC_ENABLE_AI_IMAGES !== 'true') return;
+    if (!tripCountryCode) return;
+    if (destinationImage) return;
 
-      if (!tripSummary.destination || tripSummary.destination === "Marseille") return;
-      if (destinationImage) return; // Already fetched
-
-      setImageLoading(true);
-      try {
-        const res = await fetch('/api/destination-image', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            destination: tripSummary.destination,
-            // We can try to guess country code if needed, but for now sending just destination is usually enough for DALL-E
-          }),
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.url) {
-            setDestinationImage(data.url);
-          }
-        }
-      } catch (err) {
-        console.error('Failed to load destination image:', err);
-      } finally {
-        setImageLoading(false);
-      }
-    };
-
-    fetchImage();
-  }, [tripSummary.destination, destinationImage]); // Added dependency to fix valid-deps
+    setImageLoading(true);
+    fetch('/api/destination-image', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        city: tripCityRaw || undefined,
+        region: tripRegion || undefined,
+        countryCode: tripCountryCode,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.url) setDestinationImage(data.url);
+      })
+      .catch((err) => console.error('[results] Failed to load banner:', err))
+      .finally(() => setImageLoading(false));
+  }, [tripCountryCode, tripCityRaw, tripRegion, destinationImage]);
 
   // Charger les recommandations depuis l'API
   useEffect(() => {
@@ -286,40 +281,44 @@ export default function ResultsPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
 
-        {/* MERGED: AI Hero Section (From HEAD) inserted into Upstream Layout */}
-        {process.env.NEXT_PUBLIC_ENABLE_AI_IMAGES === 'true' && (
-          <div className="mb-4 sm:mb-8 rounded-3xl overflow-hidden relative min-h-[250px] sm:min-h-[300px] flex items-end">
-            {destinationImage ? (
-              <div
-                className="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-700"
-                style={{ backgroundImage: `url('${destinationImage}')` }}
-              />
-            ) : (
-              <div className={`absolute inset-0 w-full h-full bg-gradient-to-r from-gray-800 to-gray-900 ${imageLoading ? 'animate-pulse' : ''}`} />
-            )}
+        {/* AI Destination Banner */}
+        <div
+          className="mb-6 sm:mb-10 rounded-3xl overflow-hidden relative flex items-end min-h-[280px] sm:min-h-[380px]"
+          style={{
+            backgroundImage: destinationImage ? `url('${destinationImage}')` : undefined,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        >
+          {/* Skeleton while loading */}
+          {imageLoading && !destinationImage && (
+            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+          )}
 
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+          {/* Fallback gradient when no image and not loading */}
+          {!destinationImage && !imageLoading && (
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-indigo-700 to-purple-800" />
+          )}
 
-            <div className="relative z-10 p-4 sm:p-8 w-full">
-              <div className="glass-card-dark inline-block px-4 py-2 sm:px-6 sm:py-3 rounded-2xl backdrop-blur-md border border-white/10 mb-2 sm:mb-4">
-                <span className="text-orange-400 font-medium tracking-wider text-xs sm:text-sm uppercase">Votre Voyage</span>
-              </div>
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-2 font-airbnb drop-shadow-lg">
-                {tripSummary.destination}
-              </h1>
-              <p className="text-lg sm:text-xl text-gray-200 font-medium drop-shadow-md">
-                Préparez-vous pour l&apos;aventure
-              </p>
-              {imageLoading && (
-                <div className="mt-4 flex items-center gap-2 text-white/80 text-xs sm:text-sm">
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  Génération de votre image exclusive par l&apos;IA...
-                </div>
-              )}
-            </div>
+          {/* Dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+          {/* Text */}
+          <div className="relative z-10 p-6 sm:p-10 w-full">
+            <p className="text-white/70 text-xs sm:text-sm uppercase tracking-widest font-medium mb-2">
+              Votre voyage
+            </p>
+            <h1 className="text-3xl sm:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+              {tripSummary.destination}
+            </h1>
+            <p className="text-white/80 text-base sm:text-lg mt-2 font-medium">
+              {tripSummary.startDate && tripSummary.endDate
+                ? `${tripSummary.startDate} → ${tripSummary.endDate}`
+                : 'Préparez votre aventure'}
+            </p>
           </div>
-        )}
-        {/* END MERGED HERO */}
+        </div>
+        {/* END AI Destination Banner */}
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-8">
           {/* Sidebar - Récapitulatif du voyage (From Upstream) */}
