@@ -46,6 +46,7 @@ export async function GET(request: Request) {
       return {
         displayName: simplifiedDisplayName,
         city: city,
+        region: item.address?.state || item.address?.region || '',
         countryCode: extractCountryCode(item),
         countryName: countryName,
         coordinates: {
