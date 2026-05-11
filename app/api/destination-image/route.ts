@@ -48,8 +48,7 @@ export async function POST(req: Request) {
       prompt,
       n: 1,
       size: '1536x1024' as any,
-      quality: 'high' as any,
-      response_format: 'b64_json',
+      quality: 'low' as any,
     });
 
     const b64 = (response as any).data[0]?.b64_json;
