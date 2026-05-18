@@ -4,6 +4,7 @@ export const dynamic = 'force-dynamic';
 import { readProductsFromCacheOrSheet } from '@/lib/sheets';
 import { selectProductsWithAI } from '@/lib/ai';
 import { AILogger } from '@/lib/logger';
+import { getProductImageMap } from '@/lib/image-cache';
 import {
   WizardStateSchema,
   ProductResponseSchema,
@@ -84,6 +85,8 @@ export async function POST(request: Request) {
 
     const combined = [...mustHaves, ...aiSelected];
 
+    const productImageMap = await getProductImageMap();
+
     // Déduplication et formatage
     const seen = new Set<string>();
     const response = combined
@@ -97,7 +100,7 @@ export async function POST(request: Request) {
         label: p.label,
         asin: p.asin,
         marketplace,
-        imageUrl: p.imageUrl,
+        imageUrl: productImageMap.get(p.asin) ?? p.imageUrl,
         category: p.category,
         mustHave: p.mustHave,
         explain: [
