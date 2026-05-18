@@ -19,6 +19,7 @@ interface PDFTripData {
   activities?: string[];
   products: PDFProduct[];
   affiliateTag?: string;
+  bannerImageUrl?: string;
 }
 
 export async function generateChecklistPDF(tripData: PDFTripData) {
@@ -44,39 +45,64 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   
   let currentY = margin;
 
-  // Header avec fond vert
-  doc.setFillColor(9, 145, 66); // #099142
-  doc.rect(0, 0, pageWidth, 50, 'F');
-  
-  // Logo Don't Forget
-  try {
-    // Essayer de charger le logo PNG
-    const logoUrl = '/images/logodf.png';
-    
-    // Convertir l'image en base64
-    const loadImageAsBase64 = async (url: string): Promise<string> => {
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onloadend = () => resolve(reader.result as string);
-          reader.onerror = reject;
-          reader.readAsDataURL(blob);
-        });
-      } catch (error) {
-        console.error('Erreur lors du chargement du logo:', error);
-        return '';
+  // Helper: load any URL as base64 data URI
+  const loadImageAsBase64 = async (url: string): Promise<string> => {
+    try {
+      const response = await fetch(url);
+      const blob = await response.blob();
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    } catch (error) {
+      console.error('Erreur lors du chargement de l\'image:', error);
+      return '';
+    }
+  };
+
+  if (tripData.bannerImageUrl) {
+    // Header avec image de destination
+    try {
+      const bannerBase64 = await loadImageAsBase64(tripData.bannerImageUrl);
+      if (bannerBase64) {
+        doc.addImage(bannerBase64, 'PNG', 0, 0, pageWidth, 50);
+      } else {
+        // Fallback fond vert si l'image ne charge pas
+        doc.setFillColor(9, 145, 66);
+        doc.rect(0, 0, pageWidth, 50, 'F');
       }
-    };
-    
-    const logoBase64 = await loadImageAsBase64(logoUrl);
-    
-    if (logoBase64) {
-      // Ajouter l'image du logo
-      doc.addImage(logoBase64, 'PNG', 15, 15, 20, 20);
-    } else {
-      // Fallback : logo stylisé si l'image ne charge pas
+    } catch (error) {
+      console.error('Erreur lors du chargement du banner:', error);
+      doc.setFillColor(9, 145, 66);
+      doc.rect(0, 0, pageWidth, 50, 'F');
+    }
+  } else {
+    // Header avec fond vert (fallback)
+    doc.setFillColor(9, 145, 66); // #099142
+    doc.rect(0, 0, pageWidth, 50, 'F');
+
+    // Logo Don't Forget
+    try {
+      const logoBase64 = await loadImageAsBase64('/images/logodf.png');
+
+      if (logoBase64) {
+        doc.addImage(logoBase64, 'PNG', 15, 15, 20, 20);
+      } else {
+        // Fallback : logo stylisé si l'image ne charge pas
+        doc.setFillColor(255, 255, 255);
+        doc.circle(25, 25, 10, 'F');
+        doc.setFillColor(9, 145, 66);
+        doc.circle(25, 25, 8, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('DF', 25, 27.5, { align: 'center' });
+      }
+    } catch (error) {
+      console.error('Erreur lors du chargement du logo:', error);
+      // Fallback : logo stylisé
       doc.setFillColor(255, 255, 255);
       doc.circle(25, 25, 10, 'F');
       doc.setFillColor(9, 145, 66);
@@ -86,33 +112,22 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       doc.setFont('helvetica', 'bold');
       doc.text('DF', 25, 27.5, { align: 'center' });
     }
-  } catch (error) {
-    console.error('Erreur lors du chargement du logo:', error);
-    // Fallback : logo stylisé
-    doc.setFillColor(255, 255, 255);
-    doc.circle(25, 25, 10, 'F');
-    doc.setFillColor(9, 145, 66);
-    doc.circle(25, 25, 8, 'F');
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(14);
-    doc.setFont('helvetica', 'bold');
-    doc.text('DF', 25, 27.5, { align: 'center' });
   }
-  
-  // Titre principal en blanc
+
+  // Titre principal en blanc (commun aux deux chemins)
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(24);
   doc.setFont('helvetica', 'bold');
   doc.text('DON\'T FORGET', pageWidth / 2, 20, { align: 'center' });
-  
+
   doc.setFontSize(14);
   doc.setFont('helvetica', 'normal');
   doc.text('CHECKLIST VOYAGE PERSONNALISÉE', pageWidth / 2, 30, { align: 'center' });
-  
+
   // Destination et dates
   doc.setFontSize(12);
   doc.text(`${tripData.destination} • ${tripData.startDate} - ${tripData.endDate}`, pageWidth / 2, 40, { align: 'center' });
-  
+
   currentY = 60;
   
   // Section récapitulatif

@@ -348,7 +348,8 @@ export default function ResultsPage() {
           description: product.description,
           price: product.price
         })),
-        affiliateTag: config.amazonAffiliateTag
+        affiliateTag: config.amazonAffiliateTag,
+        bannerImageUrl: destinationImage ?? undefined,
       };
 
       // Générer et télécharger le PDF

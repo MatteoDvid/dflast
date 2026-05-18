@@ -399,7 +399,7 @@ export default function WizardPage() {
       // Adults
       const adults = params.get('adults');
       if (adults && !isNaN(Number(adults))) {
-        const numAdultsValue = Math.max(1, Math.min(10, Number(adults)));
+        const numAdultsValue = Math.max(1, Math.min(20, Number(adults)));
         setNumAdults(numAdultsValue);
         setSelectedTravelers(true);
       }
@@ -407,7 +407,7 @@ export default function WizardPage() {
       // Children
       const children = params.get('children');
       if (children && !isNaN(Number(children))) {
-        const numChildrenValue = Math.max(0, Math.min(10, Number(children)));
+        const numChildrenValue = Math.max(0, Math.min(20, Number(children)));
         setNumChildren(numChildrenValue);
         setSelectedTravelers(true);
       }
@@ -415,7 +415,7 @@ export default function WizardPage() {
       // Animals
       const animals = params.get('animals');
       if (animals && !isNaN(Number(animals))) {
-        const numAnimalsValue = Math.max(0, Math.min(5, Number(animals)));
+        const numAnimalsValue = Math.max(0, Math.min(10, Number(animals)));
         setNumAnimals(numAnimalsValue);
       }
 
@@ -1152,7 +1152,7 @@ export default function WizardPage() {
                     <button
                       type="button"
                       className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
-                      onClick={() => setNumAdults((n) => Math.min(10, n + 1))}
+                      onClick={() => setNumAdults((n) => Math.min(20, n + 1))}
                     >
                       +
                     </button>
@@ -1177,7 +1177,7 @@ export default function WizardPage() {
                     <button
                       type="button"
                       className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
-                      onClick={() => setNumChildren((n) => Math.min(10, n + 1))}
+                      onClick={() => setNumChildren((n) => Math.min(20, n + 1))}
                     >
                       +
                     </button>
@@ -1201,7 +1201,7 @@ export default function WizardPage() {
                     <button
                       type="button"
                       className="w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-all"
-                      onClick={() => setNumAnimals((n) => Math.min(5, n + 1))}
+                      onClick={() => setNumAnimals((n) => Math.min(10, n + 1))}
                     >
                       +
                     </button>
