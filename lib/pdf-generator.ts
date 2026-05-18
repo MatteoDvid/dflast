@@ -7,6 +7,7 @@ interface PDFProduct {
   isPlanned: boolean;
   description?: string;
   price?: string;
+  imageUrl?: string;
 }
 
 interface PDFTripData {
@@ -192,56 +193,67 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   currentY += 10;
   
   // Liste des produits
-  tripData.products.forEach((product, index) => {
-    // Vérifier si on a besoin d'une nouvelle page
-    if (currentY > pageHeight - 40) {
+  for (const product of tripData.products) {
+    const thumbSize = 18; // mm
+    const thumbX = pageWidth - margin - thumbSize;
+    const textMaxWidth = contentWidth - thumbSize - 5;
+
+    // Estimer la hauteur du bloc pour éviter une coupure de page en plein milieu
+    const minRowHeight = product.imageUrl ? thumbSize + 4 : 30;
+    if (currentY > pageHeight - Math.max(minRowHeight, 40)) {
       doc.addPage();
       currentY = margin;
     }
-    
+
+    const rowStartY = currentY;
+
+    // Vignette produit (droite)
+    if (product.imageUrl) {
+      try {
+        const imgBase64 = await loadImageAsBase64(product.imageUrl);
+        if (imgBase64) {
+          doc.addImage(imgBase64, 'PNG', thumbX, rowStartY - 4, thumbSize, thumbSize);
+        }
+      } catch { /* image non critique, on continue */ }
+    }
+
     // Checkbox
     const checkboxSize = 5;
     const checkboxX = margin;
     const checkboxY = currentY - 4;
-    
+
     if (product.isPlanned) {
-      // Case cochée - dessiner la checkbox et le check mark
-      doc.setFillColor(9, 145, 66); // #099142
+      doc.setFillColor(9, 145, 66);
       doc.rect(checkboxX, checkboxY, checkboxSize, checkboxSize, 'F');
-      
-      // Dessiner un check mark avec des lignes
       doc.setDrawColor(255, 255, 255);
       doc.setLineWidth(0.8);
-      // Première ligne du check
       doc.line(checkboxX + 1, checkboxY + 2.5, checkboxX + 2, checkboxY + 3.5);
-      // Deuxième ligne du check
       doc.line(checkboxX + 2, checkboxY + 3.5, checkboxX + 4, checkboxY + 1.5);
     } else {
-      // Case vide
       doc.setDrawColor(200, 200, 200);
       doc.setLineWidth(0.5);
       doc.rect(checkboxX, checkboxY, checkboxSize, checkboxSize);
     }
-    
+
     // Nom du produit
     doc.setTextColor(26, 26, 26);
     doc.setFontSize(12);
     doc.setFont('helvetica', 'bold');
     const productNameX = margin + 10;
-    doc.text(product.label, productNameX, currentY);
-    
+    doc.text(product.label, productNameX, currentY, { maxWidth: textMaxWidth });
+
     currentY += 6;
-    
+
     // Description (si disponible)
     if (product.description) {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
       doc.setTextColor(102, 102, 102);
-      const lines = doc.splitTextToSize(product.description, contentWidth - 10);
+      const lines = doc.splitTextToSize(product.description, textMaxWidth);
       doc.text(lines, productNameX, currentY);
       currentY += lines.length * 4;
     }
-    
+
     // Statut
     doc.setFontSize(9);
     if (product.isPlanned) {
@@ -251,29 +263,30 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       doc.setTextColor(102, 102, 102);
       doc.text('Je n\'ai pas prévu', productNameX, currentY);
     }
-    
+
     // Lien Amazon cliquable
     if (product.asin) {
       currentY += 4;
-      doc.setTextColor(59, 130, 246); // Bleu pour les liens
+      doc.setTextColor(59, 130, 246);
       doc.setFontSize(8);
       const linkText = `Voir sur Amazon`;
       const linkWidth = doc.getTextWidth(linkText);
-      
-      // Ajouter le lien cliquable avec le tag d'affiliation
       const affiliateTag = tripData.affiliateTag || config.amazonAffiliateTag;
       doc.textWithLink(linkText, productNameX, currentY, {
         url: `https://www.amazon.fr/dp/${product.asin}?tag=${affiliateTag}`
       });
-      
-      // Souligner le lien
       doc.setDrawColor(59, 130, 246);
       doc.setLineWidth(0.1);
       doc.line(productNameX, currentY + 0.5, productNameX + linkWidth, currentY + 0.5);
     }
-    
+
+    // S'assurer qu'on descend au moins jusqu'au bas de la vignette
+    if (product.imageUrl) {
+      currentY = Math.max(currentY, rowStartY - 4 + thumbSize);
+    }
+
     currentY += 10;
-  });
+  }
   
   // Footer
   const footerY = pageHeight - 15;

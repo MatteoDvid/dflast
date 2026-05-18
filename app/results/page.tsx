@@ -346,7 +346,8 @@ export default function ResultsPage() {
           asin: product.asin,
           isPlanned: plannedProducts.has(product.asin),
           description: product.description,
-          price: product.price
+          price: product.price,
+          imageUrl: product.imageUrl,
         })),
         affiliateTag: config.amazonAffiliateTag,
         bannerImageUrl: destinationImage ?? undefined,
