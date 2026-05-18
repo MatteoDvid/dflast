@@ -68,6 +68,14 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       const bannerBase64 = await loadImageAsBase64(tripData.bannerImageUrl);
       if (bannerBase64) {
         doc.addImage(bannerBase64, 'PNG', 0, 0, pageWidth, 50);
+        // Dark overlay for text legibility
+        const d = doc as any;
+        if (typeof d.setGState === 'function') {
+          d.setGState(new d.GState({ opacity: 0.5 }));
+          doc.setFillColor(0, 0, 0);
+          doc.rect(0, 0, pageWidth, 50, 'F');
+          d.setGState(new d.GState({ opacity: 1 }));
+        }
       } else {
         // Fallback fond vert si l'image ne charge pas
         doc.setFillColor(9, 145, 66);
