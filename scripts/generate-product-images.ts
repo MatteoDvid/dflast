@@ -16,17 +16,17 @@ function sleep(ms: number) {
 }
 
 async function generateImage(label: string, openai: OpenAI): Promise<Buffer> {
-  const prompt = `Product photo of ${label}, isolated on pure white background, clean e-commerce style, no text, photorealistic`;
+  const prompt = `Product photo of ${label.trim()}, isolated on pure white background, clean e-commerce style, no text, photorealistic`;
 
   const response = await openai.images.generate({
     model: 'gpt-image-2' as any,
     prompt,
     n: 1,
-    size: '1024x1024' as any,
-    quality: 'low' as any,
+    size: '1024x1024',
+    quality: 'low',
   });
 
-  const b64 = (response as any).data[0]?.b64_json;
+  const b64 = response.data?.[0]?.b64_json;
   if (!b64) throw new Error('No image data returned from OpenAI');
   return Buffer.from(b64, 'base64');
 }
@@ -35,6 +35,11 @@ async function main() {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) {
     console.error('❌ OPENAI_API_KEY manquante. Lancer avec node --env-file=.env.local');
+    process.exit(1);
+  }
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.error('❌ BLOB_READ_WRITE_TOKEN manquante. Lancer avec node --env-file=.env.local');
     process.exit(1);
   }
 
