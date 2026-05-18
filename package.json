@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint . --ext .js,.mjs,.cjs,.ts,.tsx --max-warnings=0",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "generate:images": "tsx scripts/generate-product-images.ts"
   },
   "dependencies": {
     "@types/jspdf": "^1.3.3",

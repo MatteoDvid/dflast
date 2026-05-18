@@ -36,14 +36,26 @@ export async function storeCachedImage(key: string, buffer: Buffer): Promise<str
   return blob.url;
 }
 
+let imageMapCache: { map: Map<string, string>; ts: number } | null = null;
+const IMAGE_MAP_TTL_MS = 5 * 60 * 1000;
+
 export async function getProductImageMap(): Promise<Map<string, string>> {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) return new Map();
+  if (imageMapCache && Date.now() - imageMapCache.ts < IMAGE_MAP_TTL_MS) {
+    return imageMapCache.map;
+  }
   try {
-    const { blobs } = await list({ prefix: 'product-images/' });
     const map = new Map<string, string>();
-    for (const b of blobs) {
-      const asin = b.pathname.replace('product-images/', '').replace('.png', '');
-      if (asin) map.set(asin, b.url);
-    }
+    let cursor: string | undefined;
+    do {
+      const result = await list({ prefix: 'product-images/', cursor });
+      for (const b of result.blobs) {
+        const asin = b.pathname.replace('product-images/', '').replace('.png', '');
+        if (asin) map.set(asin, b.url);
+      }
+      cursor = result.hasMore ? result.cursor : undefined;
+    } while (cursor);
+    imageMapCache = { map, ts: Date.now() };
     return map;
   } catch (err) {
     console.error('[getProductImageMap] list() failed:', err);
