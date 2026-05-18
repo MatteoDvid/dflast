@@ -39,12 +39,48 @@ function groupByCategory(products: PDFProduct[]): { category: string; items: PDF
     if (map.has(cat)) ordered.push({ category: cat, items: map.get(cat)! });
   }
   for (const [cat, items] of map) {
-    if (!(CATEGORY_ORDER as readonly string[]).includes(cat)) {
-      ordered.push({ category: cat, items });
-    }
+    if (!(CATEGORY_ORDER as readonly string[]).includes(cat)) ordered.push({ category: cat, items });
   }
   return ordered;
 }
+
+async function fetchBase64(url: string): Promise<string> {
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch {
+    return '';
+  }
+}
+
+function resizeViaCanvas(base64: string, w: number, h: number, quality = 0.8): Promise<string> {
+  return new Promise((resolve) => {
+    try {
+      const img = new window.Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) { resolve(base64); return; }
+        ctx.drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = () => resolve(base64);
+      img.src = base64;
+    } catch {
+      resolve(base64);
+    }
+  });
+}
+
+const imgFormat = (b64: string) => (b64.startsWith('data:image/jpeg') ? 'JPEG' : 'PNG');
 
 export async function generateChecklistPDF(tripData: PDFTripData) {
   const doc = new jsPDF({
@@ -59,24 +95,42 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const pageHeight = doc.internal.pageSize.getHeight();
   const margin = 20;
   const contentWidth = pageWidth - margin * 2;
-
   let currentY = margin;
 
-  const loadImageAsBase64 = async (url: string): Promise<string> => {
-    try {
-      const response = await fetch(url);
-      const blob = await response.blob();
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    } catch {
-      return '';
-    }
-  };
+  // ── A: PRÉ-CHARGER TOUTES LES IMAGES EN PARALLÈLE ──────────────────────────
+  const bannerUrl = tripData.bannerImageUrl ?? '';
+  const logoUrl = '/images/logodf.png';
+  const productImageUrls = [...new Set(
+    tripData.products.map((p) => p.imageUrl).filter((u): u is string => !!u)
+  )];
 
+  const urlsToFetch = [
+    ...(bannerUrl ? [bannerUrl] : [logoUrl]),
+    ...productImageUrls,
+  ];
+
+  const rawBase64s = await Promise.all(urlsToFetch.map(fetchBase64));
+  const rawMap = new Map(urlsToFetch.map((url, i) => [url, rawBase64s[i]]));
+
+  // ── B: REDIMENSIONNER EN PARALLÈLE (canvas) ─────────────────────────────────
+  // Bannière → 600×150 JPEG 85%, vignettes produits → 72×72 JPEG 75%
+  type ResizeJob = [string, Promise<string>];
+  const resizeJobs: ResizeJob[] = [];
+  if (bannerUrl && rawMap.get(bannerUrl)) {
+    resizeJobs.push([bannerUrl, resizeViaCanvas(rawMap.get(bannerUrl)!, 600, 150, 0.85)]);
+  }
+  for (const url of productImageUrls) {
+    const raw = rawMap.get(url);
+    if (raw) resizeJobs.push([url, resizeViaCanvas(raw, 72, 72, 0.75)]);
+  }
+
+  const resized = await Promise.all(
+    resizeJobs.map(([url, p]) => p.then((b64) => [url, b64] as [string, string]))
+  );
+  const imgMap = new Map<string, string>([...rawMap, ...resized]);
+  const getImg = (url: string) => imgMap.get(url) ?? '';
+
+  // ── HELPERS ─────────────────────────────────────────────────────────────────
   const ensureSpace = (needed: number) => {
     if (currentY + needed > pageHeight - 20) {
       doc.addPage();
@@ -100,45 +154,29 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
     }
   };
 
-  // ── HEADER ──────────────────────────────────────────────────────────────────
-  if (tripData.bannerImageUrl) {
-    try {
-      const bannerBase64 = await loadImageAsBase64(tripData.bannerImageUrl);
-      if (bannerBase64) {
-        doc.addImage(bannerBase64, 'PNG', 0, 0, pageWidth, 50);
-        const d = doc as any;
-        if (typeof d.setGState === 'function') {
-          d.setGState(new d.GState({ opacity: 0.5 }));
-          doc.setFillColor(0, 0, 0);
-          doc.rect(0, 0, pageWidth, 50, 'F');
-          d.setGState(new d.GState({ opacity: 1 }));
-        }
-      } else {
-        doc.setFillColor(9, 145, 66);
+  // ── HEADER ───────────────────────────────────────────────────────────────────
+  if (bannerUrl) {
+    const b64 = getImg(bannerUrl);
+    if (b64) {
+      doc.addImage(b64, imgFormat(b64), 0, 0, pageWidth, 50);
+      const d = doc as any;
+      if (typeof d.setGState === 'function') {
+        d.setGState(new d.GState({ opacity: 0.5 }));
+        doc.setFillColor(0, 0, 0);
         doc.rect(0, 0, pageWidth, 50, 'F');
+        d.setGState(new d.GState({ opacity: 1 }));
       }
-    } catch {
+    } else {
       doc.setFillColor(9, 145, 66);
       doc.rect(0, 0, pageWidth, 50, 'F');
     }
   } else {
     doc.setFillColor(9, 145, 66);
     doc.rect(0, 0, pageWidth, 50, 'F');
-    try {
-      const logoBase64 = await loadImageAsBase64('/images/logodf.png');
-      if (logoBase64) {
-        doc.addImage(logoBase64, 'PNG', 15, 15, 20, 20);
-      } else {
-        doc.setFillColor(255, 255, 255);
-        doc.circle(25, 25, 10, 'F');
-        doc.setFillColor(9, 145, 66);
-        doc.circle(25, 25, 8, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.text('DF', 25, 27.5, { align: 'center' });
-      }
-    } catch {
+    const logoB64 = getImg(logoUrl);
+    if (logoB64) {
+      doc.addImage(logoB64, imgFormat(logoB64), 15, 15, 20, 20);
+    } else {
       doc.setFillColor(255, 255, 255);
       doc.circle(25, 25, 10, 'F');
       doc.setFillColor(9, 145, 66);
@@ -160,9 +198,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.setFontSize(12);
   doc.text(
     `${tripData.destination} - ${tripData.startDate} - ${tripData.endDate}`,
-    pageWidth / 2,
-    40,
-    { align: 'center' }
+    pageWidth / 2, 40, { align: 'center' }
   );
 
   currentY = 60;
@@ -192,9 +228,9 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
     doc.text('Activites :', margin, currentY);
     doc.setTextColor(26, 26, 26);
     doc.setFont('helvetica', 'bold');
-    const actText = doc.splitTextToSize(tripData.activities.join(', '), contentWidth - 24);
-    doc.text(actText, margin + 24, currentY);
-    currentY += actText.length * 5;
+    const actLines = doc.splitTextToSize(tripData.activities.join(', '), contentWidth - 24);
+    doc.text(actLines, margin + 24, currentY);
+    currentY += actLines.length * 5;
   }
 
   currentY += 4;
@@ -222,7 +258,8 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       drawCheckbox(x, currentY, isChecked, 4);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
-      doc.setTextColor(isChecked ? 160 : 50, isChecked ? 160 : 50, isChecked ? 160 : 50);
+      const shade = isChecked ? 160 : 50;
+      doc.setTextColor(shade, shade, shade);
       doc.text(item.label, x + 7, currentY);
     });
     currentY += 6;
@@ -246,35 +283,27 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const textMaxWidth = contentWidth - thumbSize - 8;
 
   for (const { category, items } of groupByCategory(tripData.products)) {
-    // En-tête de catégorie
     ensureSpace(12);
     doc.setFillColor(245, 245, 245);
     doc.rect(margin, currentY - 5, contentWidth, 8, 'F');
     doc.setTextColor(26, 26, 26);
     doc.setFontSize(11);
     doc.setFont('helvetica', 'bold');
-    const catLabel = CATEGORY_LABELS[category] ?? category;
-    doc.text(`${catLabel}  (${items.length})`, margin + 3, currentY);
+    doc.text(`${CATEGORY_LABELS[category] ?? category}  (${items.length})`, margin + 3, currentY);
     currentY += 8;
 
     for (const product of items) {
-      const minH = product.imageUrl ? thumbSize + 6 : 28;
-      ensureSpace(minH + 4);
+      ensureSpace((product.imageUrl ? thumbSize + 6 : 28) + 4);
 
       const rowY = currentY;
 
-      // Vignette
       if (product.imageUrl) {
-        try {
-          const imgB64 = await loadImageAsBase64(product.imageUrl);
-          if (imgB64) doc.addImage(imgB64, 'PNG', thumbX, rowY - 4, thumbSize, thumbSize);
-        } catch { /* non bloquant */ }
+        const b64 = getImg(product.imageUrl);
+        if (b64) doc.addImage(b64, imgFormat(b64), thumbX, rowY - 4, thumbSize, thumbSize);
       }
 
-      // Checkbox
       drawCheckbox(margin, currentY, product.isPlanned, 5);
 
-      // Nom
       const nameX = margin + 9;
       const nameLines = doc.splitTextToSize(product.label, textMaxWidth - 2);
       doc.setTextColor(26, 26, 26);
@@ -283,7 +312,6 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       doc.text(nameLines, nameX, currentY);
       currentY += nameLines.length * 5 + 1;
 
-      // Badge Essentiel / Recommande IA
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       if (product.mustHave) {
@@ -295,37 +323,33 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       }
       currentY += 5;
 
-      // Statut prévu
       doc.setFontSize(9);
       if (product.isPlanned) {
         doc.setTextColor(9, 145, 66);
         doc.text("J'ai deja prevu", nameX, currentY);
       } else {
         doc.setTextColor(150, 150, 150);
-        doc.text("Pas encore prevu", nameX, currentY);
+        doc.text('Pas encore prevu', nameX, currentY);
       }
 
-      // Lien Amazon
       if (product.asin) {
         currentY += 4;
         doc.setTextColor(59, 130, 246);
         doc.setFontSize(8);
         const linkText = 'Voir sur Amazon';
         const linkW = doc.getTextWidth(linkText);
-        const affiliateTag = tripData.affiliateTag || config.amazonAffiliateTag;
+        const tag = tripData.affiliateTag || config.amazonAffiliateTag;
         doc.textWithLink(linkText, nameX, currentY, {
-          url: `https://www.amazon.fr/dp/${product.asin}?tag=${affiliateTag}`,
+          url: `https://www.amazon.fr/dp/${product.asin}?tag=${tag}`,
         });
         doc.setDrawColor(59, 130, 246);
         doc.setLineWidth(0.1);
         doc.line(nameX, currentY + 0.5, nameX + linkW, currentY + 0.5);
       }
 
-      // Aligner sous la vignette si elle dépasse
       if (product.imageUrl) currentY = Math.max(currentY, rowY - 4 + thumbSize);
       currentY += 8;
 
-      // Séparateur léger entre produits
       doc.setDrawColor(240, 240, 240);
       doc.setLineWidth(0.2);
       doc.line(margin + 9, currentY - 4, pageWidth - margin, currentY - 4);
@@ -345,7 +369,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.text("Genere par Don't Forget", margin, footerY);
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text('Liens Amazon disponibles sur l\'application', pageWidth / 2, footerY, { align: 'center' });
+  doc.text("Liens Amazon disponibles sur l'application", pageWidth / 2, footerY, { align: 'center' });
 
   // ── SAUVEGARDE ───────────────────────────────────────────────────────────────
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}.pdf`;
