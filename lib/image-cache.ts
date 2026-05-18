@@ -45,7 +45,8 @@ export async function getProductImageMap(): Promise<Map<string, string>> {
       if (asin) map.set(asin, b.url);
     }
     return map;
-  } catch {
+  } catch (err) {
+    console.error('[getProductImageMap] list() failed:', err);
     return new Map();
   }
 }
