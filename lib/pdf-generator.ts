@@ -372,7 +372,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.text("Liens Amazon disponibles sur l'application", pageWidth / 2, footerY, { align: 'center' });
 
   // ── SAUVEGARDE ───────────────────────────────────────────────────────────────
-  const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}.pdf`;
+  const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}.pdf`;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (isIOS) {
     const blob = doc.output('blob');
