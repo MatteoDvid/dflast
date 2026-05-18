@@ -35,3 +35,17 @@ export async function storeCachedImage(key: string, buffer: Buffer): Promise<str
   });
   return blob.url;
 }
+
+export async function getProductImageMap(): Promise<Map<string, string>> {
+  try {
+    const { blobs } = await list({ prefix: 'product-images/' });
+    const map = new Map<string, string>();
+    for (const b of blobs) {
+      const asin = b.pathname.replace('product-images/', '').replace('.png', '');
+      if (asin) map.set(asin, b.url);
+    }
+    return map;
+  } catch {
+    return new Map();
+  }
+}
