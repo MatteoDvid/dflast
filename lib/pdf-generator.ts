@@ -300,6 +300,18 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       if (product.imageUrl) {
         const b64 = getImg(product.imageUrl);
         if (b64) doc.addImage(b64, imgFormat(b64), thumbX, rowY - 4, thumbSize, thumbSize);
+      } else {
+        // Fallback: carré gris clair + abrégé de catégorie
+        doc.setFillColor(245, 245, 245);
+        doc.rect(thumbX, rowY - 4, thumbSize, thumbSize, 'F');
+        doc.setDrawColor(220, 220, 220);
+        doc.setLineWidth(0.3);
+        doc.rect(thumbX, rowY - 4, thumbSize, thumbSize);
+        doc.setTextColor(180, 180, 180);
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'normal');
+        const catShort = (CATEGORY_LABELS[product.category ?? ''] ?? '?').slice(0, 6);
+        doc.text(catShort, thumbX + thumbSize / 2, rowY - 4 + thumbSize / 2 + 1, { align: 'center' });
       }
 
       drawCheckbox(margin, currentY, product.isPlanned, 5);

@@ -77,8 +77,8 @@ function ProductCard({
             sizes="96px"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-400 text-xs text-center">
-            <div>📦</div>
+          <div className="w-full h-full flex items-center justify-center text-gray-400 text-2xl">
+            {CATEGORY_ICONS[product.category ?? ''] ?? '📦'}
           </div>
         )}
       </div>
