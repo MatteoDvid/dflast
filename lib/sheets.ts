@@ -48,7 +48,12 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     if (age < ttl) {
       const raw = await fs.readFile(cachePath, 'utf-8');
       const json = JSON.parse(raw);
-      const products = ProductRecordSchema.array().parse(json);
+      // Strip null values that Zod .optional() rejects (JSON serializes undefined as null)
+      const sanitized = (json as any[]).map((p: any) => ({
+        ...p,
+        imageUrl: p.imageUrl ?? undefined,
+      }));
+      const products = ProductRecordSchema.array().parse(sanitized);
       // Mettre en mémoire cache
       memoryCache = { products, timestamp: Date.now() };
       return products;

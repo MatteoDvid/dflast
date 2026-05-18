@@ -47,8 +47,10 @@ async function main() {
 
   console.log('📋 Chargement des produits depuis Google Sheets...');
   const products = await readProductsFromCacheOrSheet();
+  const ASIN_RE = /^B[0-9A-Z]{9}$/;
   const active = products
     .filter((p) => p.status === 'active')
+    .filter((p) => ASIN_RE.test(p.asin))
     .filter((p) => !asinFilter || p.asin === asinFilter);
 
   console.log(`📦 ${active.length} produits actifs à traiter${asinFilter ? ` (filtre: ${asinFilter})` : ''}${force ? ' [--force]' : ''}\n`);
