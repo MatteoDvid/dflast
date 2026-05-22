@@ -30,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: { asin: string
   const tag = config.amazonAffiliateTag;
   const tld = tldForMarketplace(marketplace);
 
-  const url = new URL(`https://www.amazon.${tld}/dp/${asin}`);
+  const url = new URL(`https://www.amazon.${tld}/dp/${asin}/ref=nosim`);
   url.searchParams.set('tag', tag);
   if (subtag) url.searchParams.set('ascsubtag', subtag);
 
