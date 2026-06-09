@@ -33,6 +33,26 @@ interface GeocodeSuggestion {
   coordinates: { lat: number; lng: number };
 }
 
+// Pré-génère l'image de destination dès que l'utilisateur choisit sa
+// destination : le temps qu'il remplisse le reste du wizard (~30-60s),
+// l'image est en cache quand la page results la demande.
+const prewarmedImages = new Set<string>();
+function prewarmDestinationImage(city?: string, region?: string, countryCode?: string) {
+  if (!countryCode) return;
+  const key = `${city ?? ''}|${region ?? ''}|${countryCode}`;
+  if (prewarmedImages.has(key)) return;
+  prewarmedImages.add(key);
+  fetch('/api/destination-image', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      city: city || undefined,
+      region: region || undefined,
+      countryCode,
+    }),
+  }).catch(() => {});
+}
+
 // Liste des destinations d'origine avec recherche
 const DESTINATIONS = [
   { code: 'FR', name: 'France', flag: '🇫🇷' },
@@ -210,6 +230,10 @@ export default function WizardPage() {
 
   const onSubmit = useCallback(async () => {
     setResult({ status: 'loading' });
+
+    // Filet de sécurité : si la destination n'est pas passée par le dropdown
+    // (pays direct), lance la génération de l'image dès maintenant.
+    prewarmDestinationImage(selectedLocation?.city || '', selectedLocation?.region || '', destinationCountry);
 
     // Préparer toutes les données pour l'API
     const apiData = {
@@ -805,6 +829,7 @@ export default function WizardPage() {
                                 setSelectedDestination(true);
                                 setIsDestinationDropdownOpen(false);
                                 setSuggestions([]);
+                                prewarmDestinationImage(suggestion.city, suggestion.region, suggestion.countryCode);
                               }}
                             >
                               <span className="font-medium">{suggestion.displayName}</span>

@@ -104,9 +104,12 @@ function ProductCard({
             href={`/api/affiliate/${product.asin}?marketplace=${product.marketplace}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-white text-xs font-medium px-3 py-1.5 rounded-full hover:opacity-90 transition-opacity"
-            style={{ backgroundColor: '#1a1a1a' }}
+            className="inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-full shadow-sm hover:shadow-md hover:brightness-105 active:scale-95 transition-all"
+            style={{ backgroundColor: '#FF9900', color: '#1a1a1a' }}
           >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
             Voir sur Amazon
           </a>
           <button
@@ -209,10 +212,24 @@ export default function ResultsPage() {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.url) setDestinationImage(data.url);
+        if (!data.url) {
+          setImageLoading(false);
+          return;
+        }
+        // Précharge l'image avant de l'afficher pour un fondu propre
+        // (évite l'apparition progressive du background).
+        const img = new window.Image();
+        img.onload = () => {
+          setDestinationImage(data.url);
+          setImageLoading(false);
+        };
+        img.onerror = () => setImageLoading(false);
+        img.src = data.url;
       })
-      .catch((err) => console.error('[results] Failed to load banner:', err))
-      .finally(() => setImageLoading(false));
+      .catch((err) => {
+        console.error('[results] Failed to load banner:', err);
+        setImageLoading(false);
+      });
   }, [tripCountryCode, tripCityRaw, tripRegion, destinationImage]);
 
   // Charger les recommandations depuis l'API
@@ -230,38 +247,56 @@ export default function ResultsPage() {
 
         const tripData = JSON.parse(tripDataRaw);
 
-        // Formatter les âges en array de nombres
-        const ages = Array.isArray(tripData.ages)
-          ? tripData.ages.filter((age: number) => typeof age === 'number')
-          : [30]; // Fallback
+        let apiProducts: any[];
 
-        // Formatter les dates en ISO
-        const start = (tripData.dateStart || tripData.startDate) ? new Date(tripData.dateStart || tripData.startDate).toISOString() : new Date().toISOString();
-        const end = (tripData.dateEnd || tripData.endDate) ? new Date(tripData.dateEnd || tripData.endDate).toISOString() : new Date().toISOString();
+        // Le wizard a déjà appelé /api/recommend avec le contexte complet
+        // (ville, activités, budget) : réutiliser ces résultats au lieu de
+        // refaire un appel avec un payload appauvri.
+        if (Array.isArray(tripData.products) && tripData.products.length > 0) {
+          apiProducts = tripData.products;
+        } else {
+          // Formatter les âges en array de nombres
+          const ages = Array.isArray(tripData.ages)
+            ? tripData.ages.filter((age: number) => typeof age === 'number')
+            : [30]; // Fallback
 
-        // Préparer le payload pour l'API recommend
-        const recommendPayload = {
-          destinationCountry: tripData.destinationCountry || tripData.destination || 'FR',
-          marketplaceCountry: 'FR',
-          dates: { start, end },
-          travelers: tripData.travelers || 1,
-          ages: ages
-        };
+          // Formatter les dates en ISO
+          const start = (tripData.dateStart || tripData.startDate) ? new Date(tripData.dateStart || tripData.startDate).toISOString() : new Date().toISOString();
+          const end = (tripData.dateEnd || tripData.endDate) ? new Date(tripData.dateEnd || tripData.endDate).toISOString() : new Date().toISOString();
 
-        console.log('Envoi de la requête:', recommendPayload);
+          // Payload complet : la ville, les activités et le budget influencent
+          // la sélection IA (sinon tous les voyages d'un même pays donnent les
+          // mêmes produits).
+          const recommendPayload = {
+            destinationCountry: tripData.destinationCountry || tripData.destination || 'FR',
+            destinationCity: tripData.destinationCity || undefined,
+            destinationDisplayName: tripData.destinationDisplayName || tripData.destinationDisplay || undefined,
+            marketplaceCountry: 'FR',
+            dates: { start, end },
+            travelers: tripData.travelers || 1,
+            ages: ages.length > 0 ? ages : [30],
+            adults: tripData.adults ?? tripData.numAdults ?? undefined,
+            children: tripData.children ?? tripData.numChildren ?? undefined,
+            animals: tripData.animals ?? tripData.numAnimals ?? 0,
+            activities: (Array.isArray(tripData.activities) && tripData.activities.length > 0) ? tripData.activities : undefined,
+            budget: tripData.budget || undefined,
+          };
 
-        // Appel à l'API de recommandation
-        const response = await fetch('/api/recommend', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(recommendPayload)
-        });
+          console.log('Envoi de la requête:', recommendPayload);
 
-        if (!response.ok) {
-          throw new Error(`Erreur API: ${response.status}`);
+          // Appel à l'API de recommandation
+          const response = await fetch('/api/recommend', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(recommendPayload)
+          });
+
+          if (!response.ok) {
+            throw new Error(`Erreur API: ${response.status}`);
+          }
+
+          apiProducts = await response.json();
         }
-
-        const apiProducts = await response.json();
 
         // Transformer les données API vers notre format
         const transformedProducts: ProductItem[] = apiProducts.map((product: any, index: number) => ({
@@ -386,26 +421,54 @@ export default function ResultsPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
 
         {/* AI Destination Banner */}
-        <div
-          className="mb-6 sm:mb-10 rounded-3xl overflow-hidden relative flex items-end min-h-[280px] sm:min-h-[380px]"
-          style={{
-            backgroundImage: destinationImage ? `url('${destinationImage}')` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        >
-          {/* Skeleton while loading */}
-          {imageLoading && !destinationImage && (
-            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+        <style>{`
+          @keyframes df-banner-fade {
+            from { opacity: 0; transform: scale(1.03); }
+            to { opacity: 1; transform: scale(1); }
+          }
+          @keyframes df-banner-sheen {
+            from { transform: translateX(-100%) skewX(-12deg); }
+            to { transform: translateX(250%) skewX(-12deg); }
+          }
+        `}</style>
+        <div className="mb-6 sm:mb-10 rounded-3xl overflow-hidden relative flex items-end min-h-[280px] sm:min-h-[380px]">
+          {/* Placeholder : gradient animé pendant (et avant) la génération */}
+          {!destinationImage && (
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-indigo-700 to-purple-800 overflow-hidden">
+              {imageLoading && (
+                <div
+                  className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-white/15 to-transparent"
+                  style={{ animation: 'df-banner-sheen 2.2s ease-in-out infinite' }}
+                />
+              )}
+            </div>
           )}
 
-          {/* Fallback gradient when no image and not loading */}
-          {!destinationImage && !imageLoading && (
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-700 via-indigo-700 to-purple-800" />
+          {/* Image générée (préchargée, apparition en fondu) */}
+          {destinationImage && (
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `url('${destinationImage}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                animation: 'df-banner-fade 0.8s ease both',
+              }}
+            />
           )}
 
           {/* Dark overlay for text readability */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+
+          {/* Indicateur de génération */}
+          {imageLoading && !destinationImage && (
+            <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5">
+              <div className="w-3.5 h-3.5 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+              <span className="text-white/90 text-xs font-medium">
+                ✨ Création de votre visuel de voyage…
+              </span>
+            </div>
+          )}
 
           {/* Text */}
           <div className="relative z-10 p-6 sm:p-10 w-full">

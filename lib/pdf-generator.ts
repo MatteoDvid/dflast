@@ -59,7 +59,15 @@ async function fetchBase64(url: string): Promise<string> {
   }
 }
 
-function resizeViaCanvas(base64: string, w: number, h: number, quality = 0.8): Promise<string> {
+// fit 'cover' : recadrage centré sans déformation (bannière)
+// fit 'contain' : image entière sur fond blanc (vignettes produits)
+function resizeViaCanvas(
+  base64: string,
+  w: number,
+  h: number,
+  quality = 0.8,
+  fit: 'cover' | 'contain' = 'cover',
+): Promise<string> {
   return new Promise((resolve) => {
     try {
       const img = new window.Image();
@@ -69,7 +77,29 @@ function resizeViaCanvas(base64: string, w: number, h: number, quality = 0.8): P
         canvas.height = h;
         const ctx = canvas.getContext('2d');
         if (!ctx) { resolve(base64); return; }
-        ctx.drawImage(img, 0, 0, w, h);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        const targetRatio = w / h;
+        const srcRatio = img.width / img.height;
+        if (fit === 'cover') {
+          let sx = 0, sy = 0, sw = img.width, sh = img.height;
+          if (srcRatio > targetRatio) {
+            sw = img.height * targetRatio;
+            sx = (img.width - sw) / 2;
+          } else {
+            sh = img.width / targetRatio;
+            sy = (img.height - sh) / 2;
+          }
+          ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        } else {
+          let dw = w, dh = h;
+          if (srcRatio > targetRatio) {
+            dh = w / srcRatio;
+          } else {
+            dw = h * srcRatio;
+          }
+          ctx.drawImage(img, (w - dw) / 2, (h - dh) / 2, dw, dh);
+        }
         resolve(canvas.toDataURL('image/jpeg', quality));
       };
       img.onerror = () => resolve(base64);
@@ -113,15 +143,16 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const rawMap = new Map(urlsToFetch.map((url, i) => [url, rawBase64s[i]]));
 
   // ── B: REDIMENSIONNER EN PARALLÈLE (canvas) ─────────────────────────────────
-  // Bannière → 600×150 JPEG 85%, vignettes produits → 72×72 JPEG 75%
+  // Bannière → 630×150 (ratio 4.2:1 = zone PDF 210×50mm, recadrage cover sans
+  // déformation), vignettes produits → 72×72 contain sur fond blanc
   type ResizeJob = [string, Promise<string>];
   const resizeJobs: ResizeJob[] = [];
   if (bannerUrl && rawMap.get(bannerUrl)) {
-    resizeJobs.push([bannerUrl, resizeViaCanvas(rawMap.get(bannerUrl)!, 600, 150, 0.85)]);
+    resizeJobs.push([bannerUrl, resizeViaCanvas(rawMap.get(bannerUrl)!, 630, 150, 0.85, 'cover')]);
   }
   for (const url of productImageUrls) {
     const raw = rawMap.get(url);
-    if (raw) resizeJobs.push([url, resizeViaCanvas(raw, 72, 72, 0.75)]);
+    if (raw) resizeJobs.push([url, resizeViaCanvas(raw, 72, 72, 0.75, 'contain')]);
   }
 
   const resized = await Promise.all(
@@ -293,7 +324,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
     currentY += 8;
 
     for (const product of items) {
-      ensureSpace((product.imageUrl ? thumbSize + 6 : 28) + 4);
+      ensureSpace(36);
 
       const rowY = currentY;
 
@@ -345,18 +376,20 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
       }
 
       if (product.asin) {
-        currentY += 4;
-        doc.setTextColor(59, 130, 246);
-        doc.setFontSize(8);
-        const linkText = 'Voir sur Amazon';
-        const linkW = doc.getTextWidth(linkText);
+        currentY += 3;
         const tag = tripData.affiliateTag || config.amazonAffiliateTag;
-        doc.textWithLink(linkText, nameX, currentY, {
-          url: `https://www.amazon.fr/dp/${product.asin}?tag=${tag}`,
-        });
-        doc.setDrawColor(59, 130, 246);
-        doc.setLineWidth(0.1);
-        doc.line(nameX, currentY + 0.5, nameX + linkW, currentY + 0.5);
+        const url = `https://www.amazon.fr/dp/${product.asin}/ref=nosim?tag=${tag}`;
+        const btnText = 'Voir sur Amazon';
+        doc.setFontSize(8);
+        doc.setFont('helvetica', 'bold');
+        const btnW = doc.getTextWidth(btnText) + 8;
+        const btnH = 6.5;
+        doc.setFillColor(255, 153, 0);
+        doc.roundedRect(nameX, currentY, btnW, btnH, 1.5, 1.5, 'F');
+        doc.setTextColor(26, 26, 26);
+        doc.text(btnText, nameX + 4, currentY + 4.3);
+        doc.link(nameX, currentY, btnW, btnH, { url });
+        currentY += btnH - 2;
       }
 
       if (product.imageUrl) currentY = Math.max(currentY, rowY - 4 + thumbSize);
@@ -381,7 +414,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.text("Genere par Don't Forget", margin, footerY);
   doc.setFontSize(9);
   doc.setTextColor(150, 150, 150);
-  doc.text("Liens Amazon disponibles sur l'application", pageWidth / 2, footerY, { align: 'center' });
+  doc.text('Cliquez sur "Voir sur Amazon" pour ouvrir chaque produit', pageWidth / 2, footerY, { align: 'center' });
 
   // ── SAUVEGARDE ───────────────────────────────────────────────────────────────
   const fileName = `checklist-voyage-${tripData.destination.toLowerCase().replace(/\s+/g, '-')}.pdf`;
