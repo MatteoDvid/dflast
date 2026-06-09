@@ -1,0 +1,133 @@
+label,asin,status,mustHave,priority,audience,ageMin,ageMax,countryCodes,imageUrl,category
+Lunettes de soleil mixtes - Protection UV400 Polarisées,B0DPHJS7X4,active,FALSE,2,all,0,120,,,accessoires
+Sous-vêtements thermiques homme,B0CG5RFS3Z,active,FALSE,3,adult,0,120,,,vetements
+Sous-vêtements thermiques femme,B0CJ91TWD8,active,FALSE,3,adult,0,120,,,vetements
+Masque anti-vents,B0DK8DTY7H,active,FALSE,3,all,0,120,,,accessoires
+Pantalon thermique homme,B0D3H82ZMT,active,FALSE,3,adult,0,120,,,vetements
+Pantalon thermique femme,B0FL24GVRB,active,FALSE,3,adult,0,120,,,vetements
+Polaire homme,B0FHLPNQ73,active,FALSE,3,adult,0,120,,,vetements
+Polaire femme,B0FBTGSTRW,active,FALSE,3,adult,0,120,,,vetements
+Crampons pour chaussures - Antidérapants,B0CLD22MTY,active,FALSE,3,all,0,120,,,accessoires
+Doudoune homme - entrée de gamme,B00GBISFQ6,active,FALSE,3,adult,0,120,,,vetements
+Doudoune homme - milieu de gamme,B0DXC8MY81,active,FALSE,3,adult,0,120,,,vetements
+Doudoune homme - premium,B08BR9HCFG,active,FALSE,3,adult,0,120,,,vetements
+Sac à dos waterproof - entrée de gamme,B0C1JT8RQS,active,FALSE,3,all,0,120,,,bagagerie
+Sac à dos waterproof - milieu de gamme,B0CVKZ5BDR,active,FALSE,3,all,0,120,,,bagagerie
+Sac à dos waterproof - premium,B09ZYPY3GB,active,FALSE,3,all,0,120,,,bagagerie
+Bonnet en laine doublé,B09M9P8NMJ,active,FALSE,3,all,0,120,,,accessoires
+Gants imperméables tactiles,B099K49RB1,active,FALSE,3,all,0,120,,,accessoires
+Tour de cou polaire,B08J7FJC54,active,FALSE,3,adult,0,120,,,accessoires
+Chaussettes en laine,B0DHKHC1T7,active,FALSE,3,all,0,120,,,accessoires
+Chaussures de randonnée craponnables - entrée de gamme,B07G5YFS1L,active,FALSE,3,all,0,120,,,chaussures
+Chaussures de randonnée craponnables - milieu de gamme,B0CLJFPWB6,active,FALSE,3,all,0,120,,,chaussures
+Chaussures de randonnée craponnables - premium,B0DCTLL6FN,active,FALSE,3,all,0,120,,,chaussures
+Adaptateur prise européenne,B0DCBTKN95,active,FALSE,3,all,0,120,,,electronique
+Lampe frontale LED rechargeable USB,B0BLVS6PS8,active,FALSE,3,all,0,120,,,electronique
+T-shirts respirants homme,B079NLHSV8,active,FALSE,3,adult,0,120,TH,,vetements
+T-shirts respirants femme,B07TXZ841G,active,FALSE,3,adult,0,120,,,vetements
+Coupe-vent léger mixte,B07FNJP2GB,active,FALSE,3,all,0,120,,,vetements
+Serviette microfibre,B06XJ9MY96,active,FALSE,3,all,0,120,,,accessoires
+Chaussures de randonnée homme - milieu de gamme,B0F13WP6KK,active,FALSE,3,adult,0,120,,,chaussures
+Chaussures de randonnée homme - premium,B0CKJDBZYR,active,FALSE,3,adult,0,120,,,chaussures
+Chaussures de randonnée femme - milieu de gamme,B0DNTPFND6,active,FALSE,3,adult,0,120,,,chaussures
+Chaussures de randonnée femme - premium,B06VXVRR8R,active,FALSE,3,adult,0,120,,,chaussures
+Chaussures de randonnée enfant,B0CB4CM4BV,active,FALSE,3,all,0,120,,,chaussures
+Claquettes mixte,B0CB9DJJVW,active,FALSE,3,all,0,120,,,chaussures
+Claquettes enfant,B0BDYN7ZQH,active,FALSE,3,child,3,17,,,chaussures
+Lunettes de soleil UV400 mixte,B0CQYRTFGS,active,FALSE,3,all,0,120,,,accessoires
+Crème solaire SPF 50+,B08BTD7RFV,active,FALSE,3,all,0,120,,,sante
+Baume à lèvres hydratant,B006DUPURO,active,FALSE,3,all,0,120,,,sante
+Spray anti-moustique,B088RTJXHS,active,FALSE,3,all,0,120,,,sante
+Adaptateur de prise universel,B0B2DRC76L,active,FALSE,3,all,0,120,,,electronique
+Lampe frontale LED,B01DNDMSLY,active,FALSE,3,all,0,120,,,electronique
+Gourde isotherme,B01MY09LEL,active,FALSE,3,all,0,120,,,confort
+Sac à dos de randonnée,B07T9P5Q23,active,FALSE,3,all,0,120,,,bagagerie
+Mini ventilateur portatif,B0BRV61DPY,active,FALSE,3,all,0,120,,,electronique
+Brumisateur,B0C7QV2M6D,active,FALSE,3,all,0,120,,,confort
+Thermomètre digital,B0BTHB8GWJ,active,FALSE,3,all,0,120,,,sante
+Batterie externe,NONE,active,FALSE,3,all,0,120,,,electronique
+Trousse de premiers secours,B0GDFCKCQH,active,TRUE,1,all,0,120,,https://drive.google.com/file/d/1HyuCN6yz8QVjv2ntuLFQqtOdIi3YCjzF/view?usp=drive_link,securite
+Doudoune femme - entrée de gamme,test,active,FALSE,2,adult,16,120,,,vetements
+Doudoune femme - milieu de gamme,test,active,FALSE,3,adult,16,120,,,vetements
+Doudoune enfant,test,active,FALSE,2,child,0,15,,,vetements
+Sous-vêtements thermiques femme premium,test,active,FALSE,1,adult,16,120,,,vetements
+Sous-vêtements thermiques enfant,test,active,FALSE,1,child,4,15,,,vetements
+Bonnet laine mixte,test,active,FALSE,2,all,0,120,,,accessoires
+Gants hiver imperméables,test,active,FALSE,2,all,4,120,,,accessoires
+Gants ski enfant,test,active,FALSE,2,child,4,14,,,accessoires
+Écharpe polaire mixte,test,active,FALSE,3,all,0,120,,,accessoires
+Chaussettes thermiques laine,test,active,FALSE,2,all,0,120,,,accessoires
+Bottes hiver imperméables homme,test,active,FALSE,1,adult,16,120,,,chaussures
+Bottes hiver imperméables femme,test,active,FALSE,1,adult,16,120,,,chaussures
+Bottes hiver enfant,test,active,FALSE,1,child,0,15,,,chaussures
+Pantalon de ski homme,test,active,FALSE,2,adult,16,120,,,vetements
+Pantalon de ski femme,test,active,FALSE,2,adult,16,120,,,vetements
+Cagoule / tour de cou,test,active,FALSE,3,all,4,120,,,accessoires
+Crampons chaussures glace,test,active,FALSE,2,adult,16,120,,,accessoires
+Chaufferettes mains,test,active,FALSE,3,all,0,120,,,accessoires
+Crème solaire SPF50 visage,test,active,TRUE,1,all,0,120,,,sante
+Crème solaire SPF50 corps,test,active,TRUE,1,all,0,120,,,sante
+Crème solaire enfant SPF50+,test,active,TRUE,1,child,0,15,,,sante
+Chapeau anti-UV mixte,test,active,FALSE,2,all,0,120,,,accessoires
+Short de bain homme,test,active,FALSE,2,adult,16,120,,,vetements
+Maillot de bain femme,test,active,FALSE,2,adult,16,120,,,vetements
+Maillot de bain enfant,test,active,FALSE,2,child,0,15,,,vetements
+Robe légère femme,test,active,FALSE,3,adult,16,120,,,vetements
+Short cargo homme,test,active,FALSE,3,adult,16,120,,,vetements
+T-shirts respirants femme V2,test,active,FALSE,2,adult,16,120,,,vetements
+Sandales légères homme,test,active,FALSE,2,adult,16,120,,,chaussures
+Sandales légères femme,test,active,FALSE,2,adult,16,120,,,chaussures
+Anti-moustique spray zones tropicales,test,active,TRUE,1,all,0,120,"TH,MA,BR",,sante
+Anti-moustique bracelet enfant,test,active,FALSE,2,child,0,15,"TH,MA,BR",,sante
+Ventilateur portable USB,test,active,FALSE,3,all,0,120,,,electronique
+Masque de snorkeling,test,active,FALSE,2,all,6,120,,,sport
+Palmes légères,test,active,FALSE,3,adult,16,120,,,sport
+Sac étanche waterproof,test,active,FALSE,2,all,0,120,,,bagagerie
+Tapis de plage sable résistant,test,active,FALSE,3,all,0,120,,,sport
+Sac à dos randonnée 40L,test,active,FALSE,1,adult,16,120,,,bagagerie
+Sac à dos randonnée 20L,test,active,FALSE,2,all,8,120,,,bagagerie
+Bâtons de randonnée,test,active,FALSE,2,adult,16,120,,,sport
+Chaussures de randonnée homme V2,test,active,FALSE,1,adult,16,120,,,chaussures
+Chaussures de randonnée enfant V2,test,active,FALSE,1,child,4,15,,,chaussures
+Guêtres imperméables,test,active,FALSE,3,adult,16,120,,,accessoires
+Poncho de pluie léger,test,active,FALSE,2,all,0,120,,,vetements
+Veste imperméable homme,test,active,FALSE,1,adult,16,120,,,vetements
+Veste imperméable femme,test,active,FALSE,1,adult,16,120,,,vetements
+Pantalon de randonnée convertible homme,test,active,FALSE,2,adult,16,120,,,vetements
+Pantalon de randonnée femme,test,active,FALSE,2,adult,16,120,,,vetements
+Boussole de randonnée,test,active,FALSE,3,adult,16,120,,,sport
+Couverture de survie,test,active,FALSE,2,all,0,120,,,securite
+Adaptateur universel de voyage,test,active,TRUE,1,all,0,120,,,electronique
+Power bank 20000mAh,test,active,FALSE,1,all,0,120,,,electronique
+Power bank solaire,test,active,FALSE,2,all,0,120,,,electronique
+Câble multi USB,test,active,FALSE,2,all,0,120,,,electronique
+Casque audio réduction de bruit,test,active,FALSE,3,all,8,120,,,electronique
+Serrure TSA valise,test,active,FALSE,2,all,0,120,US,,securite
+Cadenas valise à combinaison,test,active,FALSE,2,all,0,120,,,securite
+Appareil photo compact waterproof,test,active,FALSE,3,all,8,120,,,electronique
+GoPro / caméra d'action,test,active,FALSE,3,adult,16,120,,,electronique
+Valise cabine rigide,test,active,FALSE,2,all,0,120,,,bagagerie
+Sac de voyage pliable,test,active,FALSE,2,all,0,120,,,bagagerie
+Pochette anti-vol ceinture,test,active,FALSE,1,adult,16,120,,,securite
+Organiseur de câbles,test,active,FALSE,3,all,0,120,,,electronique
+Cubes de rangement bagages,test,active,FALSE,3,all,0,120,,,bagagerie
+Porte-documents voyage,test,active,FALSE,2,all,0,120,,,bagagerie
+Étiquettes bagage,test,active,FALSE,3,all,0,120,,,bagagerie
+Kit hygiène voyage miniatures,test,active,FALSE,2,all,0,120,,,sante
+Pastilles purification eau,test,active,FALSE,2,all,0,120,,,sante
+Crème anti-friction,test,active,FALSE,3,all,0,120,,,sante
+Médicaments mal des transports,test,active,FALSE,2,all,0,120,,,sante
+Spray désinfectant mains,test,active,FALSE,2,all,0,120,,,sante
+Collyre yeux secs voyage,test,active,FALSE,3,adult,16,120,,,sante
+Coussin de voyage gonflable,test,active,FALSE,3,all,0,120,,,confort
+Masque de nuit sommeil,test,active,FALSE,3,all,0,120,,,confort
+Bouchons oreilles réutilisables,test,active,FALSE,3,all,0,120,,,confort
+Couverture polaire légère voyage,test,active,FALSE,3,all,0,120,,,confort
+Sac de couchage léger,test,active,FALSE,2,all,0,120,,,confort
+Tapis de yoga voyage pliable,test,active,FALSE,3,adult,16,120,,,sport
+Corde à sauter sport,test,active,FALSE,3,all,6,120,,,sport
+Raquette de plage,test,active,FALSE,3,all,6,120,,,sport
+Masque de ski / snowboard,test,active,FALSE,1,all,6,120,,,sport
+Casque de ski adulte,test,active,FALSE,1,adult,16,120,,,sport
+Casque de ski enfant,test,active,FALSE,1,child,4,15,,,sport
+Gilet de sauvetage kayak,test,active,FALSE,1,all,0,120,,,sport

@@ -192,7 +192,7 @@ def build():
         ["2", Paragraph("Wizard de saisie 5 étapes", sBold),
                Paragraph("Destination (géocodage live OpenStreetMap), dates, voyageurs, activités (108 prédéfinies), budget", sBody)],
         ["3", Paragraph("Moteur de recommandation IA", sBold),
-               Paragraph("Analyse du voyage par GPT-4o-mini, sélection intelligente de tags produits avec logique de priorité", sBody)],
+               Paragraph("Catalogue complet envoyé à GPT-5-mini, sélection directe des produits adaptés au voyage par l'IA", sBody)],
         ["4", Paragraph("Catalogue produits dynamique", sBold),
                Paragraph("Géré via Google Sheets, cache 3 niveaux (mémoire → disque → API) pour performance optimale", sBody)],
         ["5", Paragraph("Système d'affiliation Amazon", sBold),
@@ -224,6 +224,12 @@ def build():
                    "telephone, chargeur universel...) affichee au-dessus des produits affilies.</font>", sBody),
          Paragraph("1 300 €", sRight)],
         ["1.2",
+         Paragraph("<b>Migration catalogue vers Supabase</b><br/>"
+                   "<font color='#666666' size='8'>Remplacement de Google Sheets par Supabase — "
+                   "interface d'administration pour gérer les produits, plus de dépendance Google Cloud. "
+                   "Migration des données existantes incluse.</font>", sBody),
+         Paragraph("Offert", sRight)],
+        ["1.3",
          Paragraph("<b>Images automatiques pour chaque produit</b><br/>"
                    "<font color='#666666' size='8'>Integration des images Amazon via ASIN (aucun cout API supplementaire), "
                    "lazy loading optimise, fallback propre par categorie si image indisponible. "
