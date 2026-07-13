@@ -110,41 +110,56 @@ function resizeViaCanvas(
   });
 }
 
-// Bannière : image entière conservée à son ratio d'origine (pas de recadrage),
-// comme sur la page de résultats. Retourne aussi le ratio pour dimensionner le
-// header du PDF. Ratio plancher 1.3125 (210/160mm) pour borner la hauteur.
-const MIN_BANNER_RATIO = 1.3125;
-function resizeBanner(
+// Carte bannière : recadrage cover léger (ratio 2.4:1, plus doux que l'ancien
+// 4.2:1), coins arrondis et dégradé sombre en bas intégrés au canvas — jsPDF
+// ne sait pas produire ces effets proprement.
+function renderBannerCard(
   base64: string,
-  targetW = 1050,
+  w = 1020,
+  h = 425,
+  radius = 26,
   quality = 0.85,
-): Promise<{ b64: string; ratio: number }> {
+): Promise<string> {
   return new Promise((resolve) => {
     try {
       const img = new window.Image();
       img.onload = () => {
-        const srcRatio = img.width / img.height;
-        const ratio = Math.max(srcRatio, MIN_BANNER_RATIO);
-        const w = targetW;
-        const h = Math.round(w / ratio);
         const canvas = document.createElement('canvas');
         canvas.width = w;
         canvas.height = h;
         const ctx = canvas.getContext('2d');
-        if (!ctx) { resolve({ b64: base64, ratio }); return; }
-        // Image trop haute pour le plancher : recadrage centré vertical
-        let sy = 0, sh = img.height;
-        if (srcRatio < ratio) {
-          sh = img.width / ratio;
+        if (!ctx) { resolve(''); return; }
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, w, h);
+        ctx.beginPath();
+        if (typeof ctx.roundRect === 'function') {
+          ctx.roundRect(0, 0, w, h, radius);
+        } else {
+          ctx.rect(0, 0, w, h);
+        }
+        ctx.clip();
+        const targetRatio = w / h;
+        const srcRatio = img.width / img.height;
+        let sx = 0, sy = 0, sw = img.width, sh = img.height;
+        if (srcRatio > targetRatio) {
+          sw = img.height * targetRatio;
+          sx = (img.width - sw) / 2;
+        } else {
+          sh = img.width / targetRatio;
           sy = (img.height - sh) / 2;
         }
-        ctx.drawImage(img, 0, sy, img.width, sh, 0, 0, w, h);
-        resolve({ b64: canvas.toDataURL('image/jpeg', quality), ratio });
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+        const grad = ctx.createLinearGradient(0, h * 0.45, 0, h);
+        grad.addColorStop(0, 'rgba(0,0,0,0)');
+        grad.addColorStop(1, 'rgba(0,0,0,0.72)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, h * 0.45, w, h * 0.55);
+        resolve(canvas.toDataURL('image/jpeg', quality));
       };
-      img.onerror = () => resolve({ b64: '', ratio: MIN_BANNER_RATIO });
+      img.onerror = () => resolve('');
       img.src = base64;
     } catch {
-      resolve({ b64: '', ratio: MIN_BANNER_RATIO });
+      resolve('');
     }
   });
 }
@@ -182,14 +197,14 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   const rawMap = new Map(urlsToFetch.map((url, i) => [url, rawBase64s[i]]));
 
   // ── B: REDIMENSIONNER EN PARALLÈLE (canvas) ─────────────────────────────────
-  // Bannière → pleine largeur au ratio d'origine (image entière, sans recadrage),
+  // Bannière → carte arrondie 2.4:1 avec dégradé intégré,
   // vignettes produits → 72×72 contain sur fond blanc
   type ResizeJob = [string, Promise<string>];
   const resizeJobs: ResizeJob[] = [];
-  const bannerJob: Promise<{ b64: string; ratio: number } | null> =
+  const bannerJob: Promise<string> =
     bannerUrl && rawMap.get(bannerUrl)
-      ? resizeBanner(rawMap.get(bannerUrl)!)
-      : Promise.resolve(null);
+      ? renderBannerCard(rawMap.get(bannerUrl)!)
+      : Promise.resolve('');
   for (const url of productImageUrls) {
     const raw = rawMap.get(url);
     if (raw) resizeJobs.push([url, resizeViaCanvas(raw, 72, 72, 0.75, 'contain')]);
@@ -227,21 +242,37 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   };
 
   // ── HEADER ───────────────────────────────────────────────────────────────────
-  // Avec bannière : image entière pleine largeur au ratio d'origine (comme sur la
-  // page de résultats), dégradé sombre en bas pour la lisibilité, texte ancré en bas.
-  let headerH = 50;
-  if (banner?.b64) {
-    headerH = pageWidth / banner.ratio;
-    doc.addImage(banner.b64, imgFormat(banner.b64), 0, 0, pageWidth, headerH);
-    const d = doc as any;
-    if (typeof d.setGState === 'function') {
-      doc.setFillColor(0, 0, 0);
-      d.setGState(new d.GState({ opacity: 0.2 }));
-      doc.rect(0, headerH - 48, pageWidth, 14, 'F');
-      d.setGState(new d.GState({ opacity: 0.5 }));
-      doc.rect(0, headerH - 34, pageWidth, 34, 'F');
-      d.setGState(new d.GState({ opacity: 1 }));
+  // Avec bannière : marque au-dessus, puis carte image compacte (170×71mm) avec
+  // seulement la destination et les dates sur le dégradé — proche du rendu de la
+  // page de résultats. Sans bannière : bandeau vert historique.
+  if (banner) {
+    doc.setTextColor(9, 145, 66);
+    doc.setFontSize(16);
+    doc.setFont('helvetica', 'bold');
+    doc.text("DON'T FORGET", margin, 18);
+    doc.setTextColor(140, 140, 140);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    doc.text('CHECKLIST VOYAGE PERSONNALISEE', pageWidth - margin, 18, { align: 'right' });
+
+    const imgY = 24;
+    const imgH = contentWidth / 2.4;
+    doc.addImage(banner, 'JPEG', margin, imgY, contentWidth, imgH);
+
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    let destSize = 20;
+    doc.setFontSize(destSize);
+    while (doc.getTextWidth(tripData.destination) > contentWidth - 20 && destSize > 11) {
+      destSize -= 1;
+      doc.setFontSize(destSize);
     }
+    doc.text(tripData.destination, margin + 8, imgY + imgH - 14);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'normal');
+    doc.text(`${tripData.startDate} - ${tripData.endDate}`, margin + 8, imgY + imgH - 7);
+
+    currentY = imgY + imgH + 12;
   } else {
     doc.setFillColor(9, 145, 66);
     doc.rect(0, 0, pageWidth, 50, 'F');
@@ -260,23 +291,20 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
         doc.text('DF', 25, 27.5, { align: 'center' });
       }
     }
+    doc.setTextColor(255, 255, 255);
+    doc.setFontSize(24);
+    doc.setFont('helvetica', 'bold');
+    doc.text("DON'T FORGET", pageWidth / 2, 20, { align: 'center' });
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'normal');
+    doc.text('CHECKLIST VOYAGE PERSONNALISEE', pageWidth / 2, 30, { align: 'center' });
+    doc.setFontSize(12);
+    doc.text(
+      `${tripData.destination} - ${tripData.startDate} - ${tripData.endDate}`,
+      pageWidth / 2, 40, { align: 'center' }
+    );
+    currentY = 60;
   }
-
-  const titleY = banner?.b64 ? headerH - 27 : 20;
-  doc.setTextColor(255, 255, 255);
-  doc.setFontSize(24);
-  doc.setFont('helvetica', 'bold');
-  doc.text("DON'T FORGET", pageWidth / 2, titleY, { align: 'center' });
-  doc.setFontSize(14);
-  doc.setFont('helvetica', 'normal');
-  doc.text('CHECKLIST VOYAGE PERSONNALISEE', pageWidth / 2, titleY + 10, { align: 'center' });
-  doc.setFontSize(12);
-  doc.text(
-    `${tripData.destination} - ${tripData.startDate} - ${tripData.endDate}`,
-    pageWidth / 2, titleY + 20, { align: 'center' }
-  );
-
-  currentY = headerH + 10;
 
   // ── RÉCAPITULATIF ────────────────────────────────────────────────────────────
   doc.setTextColor(26, 26, 26);
