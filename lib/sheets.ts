@@ -26,6 +26,44 @@ function getCachePath() {
   return path.join(process.cwd(), 'data', 'products-cache.json');
 }
 
+// Duplicate du sheet principal, utilisé si celui-ci ne renvoie rien.
+// Le service account doit aussi avoir accès en lecture à ce document.
+const FALLBACK_SPREADSHEET_ID =
+  process.env.GOOGLE_SHEETS_FALLBACK_SPREADSHEET_ID ||
+  '1epIugz8S_0uK-_wrMaQz0yM6i1aMCG6-596K7UZRBQc';
+const FALLBACK_SHEET_GID = 310630607;
+
+async function fetchSheetValues(
+  sheets: any,
+  spreadsheetId: string,
+  range: string,
+): Promise<string[][]> {
+  const res = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+  return (res.data.values as string[][]) || [];
+}
+
+async function fetchFallbackValues(sheets: any, range: string): Promise<string[][]> {
+  // 1) Même onglet/range que le principal (le duplicate est une copie)
+  try {
+    const values = await fetchSheetValues(sheets, FALLBACK_SPREADSHEET_ID, range);
+    if (values.length > 1) return values;
+  } catch { }
+  // 2) L'onglet a pu être renommé : le retrouver via son gid
+  try {
+    const meta = await sheets.spreadsheets.get({ spreadsheetId: FALLBACK_SPREADSHEET_ID });
+    const sheet = (meta.data.sheets ?? []).find(
+      (s: any) => s.properties?.sheetId === FALLBACK_SHEET_GID,
+    );
+    const title = sheet?.properties?.title;
+    if (!title) return [];
+    const cols = range.includes('!') ? range.split('!')[1] : 'A:Z';
+    return await fetchSheetValues(sheets, FALLBACK_SPREADSHEET_ID, `'${title}'!${cols}`);
+  } catch (err) {
+    console.warn('[sheets] Fallback sheet inaccessible', err);
+    return [];
+  }
+}
+
 function getCacheTtlMs(): number {
   const hours = Number(process.env.CACHE_TTL_HOURS || '12');
   return Math.max(1, hours) * 60 * 60 * 1000;
@@ -101,15 +139,24 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
   }
 
   const sheets = google.sheets({ version: 'v4', auth });
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId:
-      (cfg?.spreadsheetId as string) || (process.env.GOOGLE_SHEETS_SPREADSHEET_ID as string),
-    range:
-      (cfg?.range as string) ||
-      (process.env.GOOGLE_SHEETS_PRODUCTS_RANGE as string) ||
-      'DF!A:Z',
-  });
-  const values = res.data.values || [];
+  const spreadsheetId =
+    (cfg?.spreadsheetId as string) || (process.env.GOOGLE_SHEETS_SPREADSHEET_ID as string);
+  const range =
+    (cfg?.range as string) ||
+    (process.env.GOOGLE_SHEETS_PRODUCTS_RANGE as string) ||
+    'DF!A:Z';
+
+  let values: string[][] = [];
+  try {
+    values = await fetchSheetValues(sheets, spreadsheetId, range);
+  } catch (err) {
+    console.warn('[sheets] Lecture du sheet principal echouee', err);
+  }
+  // Vide ou en-tête seul → basculer sur le duplicate
+  if (values.length <= 1) {
+    console.warn('[sheets] Sheet principal sans donnees, fallback sur le duplicate');
+    values = await fetchFallbackValues(sheets, range);
+  }
   if (values.length === 0) return [];
 
   const [header, ...rows] = values as string[][];
