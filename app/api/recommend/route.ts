@@ -5,6 +5,7 @@ import { readProductsFromCacheOrSheet } from '@/lib/sheets';
 import { selectProductsWithAI } from '@/lib/ai';
 import { AILogger } from '@/lib/logger';
 import { getProductImageMap } from '@/lib/image-cache';
+import { dedupeByFamily, interleaveByCategory } from '@/lib/diversity';
 import {
   WizardStateSchema,
   ProductResponseSchema,
@@ -49,7 +50,11 @@ export async function POST(request: Request) {
 
     // Les mustHave sont toujours inclus, triés par priorité
     const mustHaves = hardFiltered.filter((p) => p.mustHave).sort((a, b) => a.priority - b.priority);
-    const candidates = hardFiltered.filter((p) => !p.mustHave);
+    // Une seule variante par famille ("prix 1/2/3", "bas/haute de gamme") :
+    // évite d'occuper 3 slots avec ce qui ressemble au même produit.
+    const candidates = dedupeByFamily(hardFiltered.filter((p) => !p.mustHave));
+
+    AILogger.info(`Candidats après dédup par famille: ${candidates.length}`);
 
     // L'IA sélectionne et ordonne parmi les candidats
     const aiResult = await selectProductsWithAI(
@@ -83,7 +88,9 @@ export async function POST(request: Request) {
       aiSelected = aiResult.indices.map((i) => candidates[i]).filter(Boolean);
     }
 
-    const combined = [...mustHaves, ...aiSelected];
+    // Entrelacement par catégorie : les premiers produits affichés couvrent
+    // un maximum de catégories au lieu d'empiler 8 vêtements d'affilée.
+    const combined = [...mustHaves, ...interleaveByCategory(aiSelected)];
 
     const productImageMap = await getProductImageMap();
 

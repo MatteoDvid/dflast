@@ -81,7 +81,9 @@ export async function selectProductsWithAI(
   }
   if (trip.budget) contextParts.push(`Budget: ${trip.budget}`);
 
-  const productList = products.map((p, i) => `[${i}] ${p.label}`).join('\n');
+  const productList = products
+    .map((p, i) => `[${i}] ${p.label} (${p.category || 'autre'})`)
+    .join('\n');
 
   const systemPrompt = [
     'Tu es un expert en préparation de voyage. Sélectionne les produits vraiment utiles pour ce voyage parmi la liste fournie.',
@@ -94,9 +96,11 @@ export async function selectProductsWithAI(
     '- Ordonne du plus utile au moins utile',
     '- Exclus les produits inappropriés (ex: spray anti-moustique pour Islande en janvier, polaire pour Thaïlande en juillet)',
     '- Exclus les produits pour enfants s\'il n\'y a que des adultes et vice-versa',
-    '- Sélectionne entre 10 et 25 produits',
+    '- Varie les catégories: couvre au moins 6 catégories différentes, maximum 5 produits par catégorie',
+    '- Ne te limite pas au début de la liste: les produits pertinents sont répartis sur toute la liste',
+    '- Sélectionne entre 25 et 40 produits',
     '',
-    'PRODUITS DISPONIBLES:',
+    'PRODUITS DISPONIBLES (format: [index] libellé (catégorie)):',
     productList,
     '',
     'Réponds uniquement en JSON: {"selected": [liste d\'indices dans l\'ordre de pertinence]}',

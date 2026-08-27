@@ -128,6 +128,14 @@ function ProductCard({
   );
 }
 
+// tripSummary.startDate est déjà formaté "JJ/MM/AAAA" : new Date() dessus
+// renvoie "Invalid Date", d'où le parsing explicite.
+function formatMonthYear(ddmmyyyy: string): string {
+  const [d, m, y] = String(ddmmyyyy || '').split('/').map(Number);
+  if (!d || !m || !y) return '';
+  return new Date(y, m - 1, d).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+}
+
 export default function ResultsPage() {
   const [tripSummary, setTripSummary] = useState<TripSummary>({
     destination: "Marseille",
@@ -313,7 +321,7 @@ export default function ResultsPage() {
           mustHave: product.mustHave,
         }));
 
-        setProducts(transformedProducts.slice(0, 15));
+        setProducts(transformedProducts.slice(0, 24));
 
       } catch (error) {
         console.error('Erreur lors du chargement des recommandations:', error);
@@ -493,7 +501,7 @@ export default function ResultsPage() {
             <div className="rounded-2xl p-4 sm:p-6 lg:sticky lg:top-8" style={{ backgroundColor: '#1a1a1a' }}>
               <div className="mb-4">
                 <div className="text-sm text-gray-300 mb-1 flex items-center gap-2">
-                  {tripSummary.destination} {tripSummary.startDate && new Date(tripSummary.startDate).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })}
+                  {tripSummary.destination} {formatMonthYear(tripSummary.startDate)}
                   <span>✏️</span>
                 </div>
                 <h2 className="text-xl font-bold text-white">Récapitulatif de votre voyage</h2>

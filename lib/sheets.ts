@@ -301,7 +301,11 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
   }
 
   function toInt(input: string | undefined, fallback: number): number {
-    const n = Number(String(input || '').trim());
+    // Cellule vide → fallback. Sans ce test, Number('') vaut 0 : un ageMax vide
+    // devenait 0 et rendait le produit invisible pour tous les voyages.
+    const raw = String(input ?? '').trim();
+    if (!raw) return fallback;
+    const n = Number(raw);
     return Number.isFinite(n) ? Math.trunc(n) : fallback;
   }
 
@@ -327,7 +331,12 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
 
     const candidate = {
       label: (r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim(),
-      asin: (r[idx('asin')] || '').toString().trim(),
+      // Certaines cellules contiennent un caractère invisible (U+200E, espace
+      // insécable...) collé à l'ASIN : trim() ne l'enlève pas et le lien Amazon casse.
+      asin: (r[idx('asin')] || '')
+        .toString()
+        .replace(/[​-‏⁠﻿ ]/g, '')
+        .trim(),
       status: normalizeStatus(r[idx('status')]),
       mustHave: normalizeBoolean(r[idx('mustHave')]),
       priority: toInt(r[idx('priority')], 0),
