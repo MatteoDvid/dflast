@@ -68,6 +68,12 @@ export async function selectProductsWithAI(
     contextParts.push(
       `Dates: ${s.getDate()} ${MONTHS[s.getMonth()]} – ${e.getDate()} ${MONTHS[e.getMonth()]} ${e.getFullYear()}`,
     );
+  } else {
+    // Sans dates, le modèle n'a aucun signal de saison: le lui dire
+    // explicitement vaut mieux que de le laisser deviner.
+    contextParts.push(
+      'Dates: non précisées — base-toi sur le climat général de la destination et sa saison la plus exigeante',
+    );
   }
 
   const travelers: string[] = [];
@@ -96,6 +102,7 @@ export async function selectProductsWithAI(
     '- Ordonne du plus utile au moins utile',
     '- Exclus les produits inappropriés (ex: spray anti-moustique pour Islande en janvier, polaire pour Thaïlande en juillet)',
     '- Exclus les produits pour enfants s\'il n\'y a que des adultes et vice-versa',
+    '- Commence par les besoins vitaux liés au climat de la destination (grand froid: tête, mains, pieds, couches thermiques ; chaleur: protection solaire, hydratation ; pluie: imperméable) avant les produits de confort ou de loisir',
     '- Varie les catégories: couvre au moins 6 catégories différentes, maximum 5 produits par catégorie',
     '- Ne te limite pas au début de la liste: les produits pertinents sont répartis sur toute la liste',
     '- Sélectionne entre 25 et 40 produits',

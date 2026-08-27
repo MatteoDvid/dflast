@@ -10,6 +10,7 @@ import {
   seededShuffle,
   hashSeed,
 } from '../lib/diversity';
+import { fixMojibake } from '../lib/text';
 
 let failed = 0;
 function check(name: string, actual: unknown, expected: unknown) {
@@ -171,23 +172,30 @@ if (!match) {
   check('ASIN normal inchangé', clean('B07G5YFS1L'), 'B07G5YFS1L');
 }
 
-// --- table de réparation d'encodage, telle qu'écrite dans lib/sheets.ts ---
-const mojiBlock = sheetsSrc.match(/const MOJIBAKE: Array<\[RegExp, string\]> = \[([\s\S]*?)\];/);
-if (!mojiBlock) {
-  console.log('FAIL table MOJIBAKE introuvable dans lib/sheets.ts');
-  failed++;
-} else {
-  // eslint-disable-next-line no-eval
-  const table: Array<[RegExp, string]> = eval(`[${mojiBlock[1]}]`);
-  const fix = (s: string) => table.reduce((acc, [re, rep]) => acc.replace(re, rep), s);
-  check('encodage réparé (Baume Ã  lèvres)', fix('Baume Ã  lèvres hydratant'), 'Baume à lèvres hydratant');
-  check(
-    'encodage réparé (Résistant Ã  l\'eau)',
-    fix('Sac a dos Waterproof - Résistant Ã  l\'eau, Léger'),
-    'Sac a dos Waterproof - Résistant à l\'eau, Léger',
-  );
-  check('libellé sain inchangé', fix('Chaussettes en laine mérinos'), 'Chaussettes en laine mérinos');
-}
+// --- réparation d'encodage (lib/text.ts) ---
+// Les séquences sont construites par code de caractère : "Ã" (C3) suivi d'un
+// espace insécable (A0) est le mojibake de "à" tel qu'il existe dans le Sheet.
+const C3 = String.fromCharCode(0xc3);
+const A0 = String.fromCharCode(0xa0);
+const E8 = String.fromCharCode(0xe8);
+const E9 = String.fromCharCode(0xe9);
+check(
+  'encodage réparé: Baume Ã<nbsp> lèvres',
+  fixMojibake('Baume ' + C3 + A0 + ' l' + E8 + 'vres hydratant'),
+  'Baume ' + String.fromCharCode(0xe0) + ' l' + E8 + 'vres hydratant',
+);
+check(
+  "encodage réparé: Résistant Ã<nbsp> l'eau",
+  fixMojibake('R' + E9 + 'sistant ' + C3 + A0 + " l'eau"),
+  'R' + E9 + 'sistant ' + String.fromCharCode(0xe0) + " l'eau",
+);
+check(
+  'encodage réparé: Ã© -> é',
+  fixMojibake('Cr' + C3 + String.fromCharCode(0xa9) + 'me solaire'),
+  'Cr' + E9 + 'me solaire',
+);
+check('libellé sain inchangé', fixMojibake('Chaussettes en laine m' + E9 + 'rinos'), 'Chaussettes en laine m' + E9 + 'rinos');
+check('libellé ASCII inchangé', fixMojibake('Power bank 20000mAh'), 'Power bank 20000mAh');
 
 // --- filtre ASIN invalide, tel qu'écrit dans lib/sheets.ts ---
 const asinGuard = sheetsSrc.match(/if \(!(\/\^\[A-Z0-9\]\{10\}\$\/i)\.test\(candidate\.asin\)\)/);

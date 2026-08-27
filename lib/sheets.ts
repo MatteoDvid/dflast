@@ -1,5 +1,6 @@
 import { google } from 'googleapis';
 import { ProductRecordSchema, type ProductRecord } from './schemas';
+import { fixMojibake } from './text';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -307,24 +308,6 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     if (!raw) return fallback;
     const n = Number(raw);
     return Number.isFinite(n) ? Math.trunc(n) : fallback;
-  }
-
-  // Certains libellés du Sheet ont été saisis en UTF-8 relu en latin-1
-  // ("Baume Ã  lèvres", "Résistant Ã  l'eau"). Ces séquences n'existent pas
-  // dans un libellé légitime : on les remet d'aplomb à la lecture.
-  const MOJIBAKE: Array<[RegExp, string]> = [
-    [/Ã©/g, 'é'], [/Ã¨/g, 'è'], [/Ãª/g, 'ê'], [/Ã«/g, 'ë'],
-    [/Ã /g, 'à'], [/Ã¢/g, 'â'], [/Ã´/g, 'ô'], [/Ã¶/g, 'ö'],
-    [/Ã®/g, 'î'], [/Ã¯/g, 'ï'], [/Ã»/g, 'û'], [/Ã¹/g, 'ù'], [/Ã¼/g, 'ü'],
-    [/Ã§/g, 'ç'], [/Ã‰/g, 'É'], [/Ãˆ/g, 'È'], [/Ã€/g, 'À'], [/Ã‡/g, 'Ç'],
-    [/â€™/g, '’'], [/â€“/g, '–'], [/â€"/g, '—'],
-    [/Â°/g, '°'], [/Â /g, ' '],
-  ];
-
-  function fixMojibake(input: string): string {
-    let out = input;
-    for (const [re, replacement] of MOJIBAKE) out = out.replace(re, replacement);
-    return out;
   }
 
   function convertGoogleDriveUrl(url: string): string {
