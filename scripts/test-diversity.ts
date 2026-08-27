@@ -3,7 +3,13 @@
  *   npx tsx scripts/test-diversity.ts
  */
 import { readFileSync } from 'fs';
-import { familyKey, dedupeByFamily, interleaveByCategory } from '../lib/diversity';
+import {
+  familyKey,
+  dedupeByFamily,
+  interleaveByCategory,
+  seededShuffle,
+  hashSeed,
+} from '../lib/diversity';
 
 let failed = 0;
 function check(name: string, actual: unknown, expected: unknown) {
@@ -110,6 +116,44 @@ check(
   ['x', 'y'],
 );
 
+// --- seededShuffle / hashSeed ---
+const catalog = Array.from({ length: 200 }, (_, i) => `p${i}`);
+check(
+  'seededShuffle est déterministe (même graine → même ordre)',
+  JSON.stringify(seededShuffle(catalog, 42)) === JSON.stringify(seededShuffle(catalog, 42)),
+  true,
+);
+check(
+  'seededShuffle change avec la graine',
+  JSON.stringify(seededShuffle(catalog, 42)) === JSON.stringify(seededShuffle(catalog, 43)),
+  false,
+);
+check(
+  'seededShuffle ne perd ni ne duplique aucun produit',
+  new Set(seededShuffle(catalog, 7)).size,
+  catalog.length,
+);
+check('seededShuffle ne modifie pas le tableau source', catalog[0], 'p0');
+check('hashSeed est stable', hashSeed('NO|2027-01-01') === hashSeed('NO|2027-01-01'), true);
+check('hashSeed discrimine', hashSeed('NO|2027-01-01') === hashSeed('NO|2027-01-02'), false);
+
+// Le vrai enjeu : les produits ajoutés en bas du Sheet doivent remonter
+// aussi souvent que les autres sur l'ensemble des voyages.
+const TAIL_START = 150; // les 50 derniers = "produits récemment ajoutés"
+let tailInTop60 = 0;
+const TRIPS = 200;
+for (let t = 0; t < TRIPS; t++) {
+  const order = seededShuffle(catalog, hashSeed(`voyage-${t}`));
+  const top = order.slice(0, 60);
+  tailInTop60 += top.filter((p) => Number(p.slice(1)) >= TAIL_START).length;
+}
+const tailShare = tailInTop60 / (TRIPS * 60);
+check(
+  `les 25% de produits les plus récents occupent ~25% du haut de liste (mesuré: ${(tailShare * 100).toFixed(1)}%)`,
+  tailShare > 0.2 && tailShare < 0.3,
+  true,
+);
+
 // --- nettoyage ASIN : on teste la regex telle qu'elle est écrite dans lib/sheets.ts ---
 const sheetsSrc = readFileSync(new URL('../lib/sheets.ts', import.meta.url), 'utf-8');
 const match = sheetsSrc.match(/asin: \(r\[idx\('asin'\)\] \|\| ''\)[\s\S]{0,200}?\.replace\((\/\[[^)]+?\/g), ''\)/);
@@ -125,6 +169,39 @@ if (!match) {
   check('ASIN nettoyé de l\'espace insécable', clean(' B0DPHJS7X4 '), 'B0DPHJS7X4');
   check('ASIN nettoyé du BOM', clean('﻿B0CG5RFS3Z'), 'B0CG5RFS3Z');
   check('ASIN normal inchangé', clean('B07G5YFS1L'), 'B07G5YFS1L');
+}
+
+// --- table de réparation d'encodage, telle qu'écrite dans lib/sheets.ts ---
+const mojiBlock = sheetsSrc.match(/const MOJIBAKE: Array<\[RegExp, string\]> = \[([\s\S]*?)\];/);
+if (!mojiBlock) {
+  console.log('FAIL table MOJIBAKE introuvable dans lib/sheets.ts');
+  failed++;
+} else {
+  // eslint-disable-next-line no-eval
+  const table: Array<[RegExp, string]> = eval(`[${mojiBlock[1]}]`);
+  const fix = (s: string) => table.reduce((acc, [re, rep]) => acc.replace(re, rep), s);
+  check('encodage réparé (Baume Ã  lèvres)', fix('Baume Ã  lèvres hydratant'), 'Baume à lèvres hydratant');
+  check(
+    'encodage réparé (Résistant Ã  l\'eau)',
+    fix('Sac a dos Waterproof - Résistant Ã  l\'eau, Léger'),
+    'Sac a dos Waterproof - Résistant à l\'eau, Léger',
+  );
+  check('libellé sain inchangé', fix('Chaussettes en laine mérinos'), 'Chaussettes en laine mérinos');
+}
+
+// --- filtre ASIN invalide, tel qu'écrit dans lib/sheets.ts ---
+const asinGuard = sheetsSrc.match(/if \(!(\/\^\[A-Z0-9\]\{10\}\$\/i)\.test\(candidate\.asin\)\)/);
+if (!asinGuard) {
+  console.log('FAIL garde-fou ASIN introuvable dans lib/sheets.ts');
+  failed++;
+} else {
+  // eslint-disable-next-line no-eval
+  const re: RegExp = eval(asinGuard[1]);
+  check('ASIN "test" rejeté', re.test('test'), false);
+  check('ASIN "NONE" rejeté', re.test('NONE'), false);
+  check('ASIN vide rejeté', re.test(''), false);
+  check('ASIN valide accepté', re.test('B0DPHJS7X4'), true);
+  check('ASIN à 11 caractères rejeté', re.test('B0BCV6NXWWX'), false);
 }
 
 console.log(failed === 0 ? '\nTous les tests passent.' : `\n${failed} test(s) en échec.`);

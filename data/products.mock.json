@@ -1,7 +1,7 @@
 [
   {
     "label": "Sac de randonnée",
-    "asin": "B09X12345",
+    "asin": "B09X123456",
     "status": "active",
     "mustHave": true,
     "priority": 1,
@@ -9,12 +9,16 @@
     "countryCodes": [],
     "ageMin": 8,
     "ageMax": 65,
-    "tags": ["GEAR_BACKPACK_DAYPACK", "randonnee", "voyage"],
+    "tags": [
+      "GEAR_BACKPACK_DAYPACK",
+      "randonnee",
+      "voyage"
+    ],
     "imageUrl": "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=400&h=400&fit=crop"
   },
   {
     "label": "Adaptateur universel",
-    "asin": "B08A98765",
+    "asin": "B08A987654",
     "status": "active",
     "mustHave": false,
     "priority": 0,
@@ -22,12 +26,16 @@
     "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["GEAR_UNIVERSAL_ADAPTER", "electrique", "universel"],
+    "tags": [
+      "GEAR_UNIVERSAL_ADAPTER",
+      "electrique",
+      "universel"
+    ],
     "imageUrl": "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=400&h=400&fit=crop"
   },
   {
     "label": "Veste imperméable",
-    "asin": "B07Y54321",
+    "asin": "B07Y543210",
     "status": "active",
     "mustHave": true,
     "priority": 2,
@@ -35,11 +43,15 @@
     "countryCodes": [],
     "ageMin": 5,
     "ageMax": 99,
-    "tags": ["CLOTHING_RAIN_JACKET", "impermeable", "pluie"]
+    "tags": [
+      "CLOTHING_RAIN_JACKET",
+      "impermeable",
+      "pluie"
+    ]
   },
   {
     "label": "Crème solaire SPF 50",
-    "asin": "B08C67890",
+    "asin": "B08C678901",
     "status": "active",
     "mustHave": false,
     "priority": 3,
@@ -47,12 +59,16 @@
     "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["CARE_SUN_PROTECTION", "soleil", "protection"],
+    "tags": [
+      "CARE_SUN_PROTECTION",
+      "soleil",
+      "protection"
+    ],
     "imageUrl": "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=400&fit=crop"
   },
   {
     "label": "Trousse de premiers secours",
-    "asin": "B09D12354",
+    "asin": "B09D123540",
     "status": "active",
     "mustHave": true,
     "priority": 1,
@@ -60,11 +76,15 @@
     "countryCodes": [],
     "ageMin": 0,
     "ageMax": 120,
-    "tags": ["CARE_FIRST_AID", "sante", "urgence"]
+    "tags": [
+      "CARE_FIRST_AID",
+      "sante",
+      "urgence"
+    ]
   },
   {
     "label": "Gourde isotherme",
-    "asin": "B08E98876",
+    "asin": "B08E988760",
     "status": "active",
     "mustHave": false,
     "priority": 4,
@@ -72,7 +92,11 @@
     "countryCodes": [],
     "ageMin": 3,
     "ageMax": 120,
-    "tags": ["GEAR_WATER_BOTTLE", "hydratation", "voyage"],
+    "tags": [
+      "GEAR_WATER_BOTTLE",
+      "hydratation",
+      "voyage"
+    ],
     "imageUrl": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=400&fit=crop"
   }
 ]

@@ -523,7 +523,7 @@ export default function ResultsPage() {
                   <div className="font-medium">
                     {tripSummary.adults} adulte{tripSummary.adults > 1 ? 's' : ''}
                     {tripSummary.children > 0 && `, ${tripSummary.children} enfant${tripSummary.children > 1 ? 's' : ''}`}
-                    {tripSummary.animals && tripSummary.animals > 0 && `, ${tripSummary.animals} animal${tripSummary.animals > 1 ? 'aux' : ''}`}
+                    {(tripSummary.animals ?? 0) > 0 && `, ${tripSummary.animals} animal${(tripSummary.animals ?? 0) > 1 ? 'aux' : ''}`}
                   </div>
                 </div>
 

@@ -5,12 +5,24 @@ import { readProductsFromCacheOrSheet } from '@/lib/sheets';
 import { selectProductsWithAI } from '@/lib/ai';
 import { AILogger } from '@/lib/logger';
 import { getProductImageMap } from '@/lib/image-cache';
-import { dedupeByFamily, interleaveByCategory } from '@/lib/diversity';
+import {
+  dedupeByFamily,
+  interleaveByCategory,
+  seededShuffle,
+  hashSeed,
+} from '@/lib/diversity';
 import {
   WizardStateSchema,
   ProductResponseSchema,
   type ProductRecord,
 } from '@/lib/schemas';
+
+// Plafond de candidats envoyés à l'IA : borne le coût OpenAI quand le catalogue
+// grossit. Le mélange amorcé fait tourner les produits d'un voyage à l'autre,
+// donc aucun produit n'est durablement exclu.
+const MAX_AI_CANDIDATES = Number(process.env.MAX_AI_CANDIDATES || '250');
+
+const VALID_ASIN = /^[A-Z0-9]{10}$/i;
 
 export async function POST(request: Request) {
   try {
@@ -38,6 +50,10 @@ export async function POST(request: Request) {
     // Filtres durs: statut, âge, audience, pays
     const hardFiltered = allProducts.filter((p) => {
       if (p.status !== 'active') return false;
+      // Filet de sécurité: un ASIN non conforme produirait un lien Amazon mort
+      // (/dp/test). Le Sheet est déjà filtré à la lecture, ceci couvre un cache
+      // ou un jeu de données plus ancien.
+      if (!VALID_ASIN.test(p.asin)) return false;
       if (!(groupMaxAge >= p.ageMin && groupMinAge <= p.ageMax)) return false;
       if (p.audience === 'child' && !hasChild) return false;
       if (p.audience === 'adult' && !hasAdult) return false;
@@ -52,9 +68,31 @@ export async function POST(request: Request) {
     const mustHaves = hardFiltered.filter((p) => p.mustHave).sort((a, b) => a.priority - b.priority);
     // Une seule variante par famille ("prix 1/2/3", "bas/haute de gamme") :
     // évite d'occuper 3 slots avec ce qui ressemble au même produit.
-    const candidates = dedupeByFamily(hardFiltered.filter((p) => !p.mustHave));
+    const deduped = dedupeByFamily(hardFiltered.filter((p) => !p.mustHave));
 
-    AILogger.info(`Candidats après dédup par famille: ${candidates.length}`);
+    // L'ordre d'entrée compte: un LLM privilégie le début de la liste, et les
+    // nouveaux produits sont toujours ajoutés en bas du Sheet. On casse ce biais
+    // avec un mélange amorcé par le voyage (même voyage → même ordre, donc
+    // résultats stables et cache IA valable), puis on alterne les catégories.
+    const seed = hashSeed(
+      JSON.stringify([
+        wizard.destinationCountry,
+        wizard.destinationCity ?? '',
+        wizard.dates?.start ?? '',
+        wizard.dates?.end ?? '',
+        wizard.ages,
+        (wizard.activities ?? []).slice().sort(),
+        wizard.budget ?? '',
+      ]),
+    );
+    const candidates = interleaveByCategory(seededShuffle(deduped, seed)).slice(
+      0,
+      MAX_AI_CANDIDATES,
+    );
+
+    AILogger.info(
+      `Candidats: ${deduped.length} après dédup famille, ${candidates.length} envoyés à l'IA`,
+    );
 
     // L'IA sélectionne et ordonne parmi les candidats
     const aiResult = await selectProductsWithAI(

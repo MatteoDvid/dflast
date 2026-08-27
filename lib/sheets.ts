@@ -309,6 +309,24 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     return Number.isFinite(n) ? Math.trunc(n) : fallback;
   }
 
+  // Certains libellés du Sheet ont été saisis en UTF-8 relu en latin-1
+  // ("Baume Ã  lèvres", "Résistant Ã  l'eau"). Ces séquences n'existent pas
+  // dans un libellé légitime : on les remet d'aplomb à la lecture.
+  const MOJIBAKE: Array<[RegExp, string]> = [
+    [/Ã©/g, 'é'], [/Ã¨/g, 'è'], [/Ãª/g, 'ê'], [/Ã«/g, 'ë'],
+    [/Ã /g, 'à'], [/Ã¢/g, 'â'], [/Ã´/g, 'ô'], [/Ã¶/g, 'ö'],
+    [/Ã®/g, 'î'], [/Ã¯/g, 'ï'], [/Ã»/g, 'û'], [/Ã¹/g, 'ù'], [/Ã¼/g, 'ü'],
+    [/Ã§/g, 'ç'], [/Ã‰/g, 'É'], [/Ãˆ/g, 'È'], [/Ã€/g, 'À'], [/Ã‡/g, 'Ç'],
+    [/â€™/g, '’'], [/â€“/g, '–'], [/â€"/g, '—'],
+    [/Â°/g, '°'], [/Â /g, ' '],
+  ];
+
+  function fixMojibake(input: string): string {
+    let out = input;
+    for (const [re, replacement] of MOJIBAKE) out = out.replace(re, replacement);
+    return out;
+  }
+
   function convertGoogleDriveUrl(url: string): string {
     // Convertir les URLs Google Drive en format direct
     // Format partage: https://drive.google.com/file/d/FILE_ID/view?usp=sharing
@@ -330,7 +348,7 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     const imageUrl = imageUrlRaw && imageUrlRaw.startsWith('http') ? convertGoogleDriveUrl(imageUrlRaw) : undefined;
 
     const candidate = {
-      label: (r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim(),
+      label: fixMojibake((r[idx('label')] || r[idx('Nom' as any)] || '').toString().trim()),
       // Certaines cellules contiennent un caractère invisible (U+200E, espace
       // insécable...) collé à l'ASIN : trim() ne l'enlève pas et le lien Amazon casse.
       asin: (r[idx('asin')] || '')
@@ -349,6 +367,15 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
       category: (r[idx('category')] || '').toString().trim().toLowerCase() || undefined,
     };
 
+    // Un ASIN Amazon fait 10 caractères alphanumériques. Les placeholders
+    // ("test", "NONE", cellule vide) produisent des liens /dp/test morts côté
+    // client : on écarte la ligne au lieu d'afficher un lien cassé.
+    if (!/^[A-Z0-9]{10}$/i.test(candidate.asin)) {
+      invalidAsinRows.push({ row: rowIndex + 2, label: candidate.label, asin: candidate.asin });
+      return null;
+    }
+    candidate.asin = candidate.asin.toUpperCase();
+
     const parsed = ProductRecordSchema.safeParse(candidate);
     if (!parsed.success) {
       console.warn('[sheets] Ligne ignorée (invalide)', {
@@ -360,9 +387,20 @@ export async function readProductsFromCacheOrSheet(): Promise<ProductRecord[]> {
     return parsed.data;
   };
 
+  const invalidAsinRows: Array<{ row: number; label: string; asin: string }> = [];
   const products = rows
     .map((r, i) => mapRow(r, i))
     .filter((p): p is ProductRecord => p !== null);
+  if (invalidAsinRows.length > 0) {
+    console.warn(
+      `[sheets] ${invalidAsinRows.length} ligne(s) écartée(s): ASIN invalide → ` +
+        invalidAsinRows
+          .slice(0, 10)
+          .map((r) => `L${r.row} "${r.label}" (${r.asin || 'vide'})`)
+          .join(', ') +
+        (invalidAsinRows.length > 10 ? ', …' : ''),
+    );
+  }
   // Déduplication par ASIN: garder le meilleur (mustHave puis priority minimale)
   const uniqByAsin = new Map<string, ProductRecord>();
   for (const p of products) {
