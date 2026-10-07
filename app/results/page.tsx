@@ -577,7 +577,7 @@ export default function ResultsPage() {
             {/* Section Indispensables */}
             <div className="mb-6 bg-white rounded-2xl p-5 shadow-sm border border-gray-200">
               <h2 className="font-bold text-gray-900 text-base mb-4">
-                ✈️ Indispensables pour tout voyage
+                ✈️ Indispensables pour ton voyage
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {INDISPENSABLES.map((item) => {

@@ -346,7 +346,7 @@ export async function generateChecklistPDF(tripData: PDFTripData) {
   doc.setTextColor(26, 26, 26);
   doc.setFontSize(13);
   doc.setFont('helvetica', 'bold');
-  doc.text('Indispensables pour tout voyage', margin, currentY);
+  doc.text('Indispensables pour ton voyage', margin, currentY);
   currentY += 8;
 
   const colW = contentWidth / 2;
